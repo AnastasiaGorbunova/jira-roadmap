@@ -1,0 +1,48 @@
+// fonts
+$font-primary: "EtelkaText", sans-serif;
+$font-primary-light: "EtelkaLightPro", sans-serif;
+$font-secondary: "EtelkaMedium", sans-serif;
+$font-primary-for-config: '"EtelkaText", sans-serif';
+$font-secondary-for-config: '"EtelkaMedium", sans-serif';
+
+// colors
+$color-primary-1: #d61f26;
+$color-primary-2: #ffffff;
+$color-secondary: #d5d5d5;
+$color-secondary-light: #efefef;
+$color-secondary-lighter: #f6f6f6;
+$color-secondary-dark: #8a8a8a;
+
+// text colors
+$color-text-primary-1: $color-primary-1;
+$color-text-dark-primary: #272727;
+$color-text-light-primary: $color-primary-2;
+$color-text-dark-secondary: $color-secondary-dark;
+$color-text-light-secondary: $color-secondary;
+$color-text-error: $color-primary-1;
+
+// background colors
+$color-bg-primary-1: $color-primary-1;
+$color-bg-primary-2: $color-primary-2;
+$color-bg-secondary: $color-secondary;
+$color-bg-secondary-light: $color-secondary-light;
+$color-bg-secondary-lighter: $color-secondary-lighter;
+$color-bg-secondary-dark: $color-secondary-dark;
+
+// border colors
+$color-border-primary-1: $color-primary-1;
+$color-border-secondary: $color-secondary;
+$color-border-secondary-light: $color-secondary-light;
+$color-border-secondary-dark: $color-secondary-dark;
+$color-border-datepicker: $color-text-dark-primary;
+
+// table borders
+$table-border: 1px solid $color-border-secondary;
+
+// box shadow
+$color-box-shadow-primary: 0 0.5px 5px rgba(0, 0, 0, 0.039),
+  0 3.75px 11px rgba(0, 0, 0, 0.19);
+
+// Sizes
+$border-radius: 4px;
+$header-height: 80px;

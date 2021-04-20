@@ -1,0 +1,105 @@
+  <div class="login">
+    <div class="title mat-title">Sign {{ isLoginFormSelected ? 'In' : 'Up' }} to Jira</div>
+    <form
+      class="login-form"
+      [formGroup]="loginForm"
+    >
+                <!-- user first name input -->
+                <mat-form-field 
+                  *ngIf="!isLoginFormSelected" 
+                  class="input-field" 
+                  floatLabel="always"
+                  >
+                  <mat-label>First name</mat-label>
+                  <input
+                    matInput
+                    required
+                    type="text"
+                    formControlName="firstName"
+                  />
+                  <!-- password input error message -->
+                  <mat-error *ngIf="password?.hasError('required') && password.touched">
+                    {{ validationMessages.required }}
+                  </mat-error>
+                  <!-- /password input error message -->
+                </mat-form-field>
+                <!-- /user first name input -->
+
+                            <!-- user last name input -->
+            <mat-form-field 
+              *ngIf="!isLoginFormSelected" 
+              class="input-field" 
+              floatLabel="always"
+              >
+              <mat-label>Last name</mat-label>
+              <input
+                matInput
+                required
+                type="text"
+                formControlName="lastName"
+              />
+              <!-- password input error message -->
+              <mat-error *ngIf="password?.hasError('required') && password.touched">
+                {{ validationMessages.required }}
+              </mat-error>
+              <!-- /password input error message -->
+            </mat-form-field>
+            <!-- /user last name input -->
+            
+      <!-- email input -->
+      <mat-form-field class="input-field" floatLabel="always">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          required
+          type="email"
+          formControlName="email"
+        />
+        <mat-error *ngIf="email?.hasError('required') && email.touched">
+          {{ validationMessages.required }}
+        </mat-error>
+      </mat-form-field>
+      <!-- /email input -->
+
+      <!-- password input -->
+      <mat-form-field class="input-field" floatLabel="always">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          required
+          type="password"
+          formControlName="password"
+        />
+        <!-- password input error message -->
+        <mat-error *ngIf="password?.hasError('required') && password.touched">
+          {{ validationMessages.required }}
+        </mat-error>
+        <!-- /password input error message -->
+      </mat-form-field>
+      <!-- /password input -->
+
+      <!-- form actions -->
+        <button
+          mat-stroked-button
+          class="login-button"
+          type="submit"
+          (click)="logIn()"
+        >
+          Log In
+        </button>
+
+      <!-- credentials error message -->
+      <!-- <div class="cred-error mat-caption">
+        <span
+          *ngIf="message"
+          class="cred-error-caption"
+        >
+          {{ message.errorMessage }}
+        </span>
+      </div> -->
+      <!-- /credentials error message -->
+      <!-- /form actions -->
+    </form>
+
+    <p>New to Jira? <span (click)=toggleLoginForm()>Create an account.</span></p>
+  </div>
