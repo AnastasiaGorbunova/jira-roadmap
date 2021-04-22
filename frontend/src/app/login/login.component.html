@@ -1,12 +1,13 @@
   <div class="login">
-    <div class="title mat-title">Sign {{ isLoginFormSelected ? 'In' : 'Up' }} to Jira</div>
+    <div class="title mat-title">Sign {{ signPostfix }} to Jira</div>
     <form
+      *ngIf="{ errorMessage: authError$ | async } as message"
       class="login-form"
       [formGroup]="loginForm"
     >
                 <!-- user first name input -->
                 <mat-form-field 
-                  *ngIf="!isLoginFormSelected" 
+                  *ngIf="!isLogin" 
                   class="input-field" 
                   floatLabel="always"
                   >
@@ -27,7 +28,7 @@
 
                             <!-- user last name input -->
             <mat-form-field 
-              *ngIf="!isLoginFormSelected" 
+              *ngIf="!isLogin" 
               class="input-field" 
               floatLabel="always"
               >
@@ -83,20 +84,19 @@
           mat-stroked-button
           class="login-button"
           type="submit"
-          (click)="logIn()"
+          (click)="auth()"
         >
-          Log In
+          Sign {{ signPostfix }}
         </button>
 
       <!-- credentials error message -->
-      <!-- <div class="cred-error mat-caption">
+      <div>
         <span
           *ngIf="message"
-          class="cred-error-caption"
         >
           {{ message.errorMessage }}
         </span>
-      </div> -->
+      </div>
       <!-- /credentials error message -->
       <!-- /form actions -->
     </form>

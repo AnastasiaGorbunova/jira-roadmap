@@ -1,0 +1,9 @@
+<div class=projects-list> 
+    <ng-container *ngIf="{ projects: (projects$ | async) } as data">
+        <div *ngFor="let project of data.projects" class="project-card">
+            <app-project-card-container
+                [project]="project"
+            ></app-project-card-container>  
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,14 @@
+// TODO: add normal imports
+@import '../../../scss/theme/variables';
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: $header-height;
+  width: 100%;
+  padding: 0 48px;
+  box-sizing: border-box;
+  background-color: $color-bg-primary-2;
+  z-index: 100;
+}

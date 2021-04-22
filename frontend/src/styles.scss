@@ -1,2 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../src/scss/theme/theme";
+
+* {
+    font-family: $font-primary;
+}
+
+body {
+    margin: 0;
+    background-color: $color-bg-secondary-lighter;
+}

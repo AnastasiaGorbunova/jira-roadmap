@@ -1,26 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
+import { LoginGuard } from './core/guards/login.guard';
 import { LoginComponent } from './login/login.component';
-
-import { ProjectsBoardComponent } from './projects-board/projects-board.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'projects',
     pathMatch: 'full',
   },
   {
     path: 'projects',
-    // loadChildren: () =>
-    //   import('src/app/projects-board/projects-board.module').then((m) => m.ProjectsBoardModule),
-    component: ProjectsBoardComponent
-    // canLoad: [AuthGuard],
+    loadChildren: () =>
+      import('src/app/projects/projects.module').then((m) => m.ProjectsModule),
+    canLoad: [AuthGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [LoginGuard],
+    canActivate: [LoginGuard],
     pathMatch: 'full',
   },
 ];

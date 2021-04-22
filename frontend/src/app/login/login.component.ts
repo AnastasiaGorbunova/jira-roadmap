@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { User } from '../core/models/user.model';
-import { AuthStoreActions } from '../root-store/features/auth';
+import { AuthStoreActions, AuthStoreSelectors } from '../root-store/features/auth';
 import { AppState } from '../root-store/state';
 
 import { validationMessages } from './login.constants';
@@ -15,15 +15,19 @@ import { validationMessages } from './login.constants';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
+  authError$: Observable<string>;
   loginForm: FormGroup;
 
   validationMessages = validationMessages;
-  isLoginFormSelected = true;
+  isLogin = true;
 
   constructor(
-    private _store$: Store<AppState>,
-    private afAuth: AngularFireAuth
+    private _store$: Store<AppState>
   ) { }
+
+  get signPostfix(): string {
+    return this.isLogin ? 'In' : 'Up';
+  }
 
   // TODO: think about making separate components for auth and registration
   get email(): AbstractControl {
@@ -43,35 +47,40 @@ export class LoginComponent implements OnInit {
   }
 
   // TODO: change name to auth
-  logIn(): void {
+  auth(): void {
     // TODO: event stopPr
 
-    const userCredentials = {          
+    const userCredentials = {
       email: `${this.email.value?.toLowerCase()}`,
       password: this.password.value
     };
-    
-      const authData: User = !this.isLoginFormSelected 
+
+    const authData: User = !this.isLogin
       ? {
-          ...userCredentials,
-          first_name: this.firstName.value,
-          last_name: this.lastName.value
-        }
+        ...userCredentials,
+        first_name: this.firstName.value,
+        last_name: this.lastName.value
+      }
       : userCredentials;
-      
-    if (!this.isLoginFormSelected) {
-      this._store$.dispatch(AuthStoreActions.signUp({ authData }));
-    }
+
+    const signAction = this.isLogin ? 'signIn' : 'signUp';
+    this._store$.dispatch(AuthStoreActions[signAction]({ authData }));
   }
 
   toggleLoginForm(): void {
-    // this.afAuth.user.subscribe((user) => console.log(user.uid));
-    
-    this.isLoginFormSelected = !this.isLoginFormSelected;
+    this.isLogin = !this.isLogin;
+    this._store$.dispatch(AuthStoreActions.clearAuthError());
   }
 
   ngOnInit() {
     this.initializeForm();
+    this.getAuthErrors();
+  }
+
+  private getAuthErrors(): void {
+    this.authError$ = this._store$.pipe(
+      select(AuthStoreSelectors.getAuthErrorMessage)
+    );
   }
 
   // TODO: add more validation rules
@@ -85,11 +94,11 @@ export class LoginComponent implements OnInit {
         validators: [Validators.required],
         updateOn: 'blur',
       }),
-      firstName: new FormControl({ value: '', disabled: !this.isLoginFormSelected }, {
+      firstName: new FormControl({ value: '', disabled: !this.isLogin }, {
         validators: [Validators.required],
         updateOn: 'blur',
       }),
-      lastName: new FormControl({ value: '', disabled: !this.isLoginFormSelected }, {
+      lastName: new FormControl({ value: '', disabled: !this.isLogin }, {
         validators: [Validators.required],
         updateOn: 'blur',
       }),

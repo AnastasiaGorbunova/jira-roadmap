@@ -31,6 +31,15 @@ export class FirestoreService {
     return this.firestore;
   }
 
+  async deleteDocument<T>(
+    collectionPath: string,
+    documentId: string
+  ): Promise<any> {
+    return await this.firestore.collection(collectionPath)
+      .doc(documentId)
+      .delete();
+  }
+
   get timestamp(): firebase.firestore.FieldValue {
     return firebase.firestore.FieldValue.serverTimestamp();
   }

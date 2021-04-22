@@ -9,10 +9,9 @@ const _authReducer = createReducer(
     ...state,
     loading: true
   })),
-  on(AuthActions.signUpSuccess, (state, { user }) => ({
+  on(AuthActions.signUpSuccess, (state) => ({
     ...state,
     isAuthenticated: true,
-    currentUser: user,
     errorMessage: null
   })),
   on(AuthActions.signUpFailure, (state, { message }) => ({
@@ -20,31 +19,42 @@ const _authReducer = createReducer(
     loading: false,
     errorMessage: message
   })),
-//   on(AuthActions.logIn, (state) => ({
-//     ...state,
-//     loading: true,
-//   })),
-//   on(AuthActions.logInSuccess, (state, { token }) => ({
-//     ...state,
-//     isAuthenticated: true,
-//     token: token,
-//     errorMessage: null,
-//   })),
-//   on(AuthActions.logInFailure, (state, { message }) => ({
-//     ...state,
-//     loading: false,
-//     errorMessage: message,
-//   })),
+  on(AuthActions.signIn, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(AuthActions.signInSuccess, (state) => ({
+    ...state,
+    isAuthenticated: true,
+    errorMessage: null
+  })),
+  on(AuthActions.signInFailure, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
   on(AuthActions.signOut, (state) => ({
     ...state,
     loading: false,
     currentUser: undefined,
-    token: null,
-    isAuthenticated: null,
+    isAuthenticated: null
   })),
   on(AuthActions.setIsUserAuthenticated, (state, { isAuthenticated }) => ({
     ...state,
-    isAuthenticated,
+    isAuthenticated
+  })),
+  on(AuthActions.getCurrentUserSuccess, (state, { currentUser }) => ({
+    ...state,
+    currentUser
+  })),
+  on(AuthActions.getCurrentUserFailed, (state, { message }) => ({
+    ...state,
+    currentUser: undefined,
+    errorMessage: message
+  })),
+  on(AuthActions.clearAuthError, (state) => ({
+    ...state,
+    errorMessage: undefined
   }))
 );
 

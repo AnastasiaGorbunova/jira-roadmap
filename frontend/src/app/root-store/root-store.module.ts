@@ -8,12 +8,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { environment } from 'src/environments/environment';
 import { RouterStateModule } from './features/router/router-state.module';
 import { AuthStateModule } from './features/auth/auth-state.module';
+import { RouterStoreState } from './features/router';
+import { ProjectsStateModule } from './features/projects';
 
 @NgModule({
   imports: [
     CommonModule,
     AuthStateModule,
-    // ProjectsStateModule,
+    ProjectsStateModule,
     RouterStateModule,
     StoreModule.forRoot(
       {},
@@ -27,7 +29,7 @@ import { AuthStateModule } from './features/auth/auth-state.module';
     ),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot({
-      // serializer: RouterStoreState.CustomSerializer,
+      serializer: RouterStoreState.CustomSerializer,
     }),
     EffectsModule.forRoot([]),
   ],

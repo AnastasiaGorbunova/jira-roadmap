@@ -7,12 +7,15 @@ const typesNames = [
   'SIGN_UP',
   'SIGN_UP_SUCCESS',
   'SIGN_UP_FAILURE', 
-  'LOGIN',
-  'LOGIN_SUCCESS',
-  'LOGIN_FAILURE',
+  'SIGN_IN',
+  'SIGN_IN_SUCCESS',
+  'SIGN_IN_FAILURE',
   'SIGN_OUT',
   'CHECK_USER_AUTH',
-  'SET_USER_AUTH'
+  'SET_USER_AUTH',
+  'GET_CURRENT_USER_SUCCESS',
+  'GET_CURRENT_USER_FAILED',
+  'CLEAR_AUTH_ERROR'
 ] as const;
 
 export type AuthActionType = {
@@ -26,22 +29,20 @@ export const authActionTypes: AuthActionType = createConstants<AuthActionType>(
   prefix,
 );
 
-// export const logIn = createAction(
-//   authActionTypes.LOGIN,
-//   props<{ email: string, password: string }>()
-// );
+export const signIn = createAction(
+  authActionTypes.SIGN_IN,
+  props<{ authData: User }>()
+);
 
-// export const logInSuccess = createAction(
-//   authActionTypes.LOGIN_SUCCESS,
-//   props<{ token: string }>()
-// );
+export const signInSuccess = createAction(
+  authActionTypes.SIGN_IN_SUCCESS,
+);
 
-// export const logInFailure = createAction(
-//   authActionTypes.LOGIN_FAILURE,
-//   props<{ message: string }>()
-// );
+export const signInFailure = createAction(
+  authActionTypes.SIGN_IN_FAILURE,
+  props<{ message: string }>()
+);
 
-// TODO: add types
 export const signUp = createAction(
   authActionTypes.SIGN_UP,
   props<{ authData: User }>()
@@ -49,7 +50,6 @@ export const signUp = createAction(
 
 export const signUpSuccess = createAction(
   authActionTypes.SIGN_UP_SUCCESS,
-  props<{ user: any }>()
 );
 
 export const signUpFailure = createAction(
@@ -68,4 +68,18 @@ export const checkIsUserAuthenticated = createAction(
 export const setIsUserAuthenticated = createAction(
   authActionTypes.SET_USER_AUTH,
   props<{ isAuthenticated: boolean }>()
+);
+
+export const getCurrentUserSuccess = createAction(
+  authActionTypes.GET_CURRENT_USER_SUCCESS,
+  props<{ currentUser: User }>()
+);
+
+export const getCurrentUserFailed = createAction(
+  authActionTypes.GET_CURRENT_USER_FAILED,
+  props<{ message: string }>()
+);
+
+export const clearAuthError = createAction(
+  authActionTypes.CLEAR_AUTH_ERROR
 );

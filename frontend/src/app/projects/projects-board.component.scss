@@ -1,0 +1,9 @@
+@import "../../scss/theme/variables";
+
+.projects-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 32px;
+    box-sizing: border-box;
+}

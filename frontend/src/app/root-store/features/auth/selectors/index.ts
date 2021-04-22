@@ -13,17 +13,16 @@ export const loading = createSelector<AppState, AuthState, boolean>(
 
 export const getAuthErrorMessage = createSelector<AppState, AuthState, string | null>(
   getAuthState,
-  (state: AuthState) => state.errorMessage
+  (state: AuthState) => {
+    console.log('errorMessage: ', state.errorMessage);
+
+    return state.errorMessage;
+  }
 );
 
 export const isAuthenticated = createSelector<AppState, AuthState, boolean>(
   getAuthState,
-  (state: AuthState) => {
-      console.log('AUTH STATE', state);
-      
-      return !!state.isAuthenticated;
-  }
-);
+  (state: AuthState) => !!state.isAuthenticated);
 
 export const currentUser = createSelector<AppState, AuthState, User>(
   getAuthState,

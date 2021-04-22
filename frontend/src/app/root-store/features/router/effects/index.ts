@@ -10,7 +10,7 @@ import * as RouterActions from '../actions';
 @UntilDestroy()
 @Injectable()
 export class RouterEffects implements OnDestroy {
-  public navigateRoom$ = createEffect(
+  public navigateProjects$ = createEffect(
     () =>
       this._actions$.pipe(
         ofType(RouterActions.navigateProjectsBoard),

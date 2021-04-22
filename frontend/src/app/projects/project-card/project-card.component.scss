@@ -1,0 +1,12 @@
+@import "../../../scss/theme/variables";
+
+.project-card {
+    width: 300px;
+    height: 300px;
+    padding: 12px;
+    margin: 8px;
+    box-sizing: border-box;
+    background-color: $color-bg-primary-2;
+    box-shadow: $color-box-shadow-primary;
+    cursor: pointer;
+}

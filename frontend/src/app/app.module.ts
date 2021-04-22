@@ -11,9 +11,9 @@ import { LoginModule } from './login/login.module';
 import { RootStoreModule } from './root-store/root-store.module';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent
-   ],
+  ],
   imports: [
     BrowserModule,
     SharedModule,
@@ -23,6 +23,6 @@ import { RootStoreModule } from './root-store/root-store.module';
     LoginModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
