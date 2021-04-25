@@ -6,7 +6,16 @@ import { createConstants } from 'src/app/root-store/features/utils';
 const typesNames = [
 	'GET_PROJECTS',
 	'GET_PROJECTS_SUCCESS',
-	'GET_PROJECTS_FAILURE'
+	'GET_PROJECTS_FAILURE',
+	'DELETE_PROJECT',
+	'DELETE_PROJECT_SUCCESS',
+	'DELETE_PROJECT_FAILURE',
+	'CREATE_PROJECT',
+	'CREATE_PROJECT_SUCCESS',
+	'CREATE_PROJECT_FAILURE',
+	'UPDATE_PROJECT',
+	'UPDATE_PROJECT_SUCCESS',
+	'UPDATE_PROJECT_FAILURE',
 ] as const;
 
 export type ProjectsActionType = {
@@ -27,9 +36,54 @@ export const getProjects = createAction(
 export const getProjectsSuccess = createAction(
 	projectsActionTypes.GET_PROJECTS_SUCCESS,
 	props<{ projects: Project[] }>()
-);``
+);
 
 export const getProjectsFailed = createAction(
 	projectsActionTypes.GET_PROJECTS_FAILURE,
+	props<{ message: string }>()
+);
+
+export const deleteProject = createAction(
+	projectsActionTypes.DELETE_PROJECT,
+	props<{ projectId: string }>()
+);
+
+export const deleteProjectSuccess = createAction(
+	projectsActionTypes.DELETE_PROJECT_SUCCESS,
+	props<{ projectId: string }>()
+);
+
+export const deleteProjectFailed = createAction(
+	projectsActionTypes.DELETE_PROJECT_FAILURE,
+	props<{ message: string }>()
+);
+
+export const createProject = createAction(
+	projectsActionTypes.CREATE_PROJECT,
+	props<{ newProject: Project }>()
+);
+
+export const createProjectSuccess = createAction(
+	projectsActionTypes.CREATE_PROJECT_SUCCESS,
+	props<{ newProject: Project }>()
+);
+
+export const createProjectFailed = createAction(
+	projectsActionTypes.CREATE_PROJECT_FAILURE,
+	props<{ message: string }>()
+);
+
+export const updateProject = createAction(
+	projectsActionTypes.UPDATE_PROJECT,
+	props<{ projectId: string, updatedProject: Project }>()
+);
+
+export const updateProjectSuccess = createAction(
+	projectsActionTypes.UPDATE_PROJECT_SUCCESS,
+	props<{ updatedProject: Project }>()
+);
+
+export const updateProjectFailed = createAction(
+	projectsActionTypes.UPDATE_PROJECT_FAILURE,
 	props<{ message: string }>()
 );

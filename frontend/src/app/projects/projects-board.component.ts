@@ -1,9 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Project } from '../core/models/project.model';
-import { ProjectsStoreActions, ProjectsStoreSelectors } from '../root-store/features/projects';
-import { AppState } from '../root-store/state';
+import { preventKeyValueOrder, trackById } from '../core/utils';
 
 @Component({
   selector: 'app-projects-board',
@@ -12,15 +9,19 @@ import { AppState } from '../root-store/state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectsBoardComponent implements OnInit {
-  projects$: Observable<Project[]>;
+  @Input() projects: Project[];
+  @Output() onCreateProject = new EventEmitter<void>();
 
+  preventKeyValueOrder = preventKeyValueOrder;
+  trackById = trackById;
   // TODO: add track by id
 
-  constructor(private _store$: Store<AppState>) {}
+  createProject(): void {
+    console.log('emit event');
+    
+    this.onCreateProject.emit();
+  }
 
   ngOnInit() {
-    this._store$.dispatch(ProjectsStoreActions.getProjects());
-
-    this.projects$ = this._store$.pipe(select(ProjectsStoreSelectors.selectProjects));
   }
 }

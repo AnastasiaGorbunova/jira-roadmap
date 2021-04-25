@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './material.module';
 import { HeaderComponent } from './header/header.component';
 import { HeaderContainerComponent } from './header/header-container.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreateProjectDialogComponent } from './dialogs/create-project-dialog/create-project-dialog.component';
+import { ConfirmActionDialogComponent } from './dialogs/confirm-action-dialog/confirm-action-dialog.component';
 
 @NgModule({
   imports: [
@@ -19,11 +20,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   exports: [
     MaterialModule,
     HeaderContainerComponent,
-    HeaderComponent
+    HeaderComponent,
+    CreateProjectDialogComponent,
+    ConfirmActionDialogComponent
   ],
   declarations: [
     HeaderContainerComponent,
-    HeaderComponent
+    HeaderComponent,
+    CreateProjectDialogComponent,
+    ConfirmActionDialogComponent
+  ],
+  entryComponents: [
+    CreateProjectDialogComponent
   ]
 })
 export class SharedModule { }

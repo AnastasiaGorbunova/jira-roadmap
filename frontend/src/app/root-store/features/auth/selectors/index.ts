@@ -28,3 +28,8 @@ export const currentUser = createSelector<AppState, AuthState, User>(
   getAuthState,
   (state: AuthState) => state.currentUser
 );
+
+export const currentUserId = createSelector(
+  currentUser,
+  (currentUser: User) => (currentUser || {}).id || ''
+);

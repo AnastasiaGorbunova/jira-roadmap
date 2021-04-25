@@ -187,7 +187,7 @@ export class FirestoreService {
     return this.firestore.doc(ref).set(data, { merge: true });
   }
 
-  updateDoc<T>(ref: string, data: T): Promise<void> {
+  updateDocument<T>(ref: string, data: T): Promise<void> {
     return this.firestore.doc(ref).update(data);
   }
 

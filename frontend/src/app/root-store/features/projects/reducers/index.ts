@@ -18,7 +18,50 @@ const _projectsReducer = createReducer(
     ...state,
     loading: false,
     errorMessage: message
-  }))
+  })),
+  on(ProjectsActions.deleteProject, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(ProjectsActions.deleteProjectSuccess, (state, { projectId }) => ({
+    // TODO: find project and reduce it
+    ...state,
+    // projects: state.projects.filter(project => project.id !== projectId),
+    errorMessage: null
+  })),
+  on(ProjectsActions.deleteProjectFailed, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
+  on(ProjectsActions.createProject, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(ProjectsActions.createProjectSuccess, (state, { newProject }) => ({
+    ...state,
+    // projects: [ ...state.projects, newProject ],
+    errorMessage: null
+  })),
+  on(ProjectsActions.createProjectFailed, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
+  on(ProjectsActions.updateProject, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(ProjectsActions.updateProjectSuccess, (state, { updatedProject }) => ({
+    ...state,
+    // projects: [ ...state.projects, updatedProject ],
+    errorMessage: null
+  })),
+  on(ProjectsActions.updateProjectFailed, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
 );
 
 export function projectsReducer(state: State | undefined, action: Action) {

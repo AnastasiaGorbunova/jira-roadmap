@@ -1,2 +1,8 @@
-<app-header-container *ngIf="isAuthenticated$ | async"></app-header-container>
+
+<ng-container *ngIf="{  isAuthenticated: (isAuthenticated$ | async) } as data">
+    <app-header-container
+        *ngIf="data.isAuthenticated"
+    ></app-header-container>
+
+</ng-container>
 <router-outlet></router-outlet>

@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { ProjectsBoardComponent } from './projects-board.component';
+import { ProjectsBoardContainerComponent } from './projects-board-container.component';
 
 const projectsRoutes: Routes = [
   {
     path: '',
-    component: ProjectsBoardComponent,
+    component: ProjectsBoardContainerComponent,
     children: []
   }
 ];

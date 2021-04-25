@@ -1,9 +1,23 @@
-<div class=projects-list> 
-    <ng-container *ngIf="{ projects: (projects$ | async) } as data">
-        <div *ngFor="let project of data.projects" class="project-card">
-            <app-project-card-container
-                [project]="project"
-            ></app-project-card-container>  
-        </div>
-    </ng-container>
+<div class="projects-board">
+	<div class="projects-list-header">
+		<button
+			mat-stroked-button
+			class="login-button"
+			type="submit"
+			(click)="createProject()"
+		>
+			Create project
+		</button>
+	</div>
+	
+	<div class="projects-list"> 
+		<div 
+			*ngFor="let project of projects; trackBy: trackById" 
+			class="project-card"
+		>	
+			<app-project-card-container
+				[project]="project"
+			></app-project-card-container>  
+		</div>
+	</div>
 </div>

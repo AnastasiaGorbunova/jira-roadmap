@@ -14,9 +14,11 @@ import { ProjectTaskCardContainerComponent } from './project-task-card/project-t
 import { ProjectTaskViewComponent } from './project-task-view/project-task-view.component';
 import { ProjectTaskViewContainerComponent } from './project-task-view/project-task-view-container.component';
 import { SharedModule } from '../shared/shared.module';
+import { ProjectsBoardContainerComponent } from './projects-board-container.component';
 
 @NgModule({
   imports: [
+    CommonModule,
     SharedModule,
     ProjectsRoutingModule
   ],
@@ -29,7 +31,8 @@ import { SharedModule } from '../shared/shared.module';
     ProjectTaskCardComponent, 
     ProjectTaskCardContainerComponent, 
     ProjectTaskViewComponent, 
-    ProjectTaskViewContainerComponent
+    ProjectTaskViewContainerComponent, 
+    ProjectsBoardContainerComponent
   ]
 })
 export class ProjectsModule { }

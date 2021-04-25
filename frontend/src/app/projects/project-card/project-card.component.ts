@@ -17,11 +17,11 @@ export class ProjectCardComponent implements OnInit {
 
   ngOnInit() {}
 
-  deleteProject(projectId: string): void {
-    this.onDeleteProject.emit(projectId);
+  deleteProject(): void {
+    this.onDeleteProject.emit(this.project.id);
   }
 
-  editProject(projectId: string): void {
-    this.onEditProject.emit(projectId);
+  editProject(): void {
+    this.onEditProject.emit(this.project.id);
   }
 }

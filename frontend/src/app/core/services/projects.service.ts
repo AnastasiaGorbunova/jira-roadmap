@@ -12,13 +12,31 @@ export class ProjectsService {
   constructor(private _firestoreService: FirestoreService) {}
  
   getProjects(): Observable<Project[]> {
-    console.log('SERVICE GET PROJECTS');
-    return this._firestoreService.getCollection<Project>('/projects');
+    return this._firestoreService.getCollection<Project>('/projects', 'date_created', 'desc');
   }
 
   deleteProject(projectId: string): Promise<void> {
-    console.log('DELETE PR', projectId);
-    
     return this._firestoreService.deleteDocument('/projects', projectId);
+  }
+
+  async createProject(project: Project): Promise<void> {
+    const timestamp = this._firestoreService.timestamp;
+    const newProject = {
+      ...project,
+      date_created: timestamp
+    };
+
+    await this._firestoreService.addDocument('/projects', newProject);
+  }
+
+  async updateProject(projectId: string, project: Project): Promise<void> {
+    const timestamp = this._firestoreService.timestamp;
+    const updatedProject = {
+      ...project,
+      date_updated: timestamp
+    };
+    console.log('service updated pr: ', updatedProject);
+    
+    await this._firestoreService.updateDocument(`/projects/${projectId}`, updatedProject);
   }
 }
