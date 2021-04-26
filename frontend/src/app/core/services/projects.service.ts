@@ -15,6 +15,10 @@ export class ProjectsService {
     return this._firestoreService.getCollection<Project>('/projects', 'date_created', 'desc');
   }
 
+  getProject(projectId: string): Observable<Project> {
+    return this._firestoreService.getDocument<Project>(`/projects/${projectId}`);
+  }
+
   deleteProject(projectId: string): Promise<void> {
     return this._firestoreService.deleteDocument('/projects', projectId);
   }

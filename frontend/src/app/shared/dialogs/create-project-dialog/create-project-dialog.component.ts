@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Project } from 'src/app/core/models/project.model';
 
+import { Project } from 'src/app/core/models/project.model';
 import { validationMessages } from 'src/app/core/validation/validation.constants';
 import { emptyFieldValidator } from 'src/app/core/validation/validators';
 
@@ -13,7 +13,7 @@ import { emptyFieldValidator } from 'src/app/core/validation/validators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateProjectDialogComponent implements OnInit {
-  newProjectForm: FormGroup;
+  projectForm: FormGroup;
 
   validationMessages = validationMessages;
 
@@ -23,17 +23,17 @@ export class CreateProjectDialogComponent implements OnInit {
   ) { }
 
   get isSubmitDisabled(): boolean {
-    return !this.newProjectForm.valid;
+    return !this.projectForm.valid;
   }
 
   hasFieldValidationError(fieldName: string, errorName: string): boolean {
-    return this.newProjectForm.get(fieldName)?.hasError(errorName);
+    return this.projectForm.get(fieldName)?.hasError(errorName);
   }
 
   saveProject(): void {
     const { handleConfirm } = this.data;
-    const projectName = this.newProjectForm.get('name').value;
-    const description = this.newProjectForm.get('description').value;
+    const projectName = this.projectForm.get('name').value;
+    const description = this.projectForm.get('description').value;
 
     handleConfirm({ name: projectName, description } as Project);
     this.dialogRef.close();
@@ -45,7 +45,7 @@ export class CreateProjectDialogComponent implements OnInit {
 
   private initializeProjectForm(): void {
     const { projectName, description } = this.data;
-    this.newProjectForm = new FormGroup({
+    this.projectForm = new FormGroup({
       name: new FormControl(projectName || '', {
         validators: [emptyFieldValidator, Validators.maxLength(50)]
       }),

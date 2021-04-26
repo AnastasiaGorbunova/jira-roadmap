@@ -71,8 +71,6 @@ constructor(
   }
 
   getCurrentUser(): Observable<User> {
-    console.log('get current user');
-    
     return this.getFirebaseUser().pipe(
       mergeMap((user) => {
         return this.firestoreService.getDocumentById('/users', user.uid) as Observable<User>;

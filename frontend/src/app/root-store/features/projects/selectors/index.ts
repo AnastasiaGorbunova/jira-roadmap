@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { Project } from 'src/app/core/models/project.model';
 import { AppState } from 'src/app/root-store/state';
+import { selectedProjectId } from '../../router/selectors';
 import { State as ProjectsState } from '../state';
 
 
@@ -13,4 +14,13 @@ export const selectProjects = createSelector(
       
       return (state || {}).projects;
   }
+);
+
+export const selectedProject = createSelector(
+  selectProjects,
+  selectedProjectId,
+  (projects: Project[], projectId: string): Project => {
+     
+     return (projects || []).find(project => project.id === projectId);
+ }
 );

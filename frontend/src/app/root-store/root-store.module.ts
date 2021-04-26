@@ -10,13 +10,15 @@ import { RouterStateModule } from './features/router/router-state.module';
 import { AuthStateModule } from './features/auth/auth-state.module';
 import { RouterStoreState } from './features/router';
 import { ProjectsStateModule } from './features/projects';
+import { TasksStateModule } from './features/tasks';
 
 @NgModule({
   imports: [
     CommonModule,
     AuthStateModule,
-    ProjectsStateModule,
     RouterStateModule,
+    ProjectsStateModule,
+    TasksStateModule,
     StoreModule.forRoot(
       {},
       {

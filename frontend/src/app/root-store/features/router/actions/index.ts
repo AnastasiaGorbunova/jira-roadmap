@@ -5,6 +5,7 @@ import { createConstants } from '../../utils';
 const typesNames = [
     'NAVIGATE_PROJECTS_BOARD',
     'NAVIGATE_LOGIN',
+    'NAVIGATE_PROJECT'
 ] as const;
 
 export type RouterActionTypes = {
@@ -24,4 +25,9 @@ export const navigateProjectsBoard = createAction(
 
 export const navigateSignIn = createAction(
     routerActionTypes.NAVIGATE_LOGIN
+);
+
+export const navigateProject = createAction(
+  routerActionTypes.NAVIGATE_PROJECT,
+  props<{ projectId: string }>()
 );

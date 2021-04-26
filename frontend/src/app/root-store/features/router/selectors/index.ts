@@ -1,31 +1,43 @@
 import { Params } from '@angular/router';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromRouter from '@ngrx/router-store';
 
 import { State as RouterState } from '../state';
-import { AppState } from 'src/app/root-store/state';
+import { RouterReducerState } from '@ngrx/router-store';
 
-export const selectRouterState = createFeatureSelector<AppState, fromRouter.RouterReducerState<RouterState>>('router');
+export const selectRouterState = createFeatureSelector<RouterReducerState<RouterState>>('router');
 
-export const getRouterState = (state: AppState) => state.router;
+// export const getRouterState = (state: AppState) => state.router;
+export const getRouterState = createSelector(selectRouterState, (state) => (!!state && state.state) || {});
 
-
-export const selectRouterUrl = createSelector<AppState, RouterState, string>(
+export const selectRouterUrl = createSelector(
   getRouterState,
   (routerState: RouterState) => !!routerState && routerState.url
 );
 
-export const selectRouterCurrentPath = createSelector<AppState, RouterState, string>(
+export const selectRouterCurrentPath = createSelector(
   getRouterState,
   (routerState: RouterState) => !!routerState && routerState.currentPath
 );
 
-export const selectRouterParams = createSelector<AppState, RouterState, Params>(
+export const selectRouterParams = createSelector(
   getRouterState,
-  (routerState: RouterState) => !!routerState && routerState.params
+  (routerState: RouterState) => {
+    console.log(routerState);
+    
+    return !!routerState && routerState.params;
+  }
 );
 
-export const selectRouterQueryParams = createSelector<AppState, RouterState, Params>(
+export const selectRouterQueryParams = createSelector(
   getRouterState,
   (routerState: RouterState) => !!routerState && routerState.queryParams
+);
+
+export const selectedProjectId = createSelector(
+  selectRouterParams,
+  (params: Params) => {
+    console.log('SELECTOR selectedProjectId: ', params);
+    
+    return !!params ? params.projectId || null : undefined
+  }
 );

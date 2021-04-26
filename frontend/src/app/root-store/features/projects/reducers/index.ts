@@ -19,6 +19,20 @@ const _projectsReducer = createReducer(
     loading: false,
     errorMessage: message
   })),
+  on(ProjectsActions.getProject, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(ProjectsActions.getProjectSuccess, (state, { project }) => ({
+    ...state,
+    projects: [ project ],
+    errorMessage: null
+  })),
+  on(ProjectsActions.getProjectsFailed, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
   on(ProjectsActions.deleteProject, (state) => ({
     ...state,
     loading: true

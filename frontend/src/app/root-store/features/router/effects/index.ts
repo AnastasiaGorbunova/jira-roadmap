@@ -10,7 +10,7 @@ import * as RouterActions from '../actions';
 @UntilDestroy()
 @Injectable()
 export class RouterEffects implements OnDestroy {
-  public navigateProjects$ = createEffect(
+  public navigateProjectsBoard$ = createEffect(
     () =>
       this._actions$.pipe(
         ofType(RouterActions.navigateProjectsBoard),
@@ -27,6 +27,17 @@ export class RouterEffects implements OnDestroy {
         ofType(RouterActions.navigateSignIn),
         tap(() => {
           this._router.navigateByUrl('login');
+        })
+      ),
+    { dispatch: false }
+  );
+
+  public navigateProject$ = createEffect(
+    () =>
+      this._actions$.pipe(
+        ofType(RouterActions.navigateProject),
+        tap(({ projectId }) => {
+          this._router.navigateByUrl(`project/${projectId}`);
         })
       ),
     { dispatch: false }

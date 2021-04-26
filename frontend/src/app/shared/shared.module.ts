@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateProjectDialogComponent } from './dialogs/create-project-dialog/create-project-dialog.component';
 import { ConfirmActionDialogComponent } from './dialogs/confirm-action-dialog/confirm-action-dialog.component';
+import { CreateTaskDialogComponent } from './dialogs/create-task-dialog/create-task-dialog.component';
 
 @NgModule({
   imports: [
@@ -22,13 +23,15 @@ import { ConfirmActionDialogComponent } from './dialogs/confirm-action-dialog/co
     HeaderContainerComponent,
     HeaderComponent,
     CreateProjectDialogComponent,
-    ConfirmActionDialogComponent
+    ConfirmActionDialogComponent,
+    CreateTaskDialogComponent
   ],
   declarations: [
     HeaderContainerComponent,
     HeaderComponent,
     CreateProjectDialogComponent,
-    ConfirmActionDialogComponent
+    ConfirmActionDialogComponent,
+    CreateTaskDialogComponent
   ],
   entryComponents: [
     CreateProjectDialogComponent

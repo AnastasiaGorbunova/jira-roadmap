@@ -7,13 +7,19 @@ import { LoginComponent } from './login/login.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'projects',
+    redirectTo: 'projects-board',
     pathMatch: 'full',
   },
   {
-    path: 'projects',
+    path: 'projects-board',
     loadChildren: () =>
-      import('src/app/projects/projects.module').then((m) => m.ProjectsModule),
+      import('src/app/projects-board/projects-board.module').then((m) => m.ProjectsBoardModule),
+    canLoad: [AuthGuard],
+  },
+  {
+    path: 'project',
+    loadChildren: () =>
+      import('src/app/project/project.module').then((m) => m.ProjectModule),
     canLoad: [AuthGuard],
   },
   {

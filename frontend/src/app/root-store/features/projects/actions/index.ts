@@ -7,6 +7,9 @@ const typesNames = [
 	'GET_PROJECTS',
 	'GET_PROJECTS_SUCCESS',
 	'GET_PROJECTS_FAILURE',
+	'GET_PROJECT',
+	'GET_PROJECT_SUCCESS',
+	'GET_PROJECT_FAILURE',
 	'DELETE_PROJECT',
 	'DELETE_PROJECT_SUCCESS',
 	'DELETE_PROJECT_FAILURE',
@@ -40,6 +43,20 @@ export const getProjectsSuccess = createAction(
 
 export const getProjectsFailed = createAction(
 	projectsActionTypes.GET_PROJECTS_FAILURE,
+	props<{ message: string }>()
+);
+
+export const getProject = createAction(
+	projectsActionTypes.GET_PROJECT
+);
+
+export const getProjectSuccess = createAction(
+	projectsActionTypes.GET_PROJECT_SUCCESS,
+	props<{ project: Project }>()
+);
+
+export const getProjectFailed = createAction(
+	projectsActionTypes.GET_PROJECT_FAILURE,
 	props<{ message: string }>()
 );
 

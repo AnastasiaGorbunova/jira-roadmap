@@ -8,6 +8,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  take,
   withLatestFrom,
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -17,6 +18,7 @@ import * as ProjectsSelectors from '../selectors';
 import { ProjectsService } from 'src/app/core/services/projects.service';
 import { AppState } from 'src/app/root-store/state';
 import { ProjectsStoreSelectors } from '..';
+import { RouterStoreSelectors } from '../../router';
 
 @UntilDestroy()
 @Injectable()
@@ -30,7 +32,6 @@ export class ProjectsEffects implements OnDestroy {
         return this._projectsService.getProjects().pipe(
           untilDestroyed(this),
           map((projects) => {
-            
             this.hasProjectsLoaded = true;
             console.log('EFFECTS PROJECTS', projects);
             return ProjectsActions.getProjectsSuccess({ projects });
@@ -43,6 +44,39 @@ export class ProjectsEffects implements OnDestroy {
       })
     )
   );
+
+  public getProject$ = createEffect(() =>
+  this._actions$.pipe(
+    ofType(ProjectsActions.getProject),
+
+    // TODO: get projectId here from router selector
+    filter(() => {
+      console.log('hasProjectsLoaded', this.hasProjectsLoaded);
+      return !this.hasProjectsLoaded;
+    }),
+    mergeMap(() =>
+    this._store$.pipe(
+      select(RouterStoreSelectors.selectedProjectId),
+      take(1)
+    )
+  ),
+    mergeMap((projectId: string) => {
+      console.log('projectId', projectId);
+      
+      return this._projectsService.getProject(projectId).pipe(
+        untilDestroyed(this),
+        map((project) => {
+          console.log('EFFECTS PROJECT ID', project);
+          return ProjectsActions.getProjectSuccess({ project });
+        }
+        ), 
+        catchError((error) =>
+          of(ProjectsActions.getProjectFailed({ message: error.messages }))
+        )
+      );
+    })
+  )
+);
 
   // TODO: check diff between switchMap and mergeMap
   public deleteProject$ = createEffect(() =>

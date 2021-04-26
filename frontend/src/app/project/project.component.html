@@ -1,0 +1,15 @@
+<!-- TODO: add loader while loading project -->
+<div *ngIf="project" class="project">
+	<p class="project-title">{{ project.name }}</p>
+	<p *ngIf="project.description" class="project-description">{{ project.description }}</p>
+
+	<div class="project-tasks-list">
+		<ng-container *ngFor="let task of tasks; trackBy: trackById">
+			<app-task-card-container
+				[task]="task"
+		></app-task-card-container>
+		</ng-container>
+		
+		<p (click)="createTask()">add new task</p>
+
+	</div>

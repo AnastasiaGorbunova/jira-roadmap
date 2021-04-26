@@ -1,0 +1,12 @@
+<ng-container 
+    *ngIf="{ 
+        project: (project$ | async),
+        tasks: (tasks$ | async)
+    } as data"
+>
+    <app-project
+        [project]="data.project"
+        [tasks]="data.tasks"
+        (onCreateTask)="openCreateTaskModal($event)"
+    ></app-project>
+</ng-container>
