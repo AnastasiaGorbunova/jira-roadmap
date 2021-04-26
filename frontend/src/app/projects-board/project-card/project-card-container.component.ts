@@ -25,18 +25,6 @@ export class ProjectCardContainerComponent {
     this._store$.dispatch(RouterStoreActions.navigateProject({ projectId }));
   }  
 
-  openEditProjectDialog(projectId: string): void {
-    this._dialogService.open('CreateProjectDialogComponent', {
-      title: editItemTitle('project'),
-      confirmBtnText: saveConfirmBtnText,
-      projectName: this.project.name,
-      description: this.project.description,
-      handleConfirm: (updatedData: Project) => {
-          this.updateProject(projectId, updatedData);
-      }
-    });
-  }
-
   openDeleteProjectDialog(projectId: string): void {
     this._dialogService.open('ConfirmActionDialogComponent', {
       title: deleteItemTitle('project'),
@@ -50,11 +38,5 @@ export class ProjectCardContainerComponent {
 
   private deleteProject(projectId: string): void {
     this._store$.dispatch(ProjectsStoreActions.deleteProject({ projectId }));
-  }
-
-  private updateProject(projectId: string, updatedData: Project): void {
-     const updatedProject = { ...this.project, ...updatedData };
-
-     this._store$.dispatch(ProjectsStoreActions.updateProject({ projectId, updatedProject }));
   }
 }

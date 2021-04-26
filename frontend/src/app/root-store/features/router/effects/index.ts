@@ -15,7 +15,7 @@ export class RouterEffects implements OnDestroy {
       this._actions$.pipe(
         ofType(RouterActions.navigateProjectsBoard),
         tap(() => {
-          this._router.navigateByUrl('projects');
+          this._router.navigateByUrl('projects-board');
         })
       ),
     { dispatch: false }

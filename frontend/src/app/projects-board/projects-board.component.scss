@@ -5,8 +5,16 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
-    padding: 32px;
+    margin: 32px;
+    padding: 24px;
+    background-color: $color-bg-primary-2;
+    border-radius: $border-radius;
+    border: 1px solid $color-border-secondary-light;
     box-sizing: border-box;
+    
+    &-header {
+        margin-bottom: 12px;
+    }
 }
 
 .projects-list {

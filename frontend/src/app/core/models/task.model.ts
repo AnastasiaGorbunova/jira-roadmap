@@ -17,3 +17,5 @@ export enum TaskStatus {
     InProgress = 'IN_PROGRESS',
     Done = 'DONE'
 }
+
+export const tasksStatuses = [TaskStatus.ToDo, TaskStatus.InProgress, TaskStatus.Done];

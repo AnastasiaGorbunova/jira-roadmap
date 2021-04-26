@@ -3,12 +3,13 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Project } from '../core/models/project.model';
-import { Task } from '../core/models/task.model';
+import { Task, TaskStatus } from '../core/models/task.model';
 import { DialogService } from '../core/services/dialog.service';
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '../root-store/features/projects';
+import { RouterStoreActions } from '../root-store/features/router';
 import { TasksStoreActions, TasksStoreSelectors } from '../root-store/features/tasks';
 import { AppState } from '../root-store/state';
-import { createConfirmBtnText, createItemTitle } from '../shared/dialogs/dialogs.constants';
+import { createConfirmBtnText, createItemTitle, editItemTitle, saveConfirmBtnText } from '../shared/dialogs/dialogs.constants';
 
 @Component({
   selector: 'app-project-container',
@@ -17,7 +18,7 @@ import { createConfirmBtnText, createItemTitle } from '../shared/dialogs/dialogs
 })
 export class ProjectContainerComponent implements OnInit {
   project$: Observable<Project>;
-  tasks$: Observable<Task[]>;
+  tasksStatusMap$: Observable<{ [status: string]: Task[] }>;
 
   constructor(
     private _store$: Store<AppState>,
@@ -26,6 +27,7 @@ export class ProjectContainerComponent implements OnInit {
 
   createTask(projectId: string, task: Task): void {
     console.log('dispatch', projectId, task);
+    task.status = TaskStatus.ToDo;
     
     this._store$.dispatch(TasksStoreActions.createTask({ projectId, task }))
   }
@@ -40,13 +42,35 @@ export class ProjectContainerComponent implements OnInit {
     });
   }
 
+  openEditProjectDialog(project: Project): void {
+    const { name, description, id } = project;
+
+    this._dialogService.open('CreateProjectDialogComponent', {
+      title: editItemTitle('project'),
+      confirmBtnText: saveConfirmBtnText,
+      projectName: name,
+      description: description,
+      handleConfirm: (updatedData: Project) => {
+          this.updateProject(project, updatedData);
+      }
+    });
+  }
+
+  navigateToBoard(): void {
+    this._store$.dispatch(RouterStoreActions.navigateProjectsBoard());
+  }
+
   ngOnInit() {
     this._store$.dispatch(ProjectsStoreActions.getProject());
     this._store$.dispatch(TasksStoreActions.getTasks());
 
-    // TODO: select project
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
-    this.tasks$ = this._store$.pipe(select(TasksStoreSelectors.currentProjectTasksSelector));
+    this.tasksStatusMap$ = this._store$.pipe(select(TasksStoreSelectors.tasksStatusMapSelector));
   }
 
+  private updateProject(project: Project, updatedData: Project): void {
+    const updatedProject = { ...project, ...updatedData };
+
+    this._store$.dispatch(ProjectsStoreActions.updateProject({ projectId: project.id, updatedProject }));
+ }
 }

@@ -1,14 +1,14 @@
 <div class="header">
-	<div class="user-info">
-		<p>{{ displayName }}</p>
-  </div>
+	<div class="header-logo">Jira</div>
+
+	<div class="header-user">{{ displayName }}</div>
 
 	<button
 		mat-stroked-button
-		class="login-button"
+		class="header-action"
 		type="submit"
 		(click)="signOut()"
 	>
-			Sign Out
+		Sign Out
 	</button>
 </div>

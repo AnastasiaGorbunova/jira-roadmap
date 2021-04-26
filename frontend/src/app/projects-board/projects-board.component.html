@@ -1,5 +1,5 @@
 <div class="projects-board">
-	<div class="projects-list-header">
+	<div class="projects-board-header">
 		<button
 			mat-stroked-button
 			class="login-button"
@@ -11,10 +11,7 @@
 	</div>
 	
 	<div class="projects-list"> 
-		<div 
-			*ngFor="let project of projects; trackBy: trackById" 
-			class="project-card"
-		>	
+		<div *ngFor="let project of projects; trackBy: trackById" class="project-card">	
 			<app-project-card-container
 				[project]="project"
 			></app-project-card-container>  

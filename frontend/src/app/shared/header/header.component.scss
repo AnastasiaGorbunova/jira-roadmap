@@ -4,11 +4,28 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: $header-height;
   width: 100%;
-  padding: 0 48px;
+  padding: 0 32px 0 56px;
   box-sizing: border-box;
   background-color: $color-bg-primary-2;
   z-index: 100;
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    font-size: 40px;
+  }
+  
+  &-user {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 32px;
+  }
+
+  &-action {
+    display: flex;
+    justify-content: flex-end;
+  }
 }

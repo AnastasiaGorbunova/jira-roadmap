@@ -1,15 +1,30 @@
 <!-- TODO: add loader while loading project -->
 <div *ngIf="project" class="project">
+	<div (click)="navigateToBoard()">
+		<mat-icon class="back-icon">arrow_back</mat-icon>
+		<span>
+		  Go to projects board
+		</span>
+	</div>
+
 	<p class="project-title">{{ project.name }}</p>
 	<p *ngIf="project.description" class="project-description">{{ project.description }}</p>
+    <mat-icon (click)="editProject($event)">edit</mat-icon>
 
-	<div class="project-tasks-list">
-		<ng-container *ngFor="let task of tasks; trackBy: trackById">
-			<app-task-card-container
-				[task]="task"
-		></app-task-card-container>
-		</ng-container>
+	<div class="project-tasks-table">
+		<div *ngFor="let status of tasksStatuses; trackBy: trackById"
+			class="column"
+		>
+			<div class="column-name">{{ status }}</div>
+
+			<div class="column-tasks">
+				<ng-container *ngFor="let task of tasksStatusMap[status]; trackBy: trackById">
+					<app-task-card-container
+						[task]="task"
+					></app-task-card-container>
+				</ng-container>
+			</div>
+		</div>
 		
-		<p (click)="createTask()">add new task</p>
-
 	</div>
+	<p (click)="createTask()">add new task</p>
