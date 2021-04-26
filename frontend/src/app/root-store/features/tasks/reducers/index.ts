@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import * as TasksActions from '../actions';
-import { initialState, State } from '../state';
+import * as TasksActions from '@app/root-store/features/tasks/actions';
+import { initialState, State } from '@app/root-store/features/tasks/state';
 
 const _tasksReducer = createReducer(
   initialState,

@@ -2,9 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/cor
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Project } from 'src/app/core/models/project.model';
-import { validationMessages } from 'src/app/core/validation/validation.constants';
-import { emptyFieldValidator } from 'src/app/core/validation/validators';
+import { Project } from '@app/core/models/project.model';
+import { validationMessages } from '@app/core/validation/validation.constants';
+import { emptyFieldValidator } from '@app/core/validation/validators';
 
 @Component({
   selector: 'app-create-project-dialog',

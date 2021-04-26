@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Task } from 'src/app/core/models/task.model';
-import { emptyFieldValidator } from 'src/app/core/validation/validators';
-import { validationMessages } from 'src/app/login/login.constants';
-import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
+
+import { Task } from '@app/core/models/task.model';
+import { emptyFieldValidator } from '@app/core/validation/validators';
+import { validationMessages } from '@app/login/login.constants';
+import { CreateProjectDialogComponent } from '@app/shared/dialogs/create-project-dialog/create-project-dialog.component';
 
 @Component({
   selector: 'app-create-task-dialog',

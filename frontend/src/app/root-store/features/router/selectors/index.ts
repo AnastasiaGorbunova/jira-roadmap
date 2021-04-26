@@ -1,8 +1,8 @@
 import { Params } from '@angular/router';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-
-import { State as RouterState } from '../state';
 import { RouterReducerState } from '@ngrx/router-store';
+
+import { State as RouterState } from '@app/root-store/features/router/state';
 
 export const selectRouterState = createFeatureSelector<RouterReducerState<RouterState>>('router');
 

@@ -7,6 +7,7 @@ import { Task } from 'src/app/core/models/task.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskCardContainerComponent implements OnInit {
+  // TODO: maybe delete container and user only one component
   @Input() task: Task[];
 
   constructor() { }

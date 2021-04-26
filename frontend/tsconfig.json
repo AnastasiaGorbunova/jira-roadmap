@@ -15,6 +15,17 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths" :{
+      "@app/*": [
+        "src/app/*"
+      ]
+    },
+    // TODO: check it
+    // "angularCompilerOptions": {
+    //   "strictInjectionParameters": true,
+    //   "strictInputAccessModifiers": true,
+    //   "strictTemplates": true
+    // }
   }
 }

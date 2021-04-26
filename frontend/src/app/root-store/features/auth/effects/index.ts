@@ -13,11 +13,10 @@ import {
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { AppState } from 'src/app/root-store/state';
-import * as AuthActions from '../actions';
-import * as RouterActions from '../../router/actions';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { User } from 'src/app/core/models/user.model';
+import { AppState } from '@app/root-store/state';
+import * as AuthActions from '@app/root-store/features/auth/actions';
+import * as RouterActions from '@app/root-store/features/router/actions';
+import { AuthService } from '@app/core/services/auth.service';
 
 @UntilDestroy()
 @Injectable()

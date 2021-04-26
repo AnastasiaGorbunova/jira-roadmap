@@ -1,5 +1,5 @@
-import { User } from "src/app/core/models/user.model";
-import { BaseStateModel } from "src/app/root-store/models/base-state.model";
+import { User } from '@app/core/models/user.model';
+import { BaseStateModel } from '@app/root-store/models/base-state.model';
 
 export interface State extends BaseStateModel {
   isAuthenticated: boolean | null;

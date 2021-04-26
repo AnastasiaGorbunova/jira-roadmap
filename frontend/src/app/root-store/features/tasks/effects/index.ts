@@ -11,10 +11,10 @@ import {
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import * as TasksActions from '../actions';
-import { AppState } from 'src/app/root-store/state';
-import { TasksService } from 'src/app/core/services/tasks.service';
-import { RouterStoreSelectors } from '../../router';
+import * as TasksActions from '@app/root-store/features/tasks/actions';
+import { AppState } from '@app/root-store/state';
+import { TasksService } from '@app/core/services/tasks.service';
+import { RouterStoreSelectors } from '@app/root-store/features/router';
 
 @UntilDestroy()
 @Injectable()

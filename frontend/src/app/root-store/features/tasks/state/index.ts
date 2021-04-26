@@ -1,5 +1,5 @@
-import { Task } from "src/app/core/models/task.model";
-import { BaseStateModel } from "src/app/root-store/models/base-state.model";
+import { Task } from '@app/core/models/task.model';
+import { BaseStateModel } from '@app/root-store/models/base-state.model';
 
 export interface State extends BaseStateModel {
   tasks: { [projectId: string]: Task[] };

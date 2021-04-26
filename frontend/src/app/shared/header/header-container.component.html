@@ -1,4 +1,5 @@
 <app-header
     [currentUser]= "currentUser$ | async"
     (onUserSighOut)="signOutUser()"
+    (onNavigateToBoard)="navigateToBoard()"
 ></app-header>

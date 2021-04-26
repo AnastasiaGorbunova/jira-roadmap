@@ -2,10 +2,9 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 
-import * as RouterActions from '../actions';
+import * as RouterActions from '@app/root-store/features/router/actions';
 
 @UntilDestroy()
 @Injectable()

@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Project } from 'src/app/core/models/project.model';
-import { createConstants } from 'src/app/root-store/features/utils';
+import { Project } from '@app/core/models/project.model';
+import { createConstants } from '@app/root-store/features/utils';
 
 const typesNames = [
 	'GET_PROJECTS',

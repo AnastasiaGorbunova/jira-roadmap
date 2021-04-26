@@ -1,10 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/core/models/user.model';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { AuthStoreActions } from 'src/app/root-store/features/auth';
-import { AppState } from 'src/app/root-store/state';
+
+import { User } from '@app/core/models/user.model';
+import { AuthService } from '@app/core/services/auth.service';
+import { AuthStoreActions } from '@app/root-store/features/auth';
+import { RouterStoreActions } from '@app/root-store/features/router';
+import { AppState } from '@app/root-store/state';
 
 @Component({
   selector: 'app-header-container',
@@ -20,8 +22,12 @@ export class HeaderContainerComponent implements OnInit {
   ) { }
 
   
-  public signOutUser(): void {
+  signOutUser(): void {
     this._store$.dispatch(AuthStoreActions.signOut());
+  }
+
+  navigateToBoard(): void {
+    this._store$.dispatch(RouterStoreActions.navigateProjectsBoard());
   }
 
   ngOnInit() {

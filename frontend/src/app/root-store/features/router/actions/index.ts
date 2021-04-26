@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { createConstants } from '../../utils';
+import { createConstants } from '@app/root-store/features/utils';
 
 const typesNames = [
     'NAVIGATE_PROJECTS_BOARD',

@@ -34,9 +34,7 @@ export class ProjectComponent implements OnInit {
   ngOnInit() {
   }
 
-  editProject(event: Event): void {
-    event.stopPropagation();
-
+  editProject(): void {
     this.onEditProject.emit(this.project);
   }
 

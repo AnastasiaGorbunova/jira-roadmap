@@ -1,6 +1,5 @@
 <div class="project-card" (click)="navigateToProject()">
-    {{ project.name }}
+    <span class="project-card-title">{{ project.name }}</span>
 
-    <mat-icon (click)="deleteProject($event)">delete</mat-icon>
-
+    <mat-icon class="remove-icon" (click)="deleteProject($event)">delete</mat-icon>
 </div>

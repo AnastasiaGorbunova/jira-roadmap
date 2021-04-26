@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, from, of } from 'rxjs';
+import { from, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -9,16 +9,13 @@ import {
   mergeMap,
   switchMap,
   take,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import * as ProjectsActions from '../actions';
-import * as ProjectsSelectors from '../selectors';
-import { ProjectsService } from 'src/app/core/services/projects.service';
-import { AppState } from 'src/app/root-store/state';
-import { ProjectsStoreSelectors } from '..';
-import { RouterStoreSelectors } from '../../router';
+import * as ProjectsActions from '@app/root-store/features/projects/actions';
+import { ProjectsService } from '@app/core/services/projects.service';
+import { AppState } from '@app/root-store/state';
+import { RouterStoreSelectors } from '@app/root-store/features/router';
 
 @UntilDestroy()
 @Injectable()

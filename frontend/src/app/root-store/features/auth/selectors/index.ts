@@ -1,8 +1,8 @@
 import { createSelector } from '@ngrx/store';
 import { User } from 'src/app/core/models/user.model';
 
-import { AppState } from 'src/app/root-store/state';
-import { State as AuthState } from '../state';
+import { AppState } from '@app/root-store/state';
+import { State as AuthState } from '@app/root-store/features/auth/state';
 
 export const getAuthState = (state: AppState) => state.auth;
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
-import { User } from 'src/app/core/models/user.model';
+import { User } from '@app/core/models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +11,7 @@ import { User } from 'src/app/core/models/user.model';
 export class HeaderComponent implements OnInit {
   @Input() currentUser: User;
   @Output() onUserSighOut = new EventEmitter<void>();
+  @Output() onNavigateToBoard = new EventEmitter<void>();
 
   constructor() { }
 
@@ -21,6 +22,10 @@ export class HeaderComponent implements OnInit {
 
   signOut(): void {
     this.onUserSighOut.emit();
+  }
+
+  navigateToBoard(): void {
+    this.onNavigateToBoard.emit();
   }
 
   ngOnInit() {

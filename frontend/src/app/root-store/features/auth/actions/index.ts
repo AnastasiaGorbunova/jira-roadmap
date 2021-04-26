@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from 'src/app/core/models/user.model';
 
-import { createConstants } from 'src/app/root-store/features/utils';
+import { createConstants } from '@app/root-store/features/utils';
 
 const typesNames = [
   'SIGN_UP',

@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import * as ProjectsActions from '../actions';
-import { initialState, State } from '../state';
+import * as ProjectsActions from '@app/root-store/features/projects/actions';
+import { initialState, State } from '@app/root-store/features/projects/state';
 
 const _projectsReducer = createReducer(
   initialState,

@@ -1,10 +1,10 @@
 import { createSelector } from '@ngrx/store';
 import _groupby from 'lodash.groupby';
 
-import { Task } from 'src/app/core/models/task.model';
-import { AppState } from 'src/app/root-store/state';
-import { selectedProjectId } from '../../router/selectors';
-import { State as TasksState } from '../state';
+import { Task } from '@app/core/models/task.model';
+import { AppState } from '@app/root-store/state';
+import { selectedProjectId } from '@app/root-store/features/router/selectors';
+import { State as TasksState } from '@app/root-store/features/tasks/state';
 
 export const getTasksState = (state: AppState) => state.tasks;
 

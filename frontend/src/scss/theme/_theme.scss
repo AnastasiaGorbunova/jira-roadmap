@@ -1,8 +1,8 @@
 
 @import "~@angular/material/theming";
 
-@import "../theme/variables";
-@import "../theme/fonts";
+@import "variables";
+@import "fonts";
 
 // Global styles
-@import "../theme/components/inputs";
+@import "components/inputs";

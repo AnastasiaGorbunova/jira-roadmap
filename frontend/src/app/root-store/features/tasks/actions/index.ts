@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Task } from 'src/app/core/models/task.model';
-import { createConstants } from 'src/app/root-store/features/utils';
+import { Task } from '@app/core/models/task.model';
+import { createConstants } from '@app/root-store/features/utils';
 
 const typesNames = [
   'CREATE_TASK',

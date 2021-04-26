@@ -1,5 +1,5 @@
-import { Project } from "src/app/core/models/project.model";
-import { BaseStateModel } from "src/app/root-store/models/base-state.model";
+import { Project } from '@app/core/models/project.model';
+import { BaseStateModel } from '@app/root-store/models/base-state.model';
 
 export interface State extends BaseStateModel {
   projects: Project[];

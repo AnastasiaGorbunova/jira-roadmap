@@ -1,6 +1,7 @@
-@import "../../../scss/theme/variables";
+@import "scss/theme/variables";
 
 .project-card {
+  position: relative;
   width: 300px;
   height: 200px;
   padding: 16px;
@@ -13,5 +14,12 @@
 
   &:not(last-child) {
     margin-right: 32px;
+  }
+
+  .remove-icon {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    color: $color-secondary-dark;
   }
 }
