@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import _groupby from 'lodash.groupby';
 
-import { Task } from '@app/core/models/task.model';
+import { Task, TaskStatusMap } from '@app/core/models/task.model';
 import { AppState } from '@app/root-store/state';
 import { selectedProjectId } from '@app/root-store/features/router/selectors';
 import { State as TasksState } from '@app/root-store/features/tasks/state';
@@ -18,18 +18,13 @@ export const currentProjectTasksSelector = createSelector(
   tasksSelector,
   selectedProjectId,
   (tasks: { [projectId: string]: Task[] }, projectId: string) => {
-    console.log(tasks[projectId]);
-    
     return tasks[projectId];
   }
 )
 
 export const tasksStatusMapSelector = createSelector(
   currentProjectTasksSelector,
-  (tasks: Task[]) => {
-    console.log('grouped',  _groupby(tasks, 'status'));
-    
+  (tasks: Task[]): TaskStatusMap => {
     return _groupby(tasks, 'status');
-
   }
 )

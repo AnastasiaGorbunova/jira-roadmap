@@ -18,6 +18,10 @@ export enum TaskStatus {
     Done = 'DONE'
 }
 
+export interface TaskStatusMap { 
+    [status: string]: Task[]
+}
+
 export const taskStatusesSet = {
     [TaskStatus.ToDo]: 'ToDo',
     [TaskStatus.InProgress]: 'In Progress',

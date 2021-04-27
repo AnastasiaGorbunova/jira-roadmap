@@ -101,5 +101,6 @@
       <!-- /form actions -->
     </form>
 
-    <p>New to Jira? <span (click)=toggleLoginForm()>Create an account.</span></p>
+    <p *ngIf="isLogin">New to Jira? <span (click)=toggleLoginForm()>Create an account.</span></p>
+    <p *ngIf="!isLogin">Already have an account? <span (click)=toggleLoginForm()>Sign In.</span></p>
   </div>

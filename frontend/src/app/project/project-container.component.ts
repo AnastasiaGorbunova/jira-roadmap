@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Project } from '@app/core/models/project.model';
-import { Task, TaskStatus } from '@app/core/models/task.model';
+import { Task, TaskStatus, TaskStatusMap } from '@app/core/models/task.model';
 import { DialogService } from '@app/core/services/dialog.service';
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { RouterStoreActions } from '@app/root-store/features/router';
@@ -18,7 +18,7 @@ import { createConfirmBtnText, createItemTitle, editItemTitle, saveConfirmBtnTex
 })
 export class ProjectContainerComponent implements OnInit {
   project$: Observable<Project>;
-  tasksStatusMap$: Observable<{ [status: string]: Task[] }>;
+  tasksStatusMap$: Observable<TaskStatusMap>;
 
   constructor(
     private _store$: Store<AppState>,

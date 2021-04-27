@@ -1,0 +1,14 @@
+@import "scss/theme/variables";
+
+.task {
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    padding: 12px;
+    margin-bottom: 16px;
+    background-color: $color-bg-primary-2;
+    border-radius: 8px;
+    border: 1px solid $color-border-secondary-light;
+    box-sizing: border-box;
+    cursor: pointer;
+}

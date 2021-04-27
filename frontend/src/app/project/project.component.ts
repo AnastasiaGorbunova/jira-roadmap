@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { Project } from '@app/core/models/project.model';
-import { Task, tasksStatuses, taskStatusesSet } from '@app/core/models/task.model';
+import { Task, tasksStatuses, taskStatusesSet, TaskStatusMap } from '@app/core/models/task.model';
 import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
@@ -12,9 +12,7 @@ import { preventKeyValueOrder, trackById } from '@app/core/utils';
 })
 export class ProjectComponent {
   @Input() project: Project;
-
-  // TODO: add to model
-  @Input() tasksStatusMap: { [status: string]: Task[] };
+  @Input() tasksStatusMap: TaskStatusMap;
   @Output() onCreateTask = new EventEmitter<string>();
   @Output() onEditProject = new EventEmitter<Project>();
   @Output() onNavigateToBoard = new EventEmitter<void>();
