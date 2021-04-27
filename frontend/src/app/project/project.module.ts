@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ProjectComponent } from './project.component';
-import { ProjectContainerComponent } from './project-container.component';
-import { SharedModule } from '../shared/shared.module';
-import { ProjectRoutingModule } from './project-routing.module';
-import { TaskCardComponent } from './task-card/task-card.component';
-import { TaskCardContainerComponent } from './task-card/task-card-container.component';
-import { TaskComponent } from './task/task.component';
-import { TaskContainerComponent } from './task/task-container.component';
+import { ProjectComponent } from '@app/project/project.component';
+import { ProjectContainerComponent } from '@app/project/project-container.component';
+import { SharedModule } from '@app/shared/shared.module';
+import { ProjectRoutingModule } from '@app/project/project-routing.module';
+import { TaskCardComponent } from '@app/project/task-card/task-card.component';
+import { TaskCardContainerComponent } from '@app/project/task-card/task-card-container.component';
+import { TaskComponent } from '@app/project/task/task.component';
+import { TaskContainerComponent } from '@app/project/task/task-container.component';
 
 @NgModule({
   imports: [

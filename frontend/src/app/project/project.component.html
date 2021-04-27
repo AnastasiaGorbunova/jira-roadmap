@@ -24,7 +24,7 @@
 		<div *ngFor="let status of tasksStatuses; trackBy: trackById"
 			class="column"
 		>
-			<div class="column-name">{{ status }}</div>
+			<div class="column-name">{{ taskStatusesSet[status] }}</div>
 
 			<div class="column-tasks">
 				<ng-container *ngFor="let task of tasksStatusMap[status]; trackBy: trackById">

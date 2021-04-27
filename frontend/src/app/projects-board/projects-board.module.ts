@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-// TODO: add normal imports like @app
-import { ProjectsBoardComponent } from './projects-board.component';
-import { ProjectsBoardRoutingModule } from './projects-board-routing.module';
-import { ProjectCardComponent } from './project-card/project-card.component';
-import { ProjectCardContainerComponent } from './project-card/project-card-container.component';
-import { SharedModule } from '../shared/shared.module';
-import { ProjectsBoardContainerComponent } from './projects-board-container.component';
+import { ProjectsBoardComponent } from '@app/projects-board/projects-board.component';
+import { ProjectsBoardContainerComponent } from '@app/projects-board/projects-board-container.component';
+import { ProjectsBoardRoutingModule } from '@app/projects-board/projects-board-routing.module';
+import { ProjectCardComponent } from '@app/projects-board/project-card/project-card.component';
+import { ProjectCardContainerComponent } from '@app/projects-board/project-card/project-card-container.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   imports: [

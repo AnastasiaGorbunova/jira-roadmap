@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Project } from '../core/models/project.model';
-import { preventKeyValueOrder, trackById } from '../core/utils';
+
+import { Project } from '@app/core/models/project.model';
+import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
   selector: 'app-projects-board',

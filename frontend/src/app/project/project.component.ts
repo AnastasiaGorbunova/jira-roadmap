@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
-import { Project } from '../core/models/project.model';
-import { Task, tasksStatuses } from '../core/models/task.model';
-import { preventKeyValueOrder, trackById } from '../core/utils';
+import { Project } from '@app/core/models/project.model';
+import { Task, tasksStatuses, taskStatusesSet } from '@app/core/models/task.model';
+import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
   selector: 'app-project',
@@ -10,7 +10,7 @@ import { preventKeyValueOrder, trackById } from '../core/utils';
   styleUrls: ['./project.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent {
   @Input() project: Project;
 
   // TODO: add to model
@@ -22,6 +22,7 @@ export class ProjectComponent implements OnInit {
   trackById = trackById;
   preventKeyValueOrder = preventKeyValueOrder;
   tasksStatuses = tasksStatuses;
+  taskStatusesSet = taskStatusesSet;
 
   constructor() { }
 
@@ -31,9 +32,6 @@ export class ProjectComponent implements OnInit {
     this.onCreateTask.emit(this.project.id);
   }
 
-  ngOnInit() {
-  }
-
   editProject(): void {
     this.onEditProject.emit(this.project);
   }
@@ -41,5 +39,4 @@ export class ProjectComponent implements OnInit {
   navigateToBoard(): void {
     this.onNavigateToBoard.emit();
   }
-
 }

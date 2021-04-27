@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, skipWhile } from 'rxjs/operators';
 
-import { RouterStoreActions } from 'src/app/root-store/features/router';
-import { AppState } from 'src/app/root-store/state';
+import { RouterStoreActions } from '@app/root-store/features/router';
+import { AppState } from '@app/root-store/state';
 
 
 @Injectable({

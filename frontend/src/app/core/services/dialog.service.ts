@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmActionDialogComponent } from 'src/app/shared/dialogs/confirm-action-dialog/confirm-action-dialog.component';
-import { CreateProjectDialogComponent } from 'src/app/shared/dialogs/create-project-dialog/create-project-dialog.component';
-import { CreateTaskDialogComponent } from 'src/app/shared/dialogs/create-task-dialog/create-task-dialog.component';
+
+import { ConfirmActionDialogComponent } from '@app/shared/dialogs/confirm-action-dialog/confirm-action-dialog.component';
+import { CreateProjectDialogComponent } from '@app/shared/dialogs/create-project-dialog/create-project-dialog.component';
+import { CreateTaskDialogComponent } from '@app/shared/dialogs/create-task-dialog/create-task-dialog.component';
 
 @Injectable({
   providedIn: 'root'

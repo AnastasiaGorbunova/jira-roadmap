@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Project } from 'src/app/core/models/project.model';
-import { DialogService } from 'src/app/core/services/dialog.service';
-import { ProjectsStoreActions } from 'src/app/root-store/features/projects';
-import { RouterStoreActions } from 'src/app/root-store/features/router';
-import { AppState } from 'src/app/root-store/state';
-import { deleteConfirmBtnText, deleteItemText, deleteItemTitle, editItemTitle, saveConfirmBtnText } from 'src/app/shared/dialogs/dialogs.constants';
+import { Project } from '@app/core/models/project.model';
+import { DialogService } from '@app/core/services/dialog.service';
+import { ProjectsStoreActions } from '@app/root-store/features/projects';
+import { RouterStoreActions } from '@app/root-store/features/router';
+import { AppState } from '@app/root-store/state';
+import { deleteConfirmBtnText, deleteItemText, deleteItemTitle } from '@app/shared/dialogs/dialogs.constants';
 
 @Component({
   selector: 'app-project-card-container',

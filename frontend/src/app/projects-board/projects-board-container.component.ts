@@ -3,12 +3,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { Project } from '../core/models/project.model';
-import { DialogService } from '../core/services/dialog.service';
-import { AuthStoreSelectors } from '../root-store/features/auth';
-import { ProjectsStoreActions, ProjectsStoreSelectors } from '../root-store/features/projects';
-import { AppState } from '../root-store/state';
-import { createConfirmBtnText, createItemTitle } from '../shared/dialogs/dialogs.constants';
+import { Project } from '@app/core/models/project.model';
+import { DialogService } from '@app/core/services/dialog.service';
+import { AuthStoreSelectors } from '@app/root-store/features/auth';
+import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
+import { AppState } from '@app/root-store/state';
+import { createConfirmBtnText, createItemTitle } from '@app/shared/dialogs/dialogs.constants';
 
 @Component({
   selector: 'app-projects-board-container',

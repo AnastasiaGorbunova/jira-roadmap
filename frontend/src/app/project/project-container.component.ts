@@ -2,14 +2,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Project } from '../core/models/project.model';
-import { Task, TaskStatus } from '../core/models/task.model';
-import { DialogService } from '../core/services/dialog.service';
-import { ProjectsStoreActions, ProjectsStoreSelectors } from '../root-store/features/projects';
-import { RouterStoreActions } from '../root-store/features/router';
-import { TasksStoreActions, TasksStoreSelectors } from '../root-store/features/tasks';
-import { AppState } from '../root-store/state';
-import { createConfirmBtnText, createItemTitle, editItemTitle, saveConfirmBtnText } from '../shared/dialogs/dialogs.constants';
+import { Project } from '@app/core/models/project.model';
+import { Task, TaskStatus } from '@app/core/models/task.model';
+import { DialogService } from '@app/core/services/dialog.service';
+import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
+import { RouterStoreActions } from '@app/root-store/features/router';
+import { TasksStoreActions, TasksStoreSelectors } from '@app/root-store/features/tasks';
+import { AppState } from '@app/root-store/state';
+import { createConfirmBtnText, createItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
 
 @Component({
   selector: 'app-project-container',

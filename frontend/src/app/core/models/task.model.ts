@@ -18,4 +18,10 @@ export enum TaskStatus {
     Done = 'DONE'
 }
 
+export const taskStatusesSet = {
+    [TaskStatus.ToDo]: 'ToDo',
+    [TaskStatus.InProgress]: 'In Progress',
+    [TaskStatus.Done]: 'Done'
+}
+
 export const tasksStatuses = [TaskStatus.ToDo, TaskStatus.InProgress, TaskStatus.Done];

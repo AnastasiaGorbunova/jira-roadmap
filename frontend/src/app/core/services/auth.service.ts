@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
-import { User } from '../models/user.model';
-import { FirestoreService } from './firestore.service';
+import { User } from '@app/core/models/user.model';
+import { FirestoreService } from '@app/core/services/firestore.service';
 
 @Injectable({
   providedIn: 'root'

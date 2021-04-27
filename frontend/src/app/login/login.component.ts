@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { User } from '../core/models/user.model';
-import { AuthStoreActions, AuthStoreSelectors } from '../root-store/features/auth';
-import { AppState } from '../root-store/state';
 
-import { validationMessages } from './login.constants';
+import { User } from '@app/core/models/user.model';
+import { AuthStoreActions, AuthStoreSelectors } from '@app/root-store/features/auth';
+import { AppState } from '@app/root-store/state';
+import { validationMessages } from '@app/login/login.constants';
 
 @Component({
   selector: 'app-login',

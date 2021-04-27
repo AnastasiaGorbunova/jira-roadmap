@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProjectsBoardContainerComponent } from './projects-board-container.component';
+
+import { ProjectsBoardContainerComponent } from '@app/projects-board/projects-board-container.component';
 
 const projectsBoardRoutes: Routes = [
   {
