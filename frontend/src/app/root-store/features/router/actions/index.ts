@@ -5,7 +5,8 @@ import { createConstants } from '@app/root-store/features/utils';
 const typesNames = [
     'NAVIGATE_PROJECTS_BOARD',
     'NAVIGATE_LOGIN',
-    'NAVIGATE_PROJECT'
+    'NAVIGATE_PROJECT',
+    'NAVIGATE_TASK'
 ] as const;
 
 export type RouterActionTypes = {
@@ -30,4 +31,9 @@ export const navigateSignIn = createAction(
 export const navigateProject = createAction(
   routerActionTypes.NAVIGATE_PROJECT,
   props<{ projectId: string }>()
+);
+
+export const navigateTask = createAction(
+  routerActionTypes.NAVIGATE_TASK,
+  props<{ taskId: string }>()
 );

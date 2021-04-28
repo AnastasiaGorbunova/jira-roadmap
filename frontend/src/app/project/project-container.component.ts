@@ -26,7 +26,6 @@ export class ProjectContainerComponent implements OnInit {
   ) { }
 
   createTask(projectId: string, task: Task): void {
-    console.log('dispatch', projectId, task);
     task.status = TaskStatus.ToDo;
     
     this._store$.dispatch(TasksStoreActions.createTask({ projectId, task }))

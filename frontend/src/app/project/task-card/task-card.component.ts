@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from 'src/app/core/models/task.model';
 
 @Component({
@@ -7,12 +7,13 @@ import { Task } from 'src/app/core/models/task.model';
   styleUrls: ['./task-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskCardComponent implements OnInit {
+export class TaskCardComponent {
   @Input() task: Task;
+  @Output() onNavigateToTask = new EventEmitter<string>();
   
   constructor() { }
 
-  ngOnInit() {
+  navigateToTask(): void {
+    this.onNavigateToTask.emit(this.task.id);
   }
-
 }

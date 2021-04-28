@@ -1,1 +1,8 @@
-<p>task-container works!</p>
+<ng-container *ngIf="{ task: (task$ | async), project: (project$ | async) } as data">
+	<app-task
+		[task]="data.task"
+		[project]="data.project"
+		(onNavigateToBoard)="navigateToBoard()"
+		(onNavigateToProject)="navigateToProject($event)"
+	></app-task>
+</ng-container>

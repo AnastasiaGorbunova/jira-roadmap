@@ -9,7 +9,10 @@ const typesNames = [
   'CREATE_TASK_FAILED',
   'GET_TASKS',
   'GET_TASKS_SUCCESS',
-  'GET_TASKS_FAILED'
+  'GET_TASKS_FAILED',
+  'GET_TASK',
+  'GET_TASK_SUCCESS',
+  'GET_TASK_FAILED'
 ] as const;
 
 export type TaskActionType = {
@@ -48,5 +51,19 @@ export const getTasksSuccess = createAction(
 
 export const getTasksFailure = createAction(
   tasksActionTypes.GET_TASKS_FAILED,
+  props<{ message: string }>()
+);
+
+export const getTask = createAction(
+  tasksActionTypes.GET_TASK
+);
+
+export const getTaskSuccess = createAction(
+  tasksActionTypes.GET_TASK_SUCCESS,
+  props<{ projectId: string, task: Task }>()
+);
+
+export const getTaskFailure = createAction(
+  tasksActionTypes.GET_TASK_FAILED,
   props<{ message: string }>()
 );

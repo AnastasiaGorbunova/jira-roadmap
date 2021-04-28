@@ -14,8 +14,6 @@ export const loading = createSelector<AppState, AuthState, boolean>(
 export const getAuthErrorMessage = createSelector<AppState, AuthState, string | null>(
   getAuthState,
   (state: AuthState) => {
-    console.log('errorMessage: ', state.errorMessage);
-
     return state.errorMessage;
   }
 );

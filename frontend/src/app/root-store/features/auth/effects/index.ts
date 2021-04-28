@@ -43,7 +43,7 @@ export class AuthEffects implements OnDestroy {
           this._store$.dispatch(RouterActions.navigateProjectsBoard());
         })
       ),
-      // TODO: learn for what it is?
+      // TODO: learn more about it
       { dispatch: false }
   );
 
@@ -84,11 +84,7 @@ export class AuthEffects implements OnDestroy {
       switchMap(() => {
         return this._authService.getFirebaseUser().pipe(
           untilDestroyed(this),
-          map((fireUser) => {
-            console.log('fireUser', fireUser);
-              // TODO: navigate to sign in will be implemented in auth guard
-              return AuthActions.setIsUserAuthenticated({ isAuthenticated: !!fireUser })
-          })
+          map((fireUser) =>  AuthActions.setIsUserAuthenticated({ isAuthenticated: !!fireUser }))
         );
       })
     )
@@ -101,11 +97,7 @@ export class AuthEffects implements OnDestroy {
     switchMap(() => {
       return this._authService.getCurrentUser().pipe(
         untilDestroyed(this),
-        map((currentUser) => {
-          console.log('currentUser', currentUser);
-            // TODO: navigate to sign in will be implemented in auth guard
-            return AuthActions.getCurrentUserSuccess({ currentUser })
-        }),
+        map((currentUser) => AuthActions.getCurrentUserSuccess({ currentUser })),
         catchError((error: Error) =>
           of(AuthActions.getCurrentUserFailed({ message: error.message }))
         )

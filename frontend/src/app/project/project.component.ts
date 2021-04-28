@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { Project } from '@app/core/models/project.model';
-import { Task, tasksStatuses, taskStatusesSet, TaskStatusMap } from '@app/core/models/task.model';
+import { tasksStatuses, taskStatusesSet, TaskStatusMap } from '@app/core/models/task.model';
 import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
@@ -25,13 +25,15 @@ export class ProjectComponent {
   constructor() { }
 
   createTask():void {
-    console.log('emit');
-    
     this.onCreateTask.emit(this.project.id);
   }
 
   editProject(): void {
     this.onEditProject.emit(this.project);
+  }
+
+  deleteProject(): void {
+    // TODO: use deletion from projects board and move it to service
   }
 
   navigateToBoard(): void {

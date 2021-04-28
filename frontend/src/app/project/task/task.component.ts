@@ -1,4 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+
+import { Project } from '@app/core/models/project.model';
+import { Task } from '@app/core/models/task.model';
 
 @Component({
   selector: 'app-task',
@@ -6,11 +9,34 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent {
+  @Input() task: Task;
+  @Input() project: Project;
+  @Output() onNavigateToBoard = new EventEmitter<void>();
+  @Output() onNavigateToProject = new EventEmitter<string>();
+  @Output() onCreateSubTask = new EventEmitter<string>();
+  @Output() onEditTask = new EventEmitter<Task>();
+  @Output() onDeleteTask = new EventEmitter<string>();
 
   constructor() { }
 
-  ngOnInit() {
+  navigateToBoard(): void {
+    this.onNavigateToBoard.emit();
   }
 
+  navigateToProject(): void {
+    this.onNavigateToProject.emit(this.project.id);
+  }
+
+  createSubTask():void {
+    this.onCreateSubTask.emit(this.task.id);
+  }
+
+  editTask(): void {
+    this.onEditTask.emit(this.task);
+  }
+
+  deleteTask(): void {
+    this.onDeleteTask.emit(this.task.id);
+  }
 }

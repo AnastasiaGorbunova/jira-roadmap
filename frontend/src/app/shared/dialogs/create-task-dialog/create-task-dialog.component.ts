@@ -35,7 +35,6 @@ export class CreateTaskDialogComponent implements OnInit {
     const { handleConfirm } = this.data;
     const name = this.taskForm.get('name').value;
     const description = this.taskForm.get('description').value;
-console.log('save task', name);
 
     handleConfirm({ name, description } as Task);
     this.dialogRef.close();

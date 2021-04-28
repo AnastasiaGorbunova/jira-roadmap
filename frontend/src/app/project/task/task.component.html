@@ -1,1 +1,29 @@
-<p>task works!</p>
+<div class="task" *ngIf="project && task">
+	<div class="project-navigation">
+		<div class="project-navigation-board" (click)="navigateToBoard()">
+			<mat-icon class="back-icon">arrow_back</mat-icon>
+			Projects board
+		</div>/
+		<div class="project-navigation-board" (click)="navigateToProject()">
+			{{ project.name }}
+		</div>
+		
+	</div>
+
+	<div class="project-header">
+		<p class="project-title">{{ task.name }}</p>
+
+		<div class="project-actions">
+			<button mat-stroked-button class="action" type="submit" (click)="createSubTask()">
+				Create new subtask
+			</button>
+
+			<button mat-stroked-button class="action" type="submit" (click)="editTask()">
+				Edit task
+			</button>
+			<button mat-stroked-button class="action" type="submit" (click)="deleteTask()">
+				Delete task
+			</button>
+		</div>
+	</div>
+</div>

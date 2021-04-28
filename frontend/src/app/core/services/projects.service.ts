@@ -39,7 +39,6 @@ export class ProjectsService {
       ...project,
       date_updated: timestamp
     };
-    console.log('service updated pr: ', updatedProject);
     
     await this._firestoreService.updateDocument(`/projects/${projectId}`, updatedProject);
   }

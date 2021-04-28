@@ -5,6 +5,7 @@ export interface Task {
     id?: string;
     name: string;
     description?: string;
+    project_id: string;
     creator_id?: string;
     assigned_user_id?: string;
     status: TaskStatus;

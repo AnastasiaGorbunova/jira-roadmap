@@ -15,13 +15,16 @@ export class TasksService {
     return this._firestoreService.getCollection<Task>(`/projects/${projectId}/tasks`, 'date_created');
   }
 
+  getTask(projectId: string, taskId: string): Observable<Task> {
+    return this._firestoreService.getDocument(`/projects/${projectId}/tasks/${taskId}`);
+  }
+
   async createTask(projectId: string, task: Task): Promise<void> {
-    console.log('create task service');
-    
     const timestamp = this._firestoreService.timestamp;
     const newTask = {
       ...task,
-      date_created: timestamp
+      date_created: timestamp,
+      project_id: projectId
     };
 
     await this._firestoreService.addDocument(`/projects/${projectId}/tasks`, newTask);

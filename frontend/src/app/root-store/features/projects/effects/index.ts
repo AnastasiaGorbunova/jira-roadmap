@@ -21,6 +21,7 @@ import { RouterStoreSelectors } from '@app/root-store/features/router';
 @Injectable()
 export class ProjectsEffects implements OnDestroy {
   private hasProjectsLoaded: boolean = false;
+  private hasProjectLoadedMap = {};
 
   public getProjects$ = createEffect(() =>
     this._actions$.pipe(
@@ -30,10 +31,8 @@ export class ProjectsEffects implements OnDestroy {
           untilDestroyed(this),
           map((projects) => {
             this.hasProjectsLoaded = true;
-            console.log('EFFECTS PROJECTS', projects);
             return ProjectsActions.getProjectsSuccess({ projects });
-          }
-          ), 
+        }),
           catchError((error) =>
             of(ProjectsActions.getProjectsFailed({ message: error.messages }))
           )
@@ -43,93 +42,78 @@ export class ProjectsEffects implements OnDestroy {
   );
 
   public getProject$ = createEffect(() =>
-  this._actions$.pipe(
-    ofType(ProjectsActions.getProject),
-
-    // TODO: get projectId here from router selector
-    filter(() => {
-      console.log('hasProjectsLoaded', this.hasProjectsLoaded);
-      return !this.hasProjectsLoaded;
-    }),
-    mergeMap(() =>
-    this._store$.pipe(
-      select(RouterStoreSelectors.selectedProjectId),
-      take(1)
+    this._actions$.pipe(
+      ofType(ProjectsActions.getProject),
+      switchMap(() =>
+        this._store$.pipe(
+          select(RouterStoreSelectors.selectedProjectId),
+          take(1)
+        ),
+      ),
+      filter((projectId: string) => {
+        return !this.hasProjectsLoaded && !this.hasProjectLoadedMap[projectId];
+      }),
+      mergeMap((projectId: string) => {
+        this.hasProjectLoadedMap[projectId] = true;
+        return this._projectsService.getProject(projectId).pipe(
+          untilDestroyed(this),
+          map((project) => ProjectsActions.getProjectSuccess({ project })),
+          catchError((error) =>
+            of(ProjectsActions.getProjectFailed({ message: error.messages }))
+          )
+        );
+      })
     )
-  ),
-    mergeMap((projectId: string) => {
-      console.log('projectId', projectId);
-      
-      return this._projectsService.getProject(projectId).pipe(
-        untilDestroyed(this),
-        map((project) => {
-          console.log('EFFECTS PROJECT ID', project);
-          return ProjectsActions.getProjectSuccess({ project });
-        }
-        ), 
-        catchError((error) =>
-          of(ProjectsActions.getProjectFailed({ message: error.messages }))
-        )
-      );
-    })
-  )
-);
+  );
 
   // TODO: check diff between switchMap and mergeMap
   public deleteProject$ = createEffect(() =>
-  this._actions$.pipe(
-    ofType(ProjectsActions.deleteProject),
-    switchMap(({ projectId }) => {
-      return from(this._projectsService.deleteProject(projectId)).pipe(
-        untilDestroyed(this),
-        map(() => {
-          return ProjectsActions.deleteProjectSuccess({ projectId })
-        }
-        ), 
-        catchError((error) =>
-          of(ProjectsActions.deleteProjectFailed({ message: error.messages }))
-        )
-      );
-    })
-  )
-);
+    this._actions$.pipe(
+      ofType(ProjectsActions.deleteProject),
+      switchMap(({ projectId }) => {
+        return from(this._projectsService.deleteProject(projectId)).pipe(
+          untilDestroyed(this),
+          map(() => ProjectsActions.deleteProjectSuccess({ projectId })),
+          catchError((error) =>
+            of(ProjectsActions.deleteProjectFailed({ message: error.messages }))
+          )
+        );
+      })
+    )
+  );
 
-public createProject$ = createEffect(() =>
-this._actions$.pipe(
-  ofType(ProjectsActions.createProject),
-  switchMap(({ newProject }) => {
-    return from(this._projectsService.createProject(newProject)).pipe(
-      untilDestroyed(this),
-      map(() => {
-        console.log('EFFECTS createProject', newProject);
-        return ProjectsActions.createProjectSuccess({ newProject })
-      }
-      ), 
-      catchError((error) =>
-        of(ProjectsActions.createProjectFailed({ message: error.messages }))
-      )
-    );
-  })
-)
-);
+  public createProject$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(ProjectsActions.createProject),
+      switchMap(({ newProject }) => {
+        return from(this._projectsService.createProject(newProject)).pipe(
+          untilDestroyed(this),
+          map(() => ProjectsActions.createProjectSuccess({ newProject })),
+          catchError((error) =>
+            of(ProjectsActions.createProjectFailed({ message: error.messages }))
+          )
+        );
+      })
+    )
+  );
 
-public updateProject$ = createEffect(() =>
-this._actions$.pipe(
-  ofType(ProjectsActions.updateProject),
-  switchMap(({ projectId, updatedProject }) => {
-    return from(this._projectsService.updateProject(projectId, updatedProject)).pipe(
-      untilDestroyed(this),
-      map(() => {
-        return ProjectsActions.updateProjectSuccess({ updatedProject })
-      }
-      ), 
-      catchError((error) =>
-        of(ProjectsActions.updateProjectFailed({ message: error.messages }))
-      )
-    );
-  })
-)
-);
+  public updateProject$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(ProjectsActions.updateProject),
+      switchMap(({ projectId, updatedProject }) => {
+        return from(this._projectsService.updateProject(projectId, updatedProject)).pipe(
+          untilDestroyed(this),
+          map(() => {
+            return ProjectsActions.updateProjectSuccess({ updatedProject })
+          }
+          ),
+          catchError((error) =>
+            of(ProjectsActions.updateProjectFailed({ message: error.messages }))
+          )
+        );
+      })
+    )
+  );
 
 
 
@@ -137,7 +121,7 @@ this._actions$.pipe(
     private _actions$: Actions,
     private _projectsService: ProjectsService,
     private _store$: Store<AppState>
-  ) {}
+  ) { }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }

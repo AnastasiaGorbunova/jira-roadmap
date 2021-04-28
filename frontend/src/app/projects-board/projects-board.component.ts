@@ -9,20 +9,14 @@ import { preventKeyValueOrder, trackById } from '@app/core/utils';
   styleUrls: ['./projects-board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectsBoardComponent implements OnInit {
+export class ProjectsBoardComponent {
   @Input() projects: Project[];
   @Output() onCreateProject = new EventEmitter<void>();
 
   preventKeyValueOrder = preventKeyValueOrder;
   trackById = trackById;
-  // TODO: add track by id
 
   createProject(): void {
-    console.log('emit event');
-    
     this.onCreateProject.emit();
-  }
-
-  ngOnInit() {
   }
 }

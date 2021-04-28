@@ -16,7 +16,7 @@
 			<button mat-stroked-button class="action" type="submit" (click)="editProject()">
 				Edit project
 			</button>
-			<button mat-stroked-button class="action" type="submit" (click)="auth()">
+			<button mat-stroked-button class="action" type="submit" (click)="deleteProject()">
 				Delete project
 			</button>
 		</div>
@@ -30,7 +30,7 @@
 
 			<div class="column-tasks">
 				<ng-container *ngFor="let task of tasksStatusMap[status]; trackBy: trackById">
-					<app-task-card-container [task]="task"></app-task-card-container>
+					<app-task-card-container [task]="task" [projectId]="project.id"></app-task-card-container>
 				</ng-container>
 			</div>
 		</div>

@@ -22,7 +22,6 @@ import { TasksStateModule } from './features/tasks';
     StoreModule.forRoot(
       {},
       {
-        // TODO: think about removing it
         runtimeChecks: {
           strictStateImmutability: false,
           strictActionImmutability: false,

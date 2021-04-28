@@ -23,11 +23,26 @@ const _tasksReducer = createReducer(
     loading: true
   })),
   on(TasksActions.getTasksSuccess, (state, { projectId, tasks }) => ({
+      ...state,
+      tasks: { ...state.tasks, [projectId]: tasks },
+      errorMessage: null
+    })
+  ),
+  on(TasksActions.getTasksFailure, (state, { message }) => ({
     ...state,
-    tasks: { ...state.tasks, [projectId]: tasks },
+    loading: false,
+    errorMessage: message
+  })),
+  on(TasksActions.getTask, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(TasksActions.getTaskSuccess, (state, { projectId, task }) => ({
+    ...state,
+    tasks: { [projectId]: [task] },
     errorMessage: null
   })),
-  on(TasksActions.createTaskFailure, (state, { message }) => ({
+  on(TasksActions.getTaskFailure, (state, { message }) => ({
     ...state,
     loading: false,
     errorMessage: message
