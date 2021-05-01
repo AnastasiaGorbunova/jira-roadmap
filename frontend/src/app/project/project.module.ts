@@ -9,12 +9,15 @@ import { TaskCardComponent } from '@app/project/task-card/task-card.component';
 import { TaskCardContainerComponent } from '@app/project/task-card/task-card-container.component';
 import { TaskComponent } from '@app/project/task/task.component';
 import { TaskContainerComponent } from '@app/project/task/task-container.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    ProjectRoutingModule
+    ProjectRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [
     ProjectComponent, 

@@ -13,6 +13,7 @@ import {
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import * as ProjectsActions from '@app/root-store/features/projects/actions';
+import * as RouterActions from '@app/root-store/features/router/actions';
 import { ProjectsService } from '@app/core/services/projects.service';
 import { AppState } from '@app/root-store/state';
 import { RouterStoreSelectors } from '@app/root-store/features/router';
@@ -73,7 +74,7 @@ export class ProjectsEffects implements OnDestroy {
       switchMap(({ projectId }) => {
         return from(this._projectsService.deleteProject(projectId)).pipe(
           untilDestroyed(this),
-          map(() => ProjectsActions.deleteProjectSuccess({ projectId })),
+          mergeMap(() => of(ProjectsActions.deleteProjectSuccess(), RouterActions.navigateProjectsBoard())),
           catchError((error) =>
             of(ProjectsActions.deleteProjectFailed({ message: error.messages }))
           )
@@ -103,10 +104,7 @@ export class ProjectsEffects implements OnDestroy {
       switchMap(({ projectId, updatedProject }) => {
         return from(this._projectsService.updateProject(projectId, updatedProject)).pipe(
           untilDestroyed(this),
-          map(() => {
-            return ProjectsActions.updateProjectSuccess({ updatedProject })
-          }
-          ),
+          map(() => ProjectsActions.updateProjectSuccess()),
           catchError((error) =>
             of(ProjectsActions.updateProjectFailed({ message: error.messages }))
           )
@@ -114,8 +112,6 @@ export class ProjectsEffects implements OnDestroy {
       })
     )
   );
-
-
 
   constructor(
     private _actions$: Actions,

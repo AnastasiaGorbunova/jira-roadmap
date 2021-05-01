@@ -45,9 +45,9 @@ export class CreateTaskDialogComponent implements OnInit {
   }
 
   private initializeTaskForm(): void {
-    const { projectName, description } = this.data;
+    const { taskName, description } = this.data;
     this.taskForm = new FormGroup({
-      name: new FormControl(projectName || '', {
+      name: new FormControl(taskName || '', {
         validators: [emptyFieldValidator, Validators.maxLength(50)]
       }),
       description: new FormControl(description || ''),

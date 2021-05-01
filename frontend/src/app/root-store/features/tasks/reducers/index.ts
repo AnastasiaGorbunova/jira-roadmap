@@ -47,6 +47,34 @@ const _tasksReducer = createReducer(
     loading: false,
     errorMessage: message
   })),
+  on(TasksActions.deleteTask, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(TasksActions.deleteTaskSuccess, (state) => ({
+    ...state,
+    loading: false,
+    errorMessage: null
+  })),
+  on(TasksActions.deleteTaskFailure, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
+  on(TasksActions.updateTask, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(TasksActions.updateTaskSuccess, (state) => ({
+    ...state,
+    loading: false,
+    errorMessage: null
+  })),
+  on(TasksActions.updateTaskFailure, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  }))
 );
 
 export function tasksReducer(state: State | undefined, action: Action) {

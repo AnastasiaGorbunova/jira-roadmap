@@ -29,4 +29,18 @@ export class TasksService {
 
     await this._firestoreService.addDocument(`/projects/${projectId}/tasks`, newTask);
   }
+
+  async updateTask(task: Task): Promise<void> {
+    const timestamp = this._firestoreService.timestamp;
+    const updatedTask = {
+      ...task,
+      date_updated: timestamp
+    };
+    
+    await this._firestoreService.update(`/projects/${task.project_id}/tasks/${task.id}`, updatedTask);
+  }
+
+  deleteTask(projectId: string, taskId: string): Promise<void> {
+    return this._firestoreService.deleteDocument(`/projects/${projectId}/tasks`, taskId);
+  }
 }

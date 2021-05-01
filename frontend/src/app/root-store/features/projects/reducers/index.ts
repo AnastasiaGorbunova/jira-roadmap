@@ -37,10 +37,9 @@ const _projectsReducer = createReducer(
     ...state,
     loading: true
   })),
-  on(ProjectsActions.deleteProjectSuccess, (state, { projectId }) => ({
-    // TODO: find project and reduce it
+  on(ProjectsActions.deleteProjectSuccess, (state) => ({
     ...state,
-    // projects: state.projects.filter(project => project.id !== projectId),
+    loading: false,
     errorMessage: null
   })),
   on(ProjectsActions.deleteProjectFailed, (state, { message }) => ({
@@ -66,9 +65,8 @@ const _projectsReducer = createReducer(
     ...state,
     loading: true
   })),
-  on(ProjectsActions.updateProjectSuccess, (state, { updatedProject }) => ({
+  on(ProjectsActions.updateProjectSuccess, (state) => ({
     ...state,
-    // projects: [ ...state.projects, updatedProject ],
     errorMessage: null
   })),
   on(ProjectsActions.updateProjectFailed, (state, { message }) => ({

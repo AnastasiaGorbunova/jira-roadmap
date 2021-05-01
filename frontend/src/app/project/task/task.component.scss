@@ -11,4 +11,45 @@
     border-radius: $border-radius;
     border: 1px solid $color-border-secondary-light;
     box-sizing: border-box;
+
+    &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &-title {
+        font-size: 28px;
+    }
+
+    &-actions {
+        display: flex;
+        margin-top: 16px;
+
+        .action:not(:last-child) {
+            margin-right: 16px;
+        }
+    }
+
+    &-navigation {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        white-space: nowrap;
+        cursor: pointer;
+
+        &-board {
+            display: flex;
+            align-items: center;
+            margin-right: 8px;
+        }
+
+        &-project {
+            margin-left: 8px;
+        }
+
+        .back-icon {
+            padding-right: 8px;
+        }
+    }
 }

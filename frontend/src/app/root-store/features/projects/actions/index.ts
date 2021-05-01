@@ -66,8 +66,7 @@ export const deleteProject = createAction(
 );
 
 export const deleteProjectSuccess = createAction(
-	projectsActionTypes.DELETE_PROJECT_SUCCESS,
-	props<{ projectId: string }>()
+	projectsActionTypes.DELETE_PROJECT_SUCCESS
 );
 
 export const deleteProjectFailed = createAction(
@@ -96,8 +95,7 @@ export const updateProject = createAction(
 );
 
 export const updateProjectSuccess = createAction(
-	projectsActionTypes.UPDATE_PROJECT_SUCCESS,
-	props<{ updatedProject: Project }>()
+	projectsActionTypes.UPDATE_PROJECT_SUCCESS
 );
 
 export const updateProjectFailed = createAction(

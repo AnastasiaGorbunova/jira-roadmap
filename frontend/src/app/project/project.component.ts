@@ -15,6 +15,7 @@ export class ProjectComponent {
   @Input() tasksStatusMap: TaskStatusMap;
   @Output() onCreateTask = new EventEmitter<string>();
   @Output() onEditProject = new EventEmitter<Project>();
+  @Output() onDeleteProject = new EventEmitter<string>();
   @Output() onNavigateToBoard = new EventEmitter<void>();
 
   trackById = trackById;
@@ -33,7 +34,7 @@ export class ProjectComponent {
   }
 
   deleteProject(): void {
-    // TODO: use deletion from projects board and move it to service
+    this.onDeleteProject.emit(this.project.id);
   }
 
   navigateToBoard(): void {

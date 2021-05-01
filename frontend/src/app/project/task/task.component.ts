@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Form, FormControl } from '@angular/forms';
 
 import { Project } from '@app/core/models/project.model';
-import { Task } from '@app/core/models/task.model';
+import { Task, tasksStatuses, taskStatusesSet } from '@app/core/models/task.model';
 
 @Component({
   selector: 'app-task',
@@ -9,16 +10,23 @@ import { Task } from '@app/core/models/task.model';
   styleUrls: ['./task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskComponent {
+export class TaskComponent implements OnChanges {
   @Input() task: Task;
   @Input() project: Project;
   @Output() onNavigateToBoard = new EventEmitter<void>();
   @Output() onNavigateToProject = new EventEmitter<string>();
-  @Output() onCreateSubTask = new EventEmitter<string>();
+  @Output() onCreateSubTask = new EventEmitter<{ projectId: string, taskId: string }>();
   @Output() onEditTask = new EventEmitter<Task>();
-  @Output() onDeleteTask = new EventEmitter<string>();
+  @Output() onDeleteTask = new EventEmitter<{ projectId: string, taskId: string }>();
+  @Output() onUpdateTaskStatus = new EventEmitter<Task>();
 
-  constructor() { }
+  taskStatus: FormControl;
+  tasksStatuses = tasksStatuses;
+  taskStatusesSet = taskStatusesSet;
+
+  constructor() {
+    this.taskStatus = new FormControl('');
+   }
 
   navigateToBoard(): void {
     this.onNavigateToBoard.emit();
@@ -29,7 +37,11 @@ export class TaskComponent {
   }
 
   createSubTask():void {
-    this.onCreateSubTask.emit(this.task.id);
+    const data = {
+      projectId: this.project.id,
+      taskId: this.task.id
+    }
+    this.onCreateSubTask.emit(data);
   }
 
   editTask(): void {
@@ -37,6 +49,32 @@ export class TaskComponent {
   }
 
   deleteTask(): void {
-    this.onDeleteTask.emit(this.task.id);
+    const data = {
+      projectId: this.project.id,
+      taskId: this.task.id
+    };
+
+    this.onDeleteTask.emit(data);
+  }
+
+  updateTaskStatus(value: string): void {
+    const updatedTask = {
+      ...this.task,
+      status: value
+    } as Task;
+    
+    this.onUpdateTaskStatus.emit(updatedTask);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.task && this.task) {
+      this.taskStatus.setValue(this.task.status);
+    }
+  }
+
+  compareObjects(o1: any, o2: any): boolean {
+    console.log(o1, o2);
+    
+    return o1.name === o2.name && o1.id === o2.id;
   }
 }

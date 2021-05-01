@@ -1,8 +1,8 @@
 <!-- TODO: add loader while loading project -->
 <div *ngIf="project" class="project">
 	<div class="project-navigation" (click)="navigateToBoard()">
-			<mat-icon class="back-icon">arrow_back</mat-icon>
-			Go to projects board
+		<mat-icon class="back-icon">arrow_back</mat-icon>
+		Go to projects board
 	</div>
 
 	<div class="project-header">
@@ -21,7 +21,7 @@
 			</button>
 		</div>
 	</div>
-	
+
 	<p *ngIf="project.description" class="project-description">{{ project.description }}</p>
 
 	<div class="project-tasks-table">
@@ -34,5 +34,5 @@
 				</ng-container>
 			</div>
 		</div>
-
 	</div>
+</div>

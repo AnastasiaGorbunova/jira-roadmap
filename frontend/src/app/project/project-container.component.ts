@@ -10,6 +10,7 @@ import { RouterStoreActions } from '@app/root-store/features/router';
 import { TasksStoreActions, TasksStoreSelectors } from '@app/root-store/features/tasks';
 import { AppState } from '@app/root-store/state';
 import { createConfirmBtnText, createItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
+import { ProjectsService } from '@app/core/services/projects.service';
 
 @Component({
   selector: 'app-project-container',
@@ -22,13 +23,18 @@ export class ProjectContainerComponent implements OnInit {
 
   constructor(
     private _store$: Store<AppState>,
-    private _dialogService: DialogService
+    private _dialogService: DialogService,
+    private _projectsService: ProjectsService
   ) { }
 
   createTask(projectId: string, task: Task): void {
     task.status = TaskStatus.ToDo;
     
     this._store$.dispatch(TasksStoreActions.createTask({ projectId, task }))
+  }
+
+  deleteProject(projectId: string): void {
+    this._projectsService.openDeleteProjectDialog(projectId);
   }
 
   openCreateTaskModal(projectId: string): void {

@@ -4,5 +4,9 @@
 		[project]="data.project"
 		(onNavigateToBoard)="navigateToBoard()"
 		(onNavigateToProject)="navigateToProject($event)"
+		(onCreateSubTask)="openCreateSubTaskModal($event.projectId, $event.taskId)"
+		(onEditTask)="openEditTaskDialog($event)"
+		(onDeleteTask)="openDeleteTaskDialog($event.projectId, $event.taskId)"
+		(onUpdateTaskStatus)="updateTask($event)"
 	></app-task>
 </ng-container>
