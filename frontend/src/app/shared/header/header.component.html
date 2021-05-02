@@ -1,0 +1,14 @@
+<div class="header">
+	<div class="header-logo" (click)="navigateToBoard()">Jira</div>
+
+	<div class="header-user">{{ displayName }}</div>
+
+	<button
+		mat-stroked-button
+		class="header-action"
+		type="submit"
+		(click)="signOut()"
+	>
+		Sign Out
+	</button>
+</div>

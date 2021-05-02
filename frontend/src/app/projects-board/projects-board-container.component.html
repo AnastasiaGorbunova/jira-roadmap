@@ -1,0 +1,6 @@
+<ng-container *ngIf="{ projects: (projects$ | async)} as data">
+  <app-projects-board
+    [projects]="data.projects"
+    (onCreateProject)="openCreateProjectDialog()"
+  ></app-projects-board>  
+</ng-container>

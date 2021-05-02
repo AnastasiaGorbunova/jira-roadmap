@@ -1,0 +1,40 @@
+@import "scss/theme/variables";
+
+.login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 438px;
+
+  .title {
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  .login-button {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    min-height: 38px;
+  }
+
+  .input-field {
+    display: block;
+    margin-bottom: 12px;
+  }
+  
+  .cred-error {
+    text-align: center;
+    margin-top: 24px;
+    color: $color-text-error;
+    min-height: 16px;
+  }
+}
+
+
+// to hide safari autofill
+input::-webkit-credentials-auto-fill-button {
+  margin: 0 !important;
+  width: 0 !important;
+}

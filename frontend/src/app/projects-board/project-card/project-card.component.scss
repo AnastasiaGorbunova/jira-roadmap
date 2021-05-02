@@ -1,0 +1,40 @@
+@import "scss/theme/variables";
+
+.project-card {
+  position: relative;
+  width: 250px;
+  height: 200px;
+  padding: 16px;
+  margin: 16px 0 16px 0;
+  background-color: $color-bg-primary-2;
+  box-shadow: $color-box-shadow-primary;
+	border-radius: $border-radius;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:hover {
+    
+    .remove-icon {
+      display: block;
+    }
+  }
+
+  &:not(last-child) {
+    margin-right: 32px;
+  }
+
+  &-title {
+    text-overflow: ellipsis;
+    max-width: 200px;
+    white-space: wrap;
+    overflow: hidden;
+  }
+
+  .remove-icon {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    color: $color-secondary-dark;
+    display: none;
+  }
+}

@@ -1,0 +1,38 @@
+<!-- TODO: add loader while loading project -->
+<div *ngIf="project" class="project">
+	<div class="project-navigation" (click)="navigateToBoard()">
+		<mat-icon class="back-icon">arrow_back</mat-icon>
+		Go to projects board
+	</div>
+
+	<div class="project-header">
+		<p class="project-title">{{ project.name }}</p>
+
+		<div class="project-actions">
+			<button mat-stroked-button class="action" type="submit" (click)="createTask()">
+				Create new task
+			</button>
+
+			<button mat-stroked-button class="action" type="submit" (click)="editProject()">
+				Edit project
+			</button>
+			<button mat-stroked-button class="action" type="submit" (click)="deleteProject()">
+				Delete project
+			</button>
+		</div>
+	</div>
+
+	<p *ngIf="project.description" class="project-description">{{ project.description }}</p>
+
+	<div class="project-tasks-table">
+		<div *ngFor="let status of tasksStatuses; trackBy: trackById" class="column">
+			<div class="column-name">{{ taskStatusesSet[status] }}</div>
+
+			<div class="column-tasks">
+				<ng-container *ngFor="let task of tasksStatusMap[status]; trackBy: trackById">
+					<app-task-card-container [task]="task" [projectId]="project.id"></app-task-card-container>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</div>
