@@ -37,7 +37,8 @@ const _authReducer = createReducer(
     ...state,
     loading: false,
     currentUser: undefined,
-    isAuthenticated: null
+    isAuthenticated: null,
+    errorMessage: null
   })),
   on(AuthActions.setIsUserAuthenticated, (state, { isAuthenticated }) => ({
     ...state,

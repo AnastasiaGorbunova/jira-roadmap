@@ -1,12 +1,19 @@
-<ng-container *ngIf="{ task: (task$ | async), project: (project$ | async) } as data">
+<ng-container 
+	*ngIf="{ 
+		task: (task$ | async), 
+		project: (project$ | async),
+		users: (users$ | async)
+	} as data"
+>
 	<app-task
 		[task]="data.task"
 		[project]="data.project"
+		[users]="data.users"
 		(onNavigateToBoard)="navigateToBoard()"
 		(onNavigateToProject)="navigateToProject($event)"
 		(onCreateSubTask)="openCreateSubTaskModal($event.projectId, $event.taskId)"
 		(onEditTask)="openEditTaskDialog($event)"
 		(onDeleteTask)="openDeleteTaskDialog($event.projectId, $event.taskId)"
-		(onUpdateTaskStatus)="updateTask($event)"
+		(onUpdateTaskFields)="updateTask($event)"
 	></app-task>
 </ng-container>

@@ -11,6 +11,8 @@ import { RouterStoreActions } from '@app/root-store/features/router';
 import { DialogService } from '@app/core/services/dialog.service';
 import * as TasksActions from '@app/root-store/features/tasks/actions';
 import { deleteConfirmBtnText, deleteItemText, deleteItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
+import { UsersStoreSelectors } from '@app/root-store/features/users';
+import { User } from '@app/core/models/user.model';
 
 @Component({
   selector: 'app-task-container',
@@ -20,6 +22,7 @@ import { deleteConfirmBtnText, deleteItemText, deleteItemTitle, editItemTitle, s
 export class TaskContainerComponent implements OnInit {
   task$: Observable<Task>;
   project$: Observable<Project>;
+  users$: Observable<User[]>;
 
   constructor(
     private _store$: Store<AppState>,
@@ -48,6 +51,10 @@ export class TaskContainerComponent implements OnInit {
       }
     });
   }
+  
+  updateTask(updatedTask: Task): void {
+    this._store$.dispatch(TasksActions.updateTask({ updatedTask }));
+  }
 
   openEditTaskDialog(task: Task): void {
     const { name, description, id } = task;
@@ -68,14 +75,11 @@ export class TaskContainerComponent implements OnInit {
     this._store$.dispatch(TasksStoreActions.getTask());
 
     this.task$ = this._store$.pipe(select(TasksStoreSelectors.selectedTaskSelector));
-    this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject))
+    this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
+    this.users$ = this._store$.pipe(select(UsersStoreSelectors.selectUsers));
   }
 
   private deleteTask(projectId: string, taskId: string): void {
     this._store$.dispatch(TasksActions.deleteTask({ projectId, taskId }));
-  }
-
-  updateTask(updatedTask: Task): void {
-    this._store$.dispatch(TasksActions.updateTask({ updatedTask }));
   }
 }

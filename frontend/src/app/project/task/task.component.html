@@ -13,17 +13,6 @@
 		<p class="task-title">{{ task.name }}</p>
 
 		<div class="task-actions">
-			<!-- 
-			<mat-form-field appearance="fill">
-				<mat-label>Assignee</mat-label>
-				<mat-select type="text" [(ngModel)]="selectedCar" name="car">
-					<mat-option value="unassigned"></mat-option>
-					<mat-option *ngFor="let car of cars" [value]="car.value">
-						{{car.viewValue}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field> -->
-
 			<button mat-stroked-button class="action" type="submit" (click)="createSubTask()">
 				Create new subtask
 			</button>
@@ -31,6 +20,7 @@
 			<button mat-stroked-button class="action" type="submit" (click)="editTask()">
 				Edit task
 			</button>
+
 			<button mat-stroked-button class="action" type="submit" (click)="deleteTask()">
 				Delete task
 			</button>
@@ -38,10 +28,23 @@
 	</div>
 
 	<mat-form-field appearance="outline">
+		<mat-label>Assignee</mat-label>
+		<mat-select [formControl]="taskAssignee"
+			(selectionChange)="updateTaskField('assignee_id', $event.value)">
+			<mat-option value="unassigned">
+				unassigned
+			</mat-option>
+			<mat-option *ngFor="let user of users" value="{{ user.id }}">
+				{{ user.first_name }} {{ user.last_name }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="outline">
 		<mat-label>Status</mat-label>
 		<mat-select [formControl]="taskStatus"
-			(selectionChange)="updateTaskStatus($event.value)">
-			<mat-option *ngFor="let status of tasksStatuses" value="{{status}}">
+			(selectionChange)="updateTaskField('status', $event.value)">
+			<mat-option *ngFor="let status of tasksStatuses" [value]="status">
 				{{ taskStatusesSet[status] }}
 			</mat-option>
 		</mat-select>

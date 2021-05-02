@@ -43,7 +43,6 @@ export class AuthEffects implements OnDestroy {
           this._store$.dispatch(RouterActions.navigateProjectsBoard());
         })
       ),
-      // TODO: learn more about it
       { dispatch: false }
   );
 
@@ -53,6 +52,8 @@ export class AuthEffects implements OnDestroy {
     switchMap(({ authData }) => {
 
       return from(this._authService.signIn(authData)).pipe(
+        untilDestroyed(this),
+
         map(() => AuthActions.signInSuccess()),
         catchError((error: Error) =>
           of(AuthActions.signInFailure({ message: error.message }))
@@ -67,6 +68,7 @@ export class AuthEffects implements OnDestroy {
     ofType(AuthActions.signOut),
     switchMap(() => {
       return from(this._authService.signOut()).pipe(
+        untilDestroyed(this),
         mergeMap(() => {
           return of(
             AuthActions.setIsUserAuthenticated({ isAuthenticated: false }),

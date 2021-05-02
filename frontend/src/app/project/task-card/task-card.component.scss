@@ -11,4 +11,9 @@
     border: 1px solid $color-border-secondary-light;
     box-sizing: border-box;
     cursor: pointer;
+
+    &-assignee {
+        color: $color-text-dark-secondary;
+        font-size: 14px;
+    }
 }

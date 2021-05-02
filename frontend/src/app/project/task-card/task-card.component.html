@@ -1,3 +1,4 @@
 <div *ngIf="task" class="task" (click)="navigateToTask()">
-    {{ task.name }}
+    <p class="task-name">{{ task.name }}</p>
+    <p class="task-assignee">{{ taskAssignee }}</p>
 </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 
 import { User } from '@app/core/models/user.model';
 import { FirestoreService } from '@app/core/services/firestore.service';
@@ -51,8 +51,8 @@ constructor(
     }
   }
 
-  // TODO: add type
   getFirebaseUser(): Observable<any> {
+    
     return this.afAuth.user;
   }
 
@@ -64,7 +64,8 @@ constructor(
   getCurrentUser(): Observable<User> {
     return this.getFirebaseUser().pipe(
       mergeMap((user) => {
-        return this.firestoreService.getDocumentById('/users', user.uid) as Observable<User>;
+        const userId = user?.uid;
+        return this.firestoreService.getDocumentById('/users', user?.uid) as Observable<User>;
       })
     )
   }

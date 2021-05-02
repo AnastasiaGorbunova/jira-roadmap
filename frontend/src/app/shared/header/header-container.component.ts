@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { User } from '@app/core/models/user.model';
 import { AuthService } from '@app/core/services/auth.service';
-import { AuthStoreActions } from '@app/root-store/features/auth';
+import { AuthStoreActions, AuthStoreSelectors } from '@app/root-store/features/auth';
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { AppState } from '@app/root-store/state';
 
@@ -17,11 +17,9 @@ export class HeaderContainerComponent implements OnInit {
   currentUser$: Observable<User>
 
   constructor(
-    private _authService: AuthService,
     private _store$: Store<AppState>
   ) { }
 
-  
   signOutUser(): void {
     this._store$.dispatch(AuthStoreActions.signOut());
   }
@@ -31,6 +29,6 @@ export class HeaderContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentUser$ = this._authService.getCurrentUser();
+    this.currentUser$ = this._store$.pipe(select(AuthStoreSelectors.currentUser));
   }
 }

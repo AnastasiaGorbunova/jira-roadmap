@@ -7,7 +7,7 @@ export interface Task {
     description?: string;
     project_id: string;
     creator_id?: string;
-    assigned_user_id?: string;
+    assignee_id?: string;
     status: TaskStatus;
 	date_created?: firebase.firestore.Timestamp;
 	date_updated?: firebase.firestore.Timestamp;

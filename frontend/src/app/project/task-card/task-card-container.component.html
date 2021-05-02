@@ -1,4 +1,5 @@
 <app-task-card 
     [task]="task"
+    [taskAssignee]="taskAssignee$ | async"
     (onNavigateToTask)="navigateToTask($event)"
 ></app-task-card>

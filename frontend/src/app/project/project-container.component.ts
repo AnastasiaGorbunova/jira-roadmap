@@ -11,6 +11,9 @@ import { TasksStoreActions, TasksStoreSelectors } from '@app/root-store/features
 import { AppState } from '@app/root-store/state';
 import { createConfirmBtnText, createItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
 import { ProjectsService } from '@app/core/services/projects.service';
+import { AuthStoreSelectors } from '@app/root-store/features/auth';
+import { take } from 'rxjs/operators';
+import { UsersStoreActions } from '@app/root-store/features/users';
 
 @Component({
   selector: 'app-project-container',
@@ -26,12 +29,6 @@ export class ProjectContainerComponent implements OnInit {
     private _dialogService: DialogService,
     private _projectsService: ProjectsService
   ) { }
-
-  createTask(projectId: string, task: Task): void {
-    task.status = TaskStatus.ToDo;
-    
-    this._store$.dispatch(TasksStoreActions.createTask({ projectId, task }))
-  }
 
   deleteProject(projectId: string): void {
     this._projectsService.openDeleteProjectDialog(projectId);
@@ -56,7 +53,7 @@ export class ProjectContainerComponent implements OnInit {
       projectName: name,
       description: description,
       handleConfirm: (updatedData: Project) => {
-          this.updateProject(project, updatedData);
+        this.updateProject(project, updatedData);
       }
     });
   }
@@ -73,9 +70,20 @@ export class ProjectContainerComponent implements OnInit {
     this.tasksStatusMap$ = this._store$.pipe(select(TasksStoreSelectors.tasksStatusMapSelector));
   }
 
+  private async createTask(projectId: string, task: Task): Promise<void> {
+    const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserId))
+      .pipe(take(1))
+      .toPromise();
+
+    task.creator_id = currentUserId;
+    task.status = TaskStatus.ToDo;
+
+    this._store$.dispatch(TasksStoreActions.createTask({ projectId, task }))
+  }
+
   private updateProject(project: Project, updatedData: Project): void {
     const updatedProject = { ...project, ...updatedData };
 
     this._store$.dispatch(ProjectsStoreActions.updateProject({ projectId: project.id, updatedProject }));
- }
+  }
 }

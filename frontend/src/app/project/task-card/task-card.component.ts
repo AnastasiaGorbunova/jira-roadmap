@@ -9,6 +9,7 @@ import { Task } from 'src/app/core/models/task.model';
 })
 export class TaskCardComponent {
   @Input() task: Task;
+  @Input() taskAssignee: string;
   @Output() onNavigateToTask = new EventEmitter<string>();
   
   constructor() { }
