@@ -5,14 +5,16 @@ import { Observable } from 'rxjs';
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { AppState } from '@app/root-store/state';
 import { TasksStoreActions, TasksStoreSelectors } from '@app/root-store/features/tasks';
-import { Task } from '@app/core/models/task.model';
+import { SubTask, Task, TaskStatus } from '@app/core/models/task.model';
 import { Project } from '@app/core/models/project.model';
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { DialogService } from '@app/core/services/dialog.service';
 import * as TasksActions from '@app/root-store/features/tasks/actions';
-import { deleteConfirmBtnText, deleteItemText, deleteItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
+import { createConfirmBtnText, createItemTitle, deleteConfirmBtnText, deleteItemText, deleteItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
 import { UsersStoreSelectors } from '@app/root-store/features/users';
 import { User } from '@app/core/models/user.model';
+import { AuthStoreSelectors } from '@app/root-store/features/auth';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-task-container',
@@ -38,7 +40,13 @@ export class TaskContainerComponent implements OnInit {
   }
 
   openCreateSubTaskModal(projectId: string, taskId: string): void {
-    // TODO: create sub task modal
+    this._dialogService.open('CreateTaskDialogComponent', {
+      title: createItemTitle('subtask'),
+      confirmBtnText: createConfirmBtnText,
+      handleConfirm: (subtask: SubTask) => {
+        this.createSubTask({ ...subtask, project_id: projectId, task_id: taskId });
+      }
+    });
   }
 
   openDeleteTaskDialog(projectId: string, taskId: string): void {
@@ -51,7 +59,7 @@ export class TaskContainerComponent implements OnInit {
       }
     });
   }
-  
+
   updateTask(updatedTask: Task): void {
     this._store$.dispatch(TasksActions.updateTask({ updatedTask }));
   }
@@ -65,7 +73,7 @@ export class TaskContainerComponent implements OnInit {
       taskName: name,
       description: description,
       handleConfirm: (updatedData: Project) => {
-          this.updateTask({ ...task, ...updatedData });
+        this.updateTask({ ...task, ...updatedData });
       }
     });
   }
@@ -77,6 +85,20 @@ export class TaskContainerComponent implements OnInit {
     this.task$ = this._store$.pipe(select(TasksStoreSelectors.selectedTaskSelector));
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
     this.users$ = this._store$.pipe(select(UsersStoreSelectors.selectUsers));
+  }
+
+  private async createSubTask(newSubtask: SubTask): Promise<void> {
+    const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserId))
+      .pipe(take(1))
+      .toPromise();
+
+    const subtask = { 
+      ...newSubtask, 
+      creator_id: currentUserId,
+      status: TaskStatus.ToDo
+    };
+
+    this._store$.dispatch(TasksActions.createSubTask({ subtask }));
   }
 
   private deleteTask(projectId: string, taskId: string): void {

@@ -45,10 +45,41 @@
 
     &-tasks-table {
         display: flex;
+        flex-direction: column;
         width: 100%;
-        justify-content: space-between;
         border-radius: 8px;
         border: 1px solid $color-border-secondary-light;
+
+        .header {
+            display: flex;
+            border-bottom: 2px solid $color-border-secondary-light;
+        }
+
+        .status {
+            display: flex;
+            flex-direction: column;
+            width: 33.33%;
+            background: $color-bg-secondary-lighter;
+
+            &-name {
+                text-align: center;
+            }
+        }
+
+        .task {
+            display: flex;
+            flex-direction: column;
+
+            &-header {
+                display: flex;
+                align-items: center;
+                padding: 8px 16px;
+            }
+            
+            &-subtasks {
+                display: flex;
+            }
+        }
 
         .column {
             display: flex;
@@ -66,10 +97,25 @@
                 border-bottom: 1px solid $color-border-secondary-light;
             }
 
-            &-tasks {
+            &-items {
                 display: flex;
                 flex-direction: column;
                 padding: 16px;
+
+                .item {
+                    display: flex;
+                    flex-direction: column;
+                    height: 150px;
+                    padding: 8px;
+                    background-color:  $color-bg-primary-2;
+                    border-radius: $border-radius;
+                    border-bottom: 1px solid $color-border-secondary-light;
+                    box-sizing: border-box;
+                    
+                    &:not(:last-child) {
+                        margin-bottom: 8px;
+                    }
+                }
             }
         }
     }

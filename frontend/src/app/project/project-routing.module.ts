@@ -7,7 +7,6 @@ import { TaskContainerComponent } from '@app/project/task/task-container.compone
 // TODO: add guards
 const projectRoutes: Routes = [
   {
-
     path: ':projectId',
     children: [
       {

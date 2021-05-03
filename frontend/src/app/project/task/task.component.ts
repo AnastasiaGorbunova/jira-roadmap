@@ -40,7 +40,7 @@ export class TaskComponent implements OnChanges {
     this.onNavigateToProject.emit(this.project.id);
   }
 
-  createSubTask():void {
+  createSubTask(): void {
     const data = {
       projectId: this.project.id,
       taskId: this.task.id

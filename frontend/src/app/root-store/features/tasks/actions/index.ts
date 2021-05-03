@@ -1,15 +1,21 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Task } from '@app/core/models/task.model';
+import { SubTask, Task } from '@app/core/models/task.model';
 import { createConstants } from '@app/root-store/features/utils';
 
 const typesNames = [
   'CREATE_TASK',
   'CREATE_TASK_SUCCESS',
   'CREATE_TASK_FAILED',
+  'CREATE_SUBTASK',
+  'CREATE_SUBTASK_SUCCESS',
+  'CREATE_SUBTASK_FAILED',
   'GET_TASKS',
   'GET_TASKS_SUCCESS',
   'GET_TASKS_FAILED',
+  'GET_SUBTASKS',
+  'GET_SUBTASKS_SUCCESS',
+  'GET_SUBTASKS_FAILED',
   'GET_TASK',
   'GET_TASK_SUCCESS',
   'GET_TASK_FAILED',
@@ -37,7 +43,7 @@ export const tasksActionTypes: TaskActionType = createConstants<TaskActionType>(
 
 export const createTask = createAction(
   tasksActionTypes.CREATE_TASK,
-  props<{ projectId: string, task: Task }>()
+  props<{ task: Task }>()
 );
 
 export const createTaskSuccess = createAction(
@@ -46,6 +52,20 @@ export const createTaskSuccess = createAction(
 
 export const createTaskFailure = createAction(
   tasksActionTypes.CREATE_TASK_FAILED,
+  props<{ message: string }>()
+);
+
+export const createSubTask = createAction(
+  tasksActionTypes.CREATE_SUBTASK,
+  props<{ subtask: SubTask }>()
+);
+
+export const createSubTaskSuccess = createAction(
+  tasksActionTypes.CREATE_SUBTASK_SUCCESS,
+);
+
+export const createSubTaskFailure = createAction(
+  tasksActionTypes.CREATE_SUBTASK_FAILED,
   props<{ message: string }>()
 );
 
@@ -60,6 +80,20 @@ export const getTasksSuccess = createAction(
 
 export const getTasksFailure = createAction(
   tasksActionTypes.GET_TASKS_FAILED,
+  props<{ message: string }>()
+);
+
+export const getSubTasks = createAction(
+  tasksActionTypes.GET_SUBTASKS
+);
+
+export const getSubTasksSuccess = createAction(
+  tasksActionTypes.GET_SUBTASKS_SUCCESS,
+  props<{ projectId: string, subtasks: SubTask[] }>()
+);
+
+export const getSubTasksFailure = createAction(
+  tasksActionTypes.GET_SUBTASKS_FAILED,
   props<{ message: string }>()
 );
 

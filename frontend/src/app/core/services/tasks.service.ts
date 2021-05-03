@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Task } from '@app/core/models/task.model';
+import { SubTask, Task } from '@app/core/models/task.model';
 import { FirestoreService } from '@app/core/services/firestore.service';
 
 @Injectable({
@@ -11,23 +11,38 @@ export class TasksService {
 
   constructor(private _firestoreService: FirestoreService) {}
 
-  getTasks(projectId: string): Observable<Task[]> {
-    return this._firestoreService.getCollection<Task>(`/projects/${projectId}/tasks`, 'date_created');
+  getTasksByProjectId(projectId: string): Observable<Task[]> {
+    return this._firestoreService.getDocumentsByProperty<Task>(`/tasks`, 'project_id', projectId);
+  }
+
+  getSubTasksByProjectId(projectId: string): Observable<SubTask[]> {
+    console.log('getSubTasksByProjectId');
+    
+    return this._firestoreService.getDocumentsByProperty<SubTask>(`/subtasks`, 'project_id', projectId);
   }
 
   getTask(projectId: string, taskId: string): Observable<Task> {
-    return this._firestoreService.getDocument(`/projects/${projectId}/tasks/${taskId}`);
+    return this._firestoreService.getDocument(`/tasks/${taskId}`);
   }
 
-  async createTask(projectId: string, task: Task): Promise<void> {
+  async createTask(task: Task): Promise<void> {
     const timestamp = this._firestoreService.timestamp;
     const newTask = {
       ...task,
       date_created: timestamp,
-      project_id: projectId
     };
 
-    await this._firestoreService.addDocument(`/projects/${projectId}/tasks`, newTask);
+    await this._firestoreService.addDocument('/tasks', newTask);
+  }
+
+  async createSubTask(newSubtask: SubTask): Promise<void> {
+    const timestamp = this._firestoreService.timestamp;
+    const subtask = {
+      ...newSubtask,
+      date_created: timestamp,
+    };
+
+    await this._firestoreService.addDocument('/subtasks', subtask);
   }
 
   async updateTask(task: Task): Promise<void> {

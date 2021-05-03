@@ -18,6 +18,19 @@ const _tasksReducer = createReducer(
     loading: false,
     errorMessage: message
   })),
+  on(TasksActions.createSubTask, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(TasksActions.createSubTaskSuccess, (state) => ({
+    ...state,
+    errorMessage: null
+  })),
+  on(TasksActions.createSubTaskFailure, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
   on(TasksActions.getTasks, (state) => ({
     ...state,
     loading: true
@@ -74,7 +87,22 @@ const _tasksReducer = createReducer(
     ...state,
     loading: false,
     errorMessage: message
-  }))
+  })),
+  on(TasksActions.getSubTasks, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(TasksActions.getSubTasksSuccess, (state, { projectId, subtasks }) => ({
+      ...state,
+      subtasks: { ...state.tasks, [projectId]: subtasks },
+      errorMessage: null
+    })
+  ),
+  on(TasksActions.getSubTasksFailure, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
 );
 
 export function tasksReducer(state: State | undefined, action: Action) {

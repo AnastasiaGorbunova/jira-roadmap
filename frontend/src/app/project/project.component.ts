@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { Project } from '@app/core/models/project.model';
-import { tasksStatuses, taskStatusesSet, TaskStatusMap } from '@app/core/models/task.model';
+import { SubTask, SubTaskStatusMap, Task, tasksStatuses, taskStatusesSet } from '@app/core/models/task.model';
 import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
@@ -12,7 +12,9 @@ import { preventKeyValueOrder, trackById } from '@app/core/utils';
 })
 export class ProjectComponent {
   @Input() project: Project;
-  @Input() tasksStatusMap: TaskStatusMap;
+  @Input() tasksIssueMap: { tasksWithSubtasks: Task[], otherIssues: { [status: string]: Task[] } };
+  // @Input() tasksStatusMap: TaskStatusMap;
+  @Input() subtasksStatusMap: SubTaskStatusMap;
   @Output() onCreateTask = new EventEmitter<string>();
   @Output() onEditProject = new EventEmitter<Project>();
   @Output() onDeleteProject = new EventEmitter<string>();
@@ -25,7 +27,17 @@ export class ProjectComponent {
 
   constructor() { }
 
-  createTask():void {
+  getSubtasks(taskId: string, status: string): SubTask[] {
+    return ((this.subtasksStatusMap || {})[taskId] || {})[status];
+  }
+
+  getOtherIssuesTasks(status: string): Task[] {
+    console.log('ITHER', (this.tasksIssueMap?.otherIssues || {})[status]);
+    
+    return (this.tasksIssueMap?.otherIssues || {})[status];
+  }
+
+  createTask(): void {
     this.onCreateTask.emit(this.project.id);
   }
 

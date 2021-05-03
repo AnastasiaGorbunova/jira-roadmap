@@ -21,14 +21,15 @@ import { RouterStoreSelectors } from '@app/root-store/features/router';
 @UntilDestroy()
 @Injectable()
 export class TasksEffects implements OnDestroy {
-  private hasTasksLoaded: boolean = false;
+  private hasTasksProjectIdMap = {};
+  private hasSubTasksProjectIdMap = {};
 
   public createTask$ = createEffect(() =>
     this._actions$.pipe(
       ofType(TasksActions.createTask),
-      switchMap(({ projectId, task }) => {
+      switchMap(({ task }) => {
 
-        return from(this._tasksService.createTask(projectId, task)).pipe(
+        return from(this._tasksService.createTask(task)).pipe(
           untilDestroyed(this),
           map(() => TasksActions.createTaskSuccess()),
           catchError((error) =>
@@ -39,6 +40,22 @@ export class TasksEffects implements OnDestroy {
     )
   );
 
+  public createSubTask$ = createEffect(() =>
+  this._actions$.pipe(
+    ofType(TasksActions.createSubTask),
+    switchMap(({ subtask }) => {
+
+      return from(this._tasksService.createSubTask(subtask)).pipe(
+        untilDestroyed(this),
+        map(() => TasksActions.createSubTaskSuccess()),
+        catchError((error) =>
+          of(TasksActions.createSubTaskFailure({ message: error.messages }))
+        )
+      );
+    })
+  )
+);
+
   public getTasks$ = createEffect(() =>
     this._actions$.pipe(
       ofType(TasksActions.getTasks),
@@ -48,12 +65,21 @@ export class TasksEffects implements OnDestroy {
           take(1)
         )
       ),
+      filter((projectId: string) => !this.hasTasksProjectIdMap[projectId]),
       mergeMap((projectId: string) => {
-        this.hasTasksLoaded = true;
+        this.hasTasksProjectIdMap = {
+          ...this.hasTasksProjectIdMap,
+          [projectId]: true
+        };
+        console.log('GET TASKS');
 
-        return this._tasksService.getTasks(projectId).pipe(
+        return this._tasksService.getTasksByProjectId(projectId).pipe(
           untilDestroyed(this),
-          map((tasks) => TasksActions.getTasksSuccess({ projectId, tasks })),
+          map((tasks) => {
+            console.log('tasks', tasks);
+            return TasksActions.getTasksSuccess({ projectId, tasks });
+          }
+          ),
           catchError((error) =>
             of(TasksActions.getTasksFailure({ message: error.messages }))
           )
@@ -61,6 +87,41 @@ export class TasksEffects implements OnDestroy {
       })
     )
   );
+
+  public getSubTasks$ = createEffect(() =>
+  this._actions$.pipe(
+    ofType(TasksActions.getSubTasks),
+    switchMap(() =>
+      this._store$.pipe(
+        select(RouterStoreSelectors.selectedProjectId),
+        take(1)
+      )
+    ),
+    filter((projectId: string) => !this.hasSubTasksProjectIdMap[projectId]),
+    mergeMap((projectId: string) => {
+
+      // TODO: если загружаем из таск вью, проверяем есть ли taskId и берем таски по нему
+      // see get desks map
+      this.hasSubTasksProjectIdMap = {
+        ...this.hasSubTasksProjectIdMap,
+        [projectId]: true
+      };
+      console.log('GET TASKS');
+
+      return this._tasksService.getSubTasksByProjectId(projectId).pipe(
+        untilDestroyed(this),
+        map((subtasks) => {
+          console.log('subtasks', subtasks);
+          return TasksActions.getSubTasksSuccess({ projectId, subtasks });
+        }
+        ),
+        catchError((error) =>
+          of(TasksActions.getSubTasksFailure({ message: error.messages }))
+        )
+      );
+    })
+  )
+);
 
   public getTask$ = createEffect(() =>
     this._actions$.pipe(
@@ -71,7 +132,7 @@ export class TasksEffects implements OnDestroy {
           take(1)
         )
       ),
-      filter(() => !this.hasTasksLoaded),
+      filter(({ projectId }) => !this.hasTasksProjectIdMap[projectId]),
       mergeMap(({ projectId, taskId }) => {
         return this._tasksService.getTask(projectId, taskId).pipe(
           untilDestroyed(this),

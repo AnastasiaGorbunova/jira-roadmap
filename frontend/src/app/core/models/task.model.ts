@@ -13,6 +13,10 @@ export interface Task {
 	date_updated?: firebase.firestore.Timestamp;
 }
 
+export interface SubTask extends Task {
+    task_id?: string;
+}
+
 export enum TaskStatus {
     ToDo = 'TODO',
     InProgress = 'IN_PROGRESS',
@@ -21,6 +25,10 @@ export enum TaskStatus {
 
 export interface TaskStatusMap { 
     [status: string]: Task[]
+}
+
+export interface SubTaskStatusMap { 
+    [taskId: string]: { [status: string]: SubTask[] }
 }
 
 export const taskStatusesSet = {
