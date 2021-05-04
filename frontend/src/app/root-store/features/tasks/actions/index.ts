@@ -13,6 +13,9 @@ const typesNames = [
   'GET_ISSUE',
   'GET_ISSUE_SUCCESS',
   'GET_ISSUE_FAILED',
+  'GET_ISSUE_SUBTASKS',
+  'GET_ISSUE_SUBTASKS_SUCCESS',
+  'GET_ISSUE_SUBTASKS_FAILED',
   'DELETE_ISSUE',
   'DELETE_ISSUE_SUCCESS',
   'DELETE_ISSUE_FAILED',
@@ -102,6 +105,20 @@ export const getIssueSuccess = createAction(
 
 export const getIssueFailure = createAction(
   tasksActionTypes.GET_ISSUE_FAILED,
+  props<{ message: string }>()
+);
+
+export const getIssueSubtasks = createAction(
+  tasksActionTypes.GET_ISSUE_SUBTASKS
+);
+
+export const getIssueSubtasksSuccess = createAction(
+  tasksActionTypes.GET_ISSUE_SUBTASKS_SUCCESS,
+  props<{ projectId: string, issues: Issue[] }>()
+);
+
+export const getIssueSubtasksFailure = createAction(
+  tasksActionTypes.GET_ISSUE_SUBTASKS_FAILED,
   props<{ message: string }>()
 );
 

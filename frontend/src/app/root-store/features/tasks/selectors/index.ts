@@ -6,7 +6,7 @@ import { AppState } from '@app/root-store/state';
 import { selectedProjectId, selectedIssueId } from '@app/root-store/features/router/selectors';
 import { State as TasksState } from '@app/root-store/features/tasks/state';
 import { usersSelector } from '@app/root-store/features/users/selectors';
-import { User } from '@app/core/models/user.model';
+import { unassigned, User } from '@app/core/models/user.model';
 
 // TODO: get issues state
 export const getTasksState = (state: AppState) => state.tasks;
@@ -34,7 +34,7 @@ export const projectIssuesMapSelector = createSelector(
     const { 'undefined': otherIssues, ...subtasksMap } = issuesGroupedByIssueId;
 
     const issuesIds = Object.keys(subtasksMap || {});
-    const subtasksGroupedByStatusMap = {}; 
+    const subtasksGroupedByStatusMap = {};
 
     issuesIds.forEach(issueId => {
       subtasksGroupedByStatusMap[issueId] = _groupby(subtasksMap[issueId], 'status');
@@ -51,9 +51,9 @@ export const projectIssuesMapSelector = createSelector(
         issuesWithSubtasks.push(issue);
       }
     });
-    
-    const otherIssuesGroupedByStatus =  _groupby(otherIssuesWithoutSubtasks, 'status');
-    
+
+    const otherIssuesGroupedByStatus = _groupby(otherIssuesWithoutSubtasks, 'status');
+
     return { otherIssuesGroupedByStatus, subtasksGroupedByStatusMap, issuesWithSubtasks };
   }
 );
@@ -64,71 +64,35 @@ export const issueSelector = createSelector(
   (issues: Issue[], issueId: string): Issue => issues.find((issue) => issue.id === issueId)
 );
 
+export const issueSubtasksSelector = createSelector(
+  projectIssuesSelector,
+  selectedIssueId,
+  (issues: Issue[], issueId: string): Issue[] => {
+    const issueSubtasks = issues.filter(issue => issue.issue_id === issueId);
 
-// export const tasksStatusMapSelector = createSelector(
-//   currentProjectTasksSelector,
-//   (tasks: Task[]): TaskStatusMap => {
-//     return _groupby(tasks, 'status');
-//   }
-// );
-
-// export const selectedTaskSelector = createSelector(
-//   currentProjectTasksSelector,
-//   selectedTaskId,
-//   (tasks: Task[], taskId: string): Task => tasks.find((task) => task.id === taskId)
-// );
+    return issueSubtasks;
+  }
+);
 
 export const issueAssigneeSelector = createSelector(
   usersSelector,
   (users: User[], props: { assigneeId: string }): string => {
     const assignedUser = users.find(user => user.id === props.assigneeId);
-    const { first_name, last_name } = assignedUser;
-    
-    return `${first_name} ${last_name}`;
+    if (assignedUser) {
+      const { first_name, last_name } = assignedUser;
+      return `${first_name} ${last_name}`;
+    }
+
+    return unassigned;
   }
 );
 
-// export const currentProjectSubTasksSelector = createSelector(
-//   subtasksSelector,
-//   selectedProjectId,
-//   (subtasks: { [projectId: string]: SubTask[] }, projectId: string): SubTask[] => {
-//     return subtasks[projectId] || [];
-//   }
-// );
+export const issueReporterSelector = createSelector(
+  usersSelector,
+  (users: User[], props: { reporterId: string }): string => {
+    const reporter = users.find(user => user.id === props.reporterId);
+    const { first_name, last_name } = reporter || {};
 
-// export const subtasksStatusMapSelector = createSelector(
-//   currentProjectSubTasksSelector,
-//   (subtasks: SubTask[]): SubTaskStatusMap => {
-//     const subtasksGroupedByTaskId = _groupby(subtasks, 'task_id');
-//     const tasksIds = Object.keys(subtasksGroupedByTaskId || {});
-//     const subtasksMap = {};
-
-//     tasksIds.forEach(taskId => {
-//       const subtasksGroupedByStatus = _groupby(subtasksGroupedByTaskId[taskId], 'status');
-//       subtasksMap[taskId] = subtasksGroupedByStatus;
-//     });
-    
-//     return subtasksMap;
-//   }
-// );
-
-// export const tasksIssueMapSelector = createSelector(
-//   subtasksStatusMapSelector,
-//   currentProjectTasksSelector,
-//   (subtasksMap: SubTaskStatusMap, tasks: Task[]): { tasksWithSubtasks: Task[], otherIssues: { [status: string]: Task[] } } => {
-//     const tasksWithSubtasks = [];
-//     const otherIssues = [];
-
-//     tasks.forEach(task => {
-//       if (subtasksMap[task.id]) {
-//         tasksWithSubtasks.push(task);
-//       } else {
-//         otherIssues.push(task);
-//       }
-//     });
-
-//     const otherIssuesStatusMap = _groupby(otherIssues, 'status')
-
-//     return { tasksWithSubtasks, otherIssues: otherIssuesStatusMap };
-//   }
-// );
+    return `${first_name} ${last_name}`;
+  }
+);

@@ -53,10 +53,6 @@
         .header {
             display: flex;
             border-bottom: 2px solid $color-border-secondary-light;
-
-            &.not-clickable {
-                cursor: default;
-            }
         }
 
         .status {
@@ -78,7 +74,20 @@
                 display: flex;
                 align-items: center;
                 padding: 8px 16px;
+            }
+
+            &-name {
+                margin: 8px 0;
+                text-decoration: underline;
                 cursor: pointer;
+
+                &:hover {
+                    color: $color-text-dark-primary;
+                }
+
+                &.not-clickable {
+                    cursor: default;
+                }
             }
             
             &-subtasks {

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/cor
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Issue, IssueType, issueTypes, issueTypesSet } from '@app/core/models/task.model';
-import { User } from '@app/core/models/user.model';
+import { unassigned, User } from '@app/core/models/user.model';
 import { validationMessages } from '@app/core/validation/validation.constants';
 import { emptyFieldValidator } from '@app/core/validation/validators';
 
@@ -17,6 +17,7 @@ export class CreateIssueDialogComponent implements OnInit {
   filteredUsers: User[];
 
   validationMessages = validationMessages;
+  unassigned = unassigned;
   issueTypesSet = issueTypesSet;
   issueTypes = [IssueType.Task, IssueType.Bug];
 
@@ -36,7 +37,7 @@ export class CreateIssueDialogComponent implements OnInit {
   saveIssue(): void {
     const { handleConfirm } = this.data;
     const assigneeIdFormValue = this.issueForm.get('assignee_id').value;
-    const assigneeId = assigneeIdFormValue === 'unassigned' ? '' : assigneeIdFormValue;
+    const assigneeId = assigneeIdFormValue === unassigned ? '' : assigneeIdFormValue;
     // TODO: add issueModalData model
     handleConfirm({ ...this.issueForm.value, assignee_id: assigneeId } as Issue);
     this.dialogRef.close();
@@ -77,7 +78,7 @@ export class CreateIssueDialogComponent implements OnInit {
       ),
       description: new FormControl(description || ''),
       type: new FormControl({ value: issueType, disabled: isIssueTypeDisabled }, Validators.required),
-      assignee_id: new FormControl(assignee_id || 'unassigned'),
+      assignee_id: new FormControl(assignee_id || unassigned),
     });
   }
 }

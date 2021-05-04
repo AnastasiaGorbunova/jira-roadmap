@@ -9,7 +9,7 @@ import { FirestoreService } from '@app/core/services/firestore.service';
 })
 export class TasksService {
 
-  constructor(private _firestoreService: FirestoreService) {}
+  constructor(private _firestoreService: FirestoreService) { }
 
   getIssuesByProjectId(projectId: string): Observable<Issue[]> {
     return this._firestoreService.getDocumentsByProperty<Issue>(`/issues`, 'project_id', projectId);
@@ -36,34 +36,14 @@ export class TasksService {
       date_updated: timestamp
     };
 
-    await this._firestoreService.update(`issues/${issueId}`, updatedIssue);
+    await this._firestoreService.update(`/issues/${issueId}`, updatedIssue);
   }
 
   getIssue(issueId: string): Observable<Issue> {
     return this._firestoreService.getDocument(`/issues/${issueId}`);
   }
 
-  // getSubTasksByProjectId(projectId: string): Observable<SubTask[]> {
-  //   return this._firestoreService.getDocumentsByProperty<SubTask>(`/subtasks`, 'project_id', projectId);
-  // }
-
-  // async createTask(task: Task): Promise<void> {
-  //   const timestamp = this._firestoreService.timestamp;
-  //   const newTask = {
-  //     ...task,
-  //     date_created: timestamp,
-  //   };
-
-  //   await this._firestoreService.addDocument('/tasks', newTask);
-  // }
-
-  // async createSubTask(newSubtask: SubTask): Promise<void> {
-  //   const timestamp = this._firestoreService.timestamp;
-  //   const subtask = {
-  //     ...newSubtask,
-  //     date_created: timestamp,
-  //   };
-
-  //   await this._firestoreService.addDocument('/subtasks', subtask);
-  // }
+  getIssueSubtasks(issueId: string): Observable<Issue[]> {
+    return this._firestoreService.getDocumentsByProperty<Issue>('/issues', 'issue_id', issueId);
+  }
 }

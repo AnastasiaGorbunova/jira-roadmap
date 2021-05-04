@@ -47,6 +47,23 @@ const _tasksReducer = createReducer(
     loading: false,
     errorMessage: message
   })),
+  on(TasksActions.getIssueSubtasks, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(TasksActions.getIssueSubtasksSuccess, (state, { projectId, issues }) => {
+    const existingIssues = (state.issues || {})[projectId] || [];
+    return ({
+      ...state,
+      issues: { [projectId]: [ ...existingIssues, ...issues ] },
+      errorMessage: null
+    });
+  }),
+  on(TasksActions.getIssueSubtasksFailure, (state, { message }) => ({
+    ...state,
+    loading: false,
+    errorMessage: message
+  })),
   on(TasksActions.deleteIssue, (state) => ({
     ...state,
     loading: true

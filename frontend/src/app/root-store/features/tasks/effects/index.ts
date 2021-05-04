@@ -17,6 +17,7 @@ import * as RouterActions from '@app/root-store/features/router/actions';
 import { AppState } from '@app/root-store/state';
 import { TasksService } from '@app/core/services/tasks.service';
 import { RouterStoreSelectors } from '@app/root-store/features/router';
+import { Issue } from '@app/core/models/task.model';
 
 @UntilDestroy()
 @Injectable()
@@ -88,6 +89,32 @@ export class TasksEffects implements OnDestroy {
       })
     )
   );
+
+  public getIssueSubtasks$ = createEffect(() =>
+  this._actions$.pipe(
+    ofType(TasksActions.getIssueSubtasks),
+    switchMap(() =>
+      this._store$.pipe(
+        select(RouterStoreSelectors.selectRouterParams),
+        take(1)
+      )
+    ),
+    filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
+    mergeMap(({ projectId, issueId }) => {
+      return this._tasksService.getIssueSubtasks(issueId).pipe(
+        untilDestroyed(this),
+        map((issues: Issue[]) => {
+          console.log('issues', issues);
+          
+          return TasksActions.getIssueSubtasksSuccess({ projectId, issues });
+        }),
+        catchError((error) =>
+          of(TasksActions.getIssueSubtasksFailure({ message: error.messages }))
+        )
+      );
+    })
+  )
+);
 
   public deleteIssue$ = createEffect(() =>
     this._actions$.pipe(

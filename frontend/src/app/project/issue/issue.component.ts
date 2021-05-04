@@ -1,9 +1,18 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Form, FormControl } from '@angular/forms';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  Output, 
+  EventEmitter, 
+  OnChanges, 
+  SimpleChanges
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { Project } from '@app/core/models/project.model';
 import { Issue, issueStatuses, issueStatusesSet, IssueType, issueTypesSet } from '@app/core/models/task.model';
-import { User } from '@app/core/models/user.model';
+import { unassigned } from '@app/core/models/user.model';
+import { trackById } from '@app/core/utils';
 
 @Component({
   selector: 'app-issue',
@@ -13,23 +22,25 @@ import { User } from '@app/core/models/user.model';
 })
 export class IssueComponent implements OnChanges {
   @Input() issue: Issue;
+  @Input() issueSubtasks: Issue[];
   @Input() project: Project;
-  @Input() users: User[];
+  @Input() issueAssignee: string;
+  @Input() issueReporter: string;
   @Output() onNavigateToBoard = new EventEmitter<void>();
   @Output() onNavigateToProject = new EventEmitter<string>();
   @Output() onCreateSubTask = new EventEmitter<{ projectId: string, issueId: string }>();
   @Output() onEditIssue = new EventEmitter<Issue>();
   @Output() onDeleteIssue = new EventEmitter<{ projectId: string, issueId: string }>();
-  @Output() onUpdateIssueFields = new EventEmitter<{ updatedData: {[fieldName: string]: string }, issueId: string }>();
+  @Output() onUpdateIssueFields = new EventEmitter<{ updatedData: { [fieldName: string]: string }, issueId: string }>();
 
   issueStatus: FormControl;
-  issueAssignee: FormControl;
   issueStatuses = issueStatuses;
   issueStatusesSet = issueStatusesSet;
+  unassigned = unassigned;
+  trackById = trackById;
 
   constructor() {
     this.issueStatus = new FormControl('');
-    this.issueAssignee = new FormControl();
   }
 
   get issueType(): string {
@@ -70,17 +81,17 @@ export class IssueComponent implements OnChanges {
   }
 
   updateIssueField(fieldName: string, value: string): void {
-
-    const newValue = fieldName === 'assignee_id' && value === 'unassigned' ? '' : value;
-console.log(fieldName, newValue);
+    const data = { 
+      updatedData: { [fieldName]: value }, 
+      issueId: this.issue.id 
+    };
     
-    this.onUpdateIssueFields.emit({ updatedData: { [fieldName]: newValue }, issueId: this.issue.id });
+    this.onUpdateIssueFields.emit(data);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.issue && this.issue) {
       this.issueStatus.setValue(this.issue.status);
-      this.issueAssignee.setValue(this.issue.assignee_id || 'unassigned');
     }
   }
 }

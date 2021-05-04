@@ -41,7 +41,7 @@
 				<mat-form-field>
 					<input matInput (keyup)="filterUsers($event.target.value)" />
 				</mat-form-field>
-				<mat-option [value]="'unassigned'">
+				<mat-option [value]="unassigned">
 					unassigned
 				</mat-option>
 				<mat-option *ngFor="let user of filteredUsers" [value]="user.id">

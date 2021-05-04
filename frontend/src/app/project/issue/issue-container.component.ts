@@ -23,8 +23,11 @@ import { Issue, IssueStatus, IssueType } from '@app/core/models/task.model';
 })
 export class IssueContainerComponent implements OnInit {
   issue$: Observable<Issue>;
+  issueSubtasks$: Observable<Issue[]>;
   project$: Observable<Project>;
   users$: Observable<User[]>;
+  issueAssignee$: Observable<string>;
+  issueReporter$: Observable<string>;
 
   private users: User[];
   constructor(
@@ -70,7 +73,7 @@ export class IssueContainerComponent implements OnInit {
 
   updateIssue(issueId: string, updatedData: Issue): void {
     console.log(issueId, updatedData);
-    
+
     this._store$.dispatch(TasksActions.updateIssue({ issueId, issue: updatedData }));
   }
 
@@ -91,16 +94,22 @@ export class IssueContainerComponent implements OnInit {
   ngOnInit() {
     this._store$.dispatch(ProjectsStoreActions.getProject());
     this._store$.dispatch(TasksStoreActions.getIssue());
+    this._store$.dispatch(TasksStoreActions.getIssueSubtasks());
 
-    this.issue$ = this._store$.pipe(select(TasksStoreSelectors.issueSelector));
+    this.issue$ = this._store$.pipe(
+      select(TasksStoreSelectors.issueSelector),
+      tap(issue => {
+        this.issueAssignee$ = this._store$.pipe(select(TasksStoreSelectors.issueAssigneeSelector, { assigneeId: issue?.assignee_id }));
+        this.issueReporter$ = this._store$.pipe(select(TasksStoreSelectors.issueReporterSelector, { reporterId: issue?.creator_id }));
+      })
+    );
+    this.issueSubtasks$ = this._store$.pipe(select(TasksStoreSelectors.issueSubtasksSelector));
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
 
     // TODO: get users for PROJECT
     this.users$ = this._store$.pipe(
       select(UsersStoreSelectors.usersSelector),
       tap((users: User[]) => {
-        console.log('users tap', users);
-
         this.users = users;
       })
     );

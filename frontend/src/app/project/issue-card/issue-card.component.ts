@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { Issue, issueTypesSet } from '@app/core/models/task.model';
+import { unassigned } from '@app/core/models/user.model';
 
 @Component({
   selector: 'app-issue-card',
@@ -14,6 +15,7 @@ export class IssueCardComponent {
   @Output() onNavigateToIssue = new EventEmitter<string>();
   
   issueTypesSet = issueTypesSet;
+  unassigned = unassigned;
 
   constructor() { }
 

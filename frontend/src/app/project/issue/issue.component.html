@@ -28,20 +28,10 @@
 	</div>
 
 	<p class="issue-type">Type: {{ issueType }}</p>
+	<p class="issue-type">Assignee: {{ issueAssignee || unassigned }}</p>
+	<p class="issue-type">Reporter: {{ issueReporter }}</p>
+	<p *ngIf="issue.description" class="issue-description">Description: {{ issue.description }}</p>
 
-	<!-- TODO: add search -->
-	<mat-form-field appearance="outline">
-		<mat-label>Assignee</mat-label>
-		<mat-select [formControl]="issueAssignee"
-			(selectionChange)="updateIssueField('assignee_id', $event.value)">
-			<mat-option value="unassigned">
-				unassigned
-			</mat-option>
-			<mat-option *ngFor="let user of users" value="{{ user.id }}">
-				{{ user.first_name }} {{ user.last_name }}
-			</mat-option>
-		</mat-select>
-	</mat-form-field>
 
 	<mat-form-field appearance="outline">
 		<mat-label>Status</mat-label>
@@ -53,6 +43,12 @@
 		</mat-select>
 	</mat-form-field>
 
-	<p *ngIf="issue.description" class="issue-description">{{ issue.description }}</p>
+	<div class="issue-subtasks">
+		<p class="issue-subtasks-header">Subtasks</p>
+		<div *ngFor="let subtask of issueSubtasks; trackBy: trackById" class="subtask">
+			<p class="subtask-name">{{ subtask.name }}</p>
+			<span class="subtask-name">{{ issueStatusesSet[subtask?.status] }}</span>
+		</div>
+	</div>
 
 </div>
