@@ -1,40 +1,44 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
-export interface Task {
+export interface Issue {
     id?: string;
-    name: string;
+    name?: string;
     description?: string;
-    project_id: string;
+    project_id?: string;
     creator_id?: string;
     assignee_id?: string;
-    status: TaskStatus;
+    status?: IssueStatus;
+    type?: IssueType;
+    issue_id?: string;
 	date_created?: firebase.firestore.Timestamp;
 	date_updated?: firebase.firestore.Timestamp;
 }
 
-export interface SubTask extends Task {
-    task_id?: string;
+export enum IssueType {
+    Task = 'task',
+    SubTask = 'subtask',
+    Bug = 'bug'
 }
 
-export enum TaskStatus {
-    ToDo = 'TODO',
-    InProgress = 'IN_PROGRESS',
-    Done = 'DONE'
+export const issueTypes = [IssueType.Task, IssueType.SubTask, IssueType.Bug];
+
+export const issueTypesSet = {
+    [IssueType.Task]: 'Task',
+    [IssueType.SubTask]: 'Subtask',
+    [IssueType.Bug]: 'Bug'
 }
 
-export interface TaskStatusMap { 
-    [status: string]: Task[]
+export enum IssueStatus {
+    ToDo = 'todo',
+    InProgress = 'in_progress',
+    Done = 'done'
 }
 
-export interface SubTaskStatusMap { 
-    [taskId: string]: { [status: string]: SubTask[] }
-}
+export const issueStatuses = [IssueStatus.ToDo, IssueStatus.InProgress, IssueStatus.Done];
 
-export const taskStatusesSet = {
-    [TaskStatus.ToDo]: 'ToDo',
-    [TaskStatus.InProgress]: 'In Progress',
-    [TaskStatus.Done]: 'Done'
+export const issueStatusesSet = {
+    [IssueStatus.ToDo]: 'ToDo',
+    [IssueStatus.InProgress]: 'In Progress',
+    [IssueStatus.Done]: 'Done'
 }
-
-export const tasksStatuses = [TaskStatus.ToDo, TaskStatus.InProgress, TaskStatus.Done];

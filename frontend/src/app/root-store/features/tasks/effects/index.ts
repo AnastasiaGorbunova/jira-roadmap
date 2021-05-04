@@ -21,139 +21,83 @@ import { RouterStoreSelectors } from '@app/root-store/features/router';
 @UntilDestroy()
 @Injectable()
 export class TasksEffects implements OnDestroy {
-  private hasTasksProjectIdMap = {};
-  private hasSubTasksProjectIdMap = {};
+  private hasIssuesProjectIdMap = {};
 
-  public createTask$ = createEffect(() =>
+  public createIssue$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.createTask),
-      switchMap(({ task }) => {
-
-        return from(this._tasksService.createTask(task)).pipe(
+      ofType(TasksActions.createIssue),
+      switchMap(({ issue }) => {
+        return from(this._tasksService.createIssue(issue)).pipe(
           untilDestroyed(this),
-          map(() => TasksActions.createTaskSuccess()),
+          map(() => TasksActions.createIssueSuccess()),
           catchError((error) =>
-            of(TasksActions.createTaskFailure({ message: error.messages }))
+            of(TasksActions.createIssueFailure({ message: error.messages }))
           )
         );
       })
     )
   );
 
-  public createSubTask$ = createEffect(() =>
-  this._actions$.pipe(
-    ofType(TasksActions.createSubTask),
-    switchMap(({ subtask }) => {
-
-      return from(this._tasksService.createSubTask(subtask)).pipe(
-        untilDestroyed(this),
-        map(() => TasksActions.createSubTaskSuccess()),
-        catchError((error) =>
-          of(TasksActions.createSubTaskFailure({ message: error.messages }))
-        )
-      );
-    })
-  )
-);
-
-  public getTasks$ = createEffect(() =>
+  public getIssues$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.getTasks),
+      ofType(TasksActions.getIssues),
       switchMap(() =>
         this._store$.pipe(
           select(RouterStoreSelectors.selectedProjectId),
           take(1)
         )
       ),
-      filter((projectId: string) => !this.hasTasksProjectIdMap[projectId]),
+      filter((projectId: string) => !this.hasIssuesProjectIdMap[projectId]),
       mergeMap((projectId: string) => {
-        this.hasTasksProjectIdMap = {
-          ...this.hasTasksProjectIdMap,
+        this.hasIssuesProjectIdMap = {
+          ...this.hasIssuesProjectIdMap,
           [projectId]: true
         };
-        console.log('GET TASKS');
-
-        return this._tasksService.getTasksByProjectId(projectId).pipe(
+        return this._tasksService.getIssuesByProjectId(projectId).pipe(
           untilDestroyed(this),
-          map((tasks) => {
-            console.log('tasks', tasks);
-            return TasksActions.getTasksSuccess({ projectId, tasks });
+          map((issues) => {
+            return TasksActions.getIssuesSuccess({ projectId, issues });
           }
           ),
           catchError((error) =>
-            of(TasksActions.getTasksFailure({ message: error.messages }))
+            of(TasksActions.getIssuesFailure({ message: error.messages }))
           )
         );
       })
     )
   );
 
-  public getSubTasks$ = createEffect(() =>
-  this._actions$.pipe(
-    ofType(TasksActions.getSubTasks),
-    switchMap(() =>
-      this._store$.pipe(
-        select(RouterStoreSelectors.selectedProjectId),
-        take(1)
-      )
-    ),
-    filter((projectId: string) => !this.hasSubTasksProjectIdMap[projectId]),
-    mergeMap((projectId: string) => {
-
-      // TODO: если загружаем из таск вью, проверяем есть ли taskId и берем таски по нему
-      // see get desks map
-      this.hasSubTasksProjectIdMap = {
-        ...this.hasSubTasksProjectIdMap,
-        [projectId]: true
-      };
-      console.log('GET TASKS');
-
-      return this._tasksService.getSubTasksByProjectId(projectId).pipe(
-        untilDestroyed(this),
-        map((subtasks) => {
-          console.log('subtasks', subtasks);
-          return TasksActions.getSubTasksSuccess({ projectId, subtasks });
-        }
-        ),
-        catchError((error) =>
-          of(TasksActions.getSubTasksFailure({ message: error.messages }))
-        )
-      );
-    })
-  )
-);
-
-  public getTask$ = createEffect(() =>
+  public getIssue$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.getTask),
+      ofType(TasksActions.getIssue),
       switchMap(() =>
         this._store$.pipe(
           select(RouterStoreSelectors.selectRouterParams),
           take(1)
         )
       ),
-      filter(({ projectId }) => !this.hasTasksProjectIdMap[projectId]),
-      mergeMap(({ projectId, taskId }) => {
-        return this._tasksService.getTask(projectId, taskId).pipe(
+      filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
+      mergeMap(({ projectId, issueId }) => {
+        return this._tasksService.getIssue(issueId).pipe(
           untilDestroyed(this),
-          map((task) => TasksActions.getTaskSuccess({ projectId, task })),
+          map((issue) => TasksActions.getIssueSuccess({ projectId, issue })),
           catchError((error) =>
-            of(TasksActions.getTaskFailure({ message: error.messages }))
+            of(TasksActions.getIssueFailure({ message: error.messages }))
           )
         );
       })
     )
   );
 
-  public deleteTask$ = createEffect(() =>
+  public deleteIssue$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.deleteTask),
-      switchMap(({ projectId, taskId }) => {
-        return from(this._tasksService.deleteTask(projectId, taskId)).pipe(
+      ofType(TasksActions.deleteIssue),
+      switchMap(({ projectId, issueId }) => {
+        return from(this._tasksService.deleteIssue(issueId)).pipe(
           untilDestroyed(this),
-          mergeMap(() => of(TasksActions.deleteTaskSuccess(), RouterActions.navigateProject({ projectId }))),
+          mergeMap(() => of(TasksActions.deleteIssueSuccess(), RouterActions.navigateProject({ projectId }))),
           catchError((error) =>
-            of(TasksActions.deleteTaskFailure({ message: error.messages }))
+            of(TasksActions.deleteIssueFailure({ message: error.messages }))
           )
         );
       })
@@ -162,13 +106,13 @@ export class TasksEffects implements OnDestroy {
 
   public updateTask$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.updateTask),
-      switchMap(({ updatedTask }) => {
-        return from(this._tasksService.updateTask(updatedTask)).pipe(
+      ofType(TasksActions.updateIssue),
+      switchMap(({ issue }) => {
+        return from(this._tasksService.updateIssue(issue)).pipe(
           untilDestroyed(this),
-          map(() => TasksActions.updateTaskSuccess()),
+          map(() => TasksActions.updateIssueSuccess()),
           catchError((error) =>
-            of(TasksActions.updateTaskFailure({ message: error.messages }))
+            of(TasksActions.updateIssueFailure({ message: error.messages }))
           )
         );
       })

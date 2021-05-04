@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { Project } from '@app/core/models/project.model';
-import { SubTaskStatusMap, Task, TaskStatus, TaskStatusMap } from '@app/core/models/task.model';
+import { Issue, IssueStatus } from '@app/core/models/task.model';
 import { DialogService } from '@app/core/services/dialog.service';
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { RouterStoreActions } from '@app/root-store/features/router';
@@ -21,11 +21,9 @@ import { AuthStoreSelectors } from '@app/root-store/features/auth';
 })
 export class ProjectContainerComponent implements OnInit {
   project$: Observable<Project>;
-  // tasksStatusMap$: Observable<TaskStatusMap>;
 
-  // TODO: add normal type and rename
-  tasksIssueMap$: Observable<{ tasksWithSubtasks: Task[], otherIssues: { [status: string]: Task[] } }>;
-  subtasksStatusMap$: Observable<SubTaskStatusMap>;
+  // TODO: add type and for child components too
+  projectIssuesMap$: Observable<any>;
 
   constructor(
     private _store$: Store<AppState>,
@@ -37,19 +35,19 @@ export class ProjectContainerComponent implements OnInit {
     this._projectsService.openDeleteProjectDialog(projectId);
   }
 
-  // TODO: add common modal for creation (project/task/subtask)
-  openCreateTaskModal(projectId: string): void {
-    this._dialogService.open('CreateTaskDialogComponent', {
-      title: createItemTitle('task'),
+  openCreateIssueModal(projectId: string): void {
+    this._dialogService.open('CreateIssueDialogComponent', {
+      title: createItemTitle('issue'),
       confirmBtnText: createConfirmBtnText,
-      handleConfirm: (task: Task) => {
-        this.createTask(projectId, task);
+      isProjectLevel: true,
+      handleConfirm: (issue: Issue) => {
+        this.createIssue(projectId, issue);
       }
     });
   }
 
   openEditProjectDialog(project: Project): void {
-    const { name, description, id } = project;
+    const { name, description } = project;
 
     this._dialogService.open('CreateProjectDialogComponent', {
       title: editItemTitle('project'),
@@ -68,28 +66,25 @@ export class ProjectContainerComponent implements OnInit {
 
   ngOnInit() {
     this._store$.dispatch(ProjectsStoreActions.getProject());
-    this._store$.dispatch(TasksStoreActions.getTasks());
-    this._store$.dispatch(TasksStoreActions.getSubTasks());
+    this._store$.dispatch(TasksStoreActions.getIssues());
 
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
-    // this.tasksStatusMap$ = this._store$.pipe(select(TasksStoreSelectors.tasksStatusMapSelector));
-    this.tasksIssueMap$ = this._store$.pipe(select(TasksStoreSelectors.tasksIssueMapSelector));
-    this.subtasksStatusMap$ = this._store$.pipe(select(TasksStoreSelectors.subtasksStatusMapSelector));
+    this.projectIssuesMap$ = this._store$.pipe(select(TasksStoreSelectors.projectIssuesMapSelector));
   }
 
-  private async createTask(projectId: string, newTask: Task): Promise<void> {
+  private async createIssue(projectId: string, newIssue: Issue): Promise<void> {
     const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserId))
       .pipe(take(1))
       .toPromise();
 
-    const task = {
-      ...newTask,
+    const issue = {
+      ...newIssue,
       project_id: projectId,
       creator_id: currentUserId,
-      status: TaskStatus.ToDo
-    }
+      status: IssueStatus.ToDo
+    } as Issue;
 
-    this._store$.dispatch(TasksStoreActions.createTask({ task }))
+    this._store$.dispatch(TasksStoreActions.createIssue({ issue }));
   }
 
   private updateProject(project: Project, updatedData: Project): void {

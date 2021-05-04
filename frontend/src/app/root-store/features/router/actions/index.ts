@@ -6,7 +6,7 @@ const typesNames = [
     'NAVIGATE_PROJECTS_BOARD',
     'NAVIGATE_LOGIN',
     'NAVIGATE_PROJECT',
-    'NAVIGATE_TASK'
+    'NAVIGATE_ISSUE'
 ] as const;
 
 export type RouterActionTypes = {
@@ -33,7 +33,7 @@ export const navigateProject = createAction(
   props<{ projectId: string }>()
 );
 
-export const navigateTask = createAction(
-  routerActionTypes.NAVIGATE_TASK,
-  props<{ taskId: string }>()
+export const navigateIssue = createAction(
+  routerActionTypes.NAVIGATE_ISSUE,
+  props<{ issueId: string }>()
 );

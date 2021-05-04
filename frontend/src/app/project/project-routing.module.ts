@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ProjectContainerComponent } from '@app/project/project-container.component';
-import { TaskContainerComponent } from '@app/project/task/task-container.component';
+import { IssueContainerComponent } from '@app/project/issue/issue-container.component';
 
 // TODO: add guards
 const projectRoutes: Routes = [
@@ -14,8 +14,8 @@ const projectRoutes: Routes = [
         component: ProjectContainerComponent,
       },
       {
-        path: 'task/:taskId',
-        component: TaskContainerComponent
+        path: 'issue/:issueId',
+        component: IssueContainerComponent
       }]
   }
 ];

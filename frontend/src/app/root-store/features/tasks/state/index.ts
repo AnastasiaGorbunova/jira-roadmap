@@ -1,16 +1,14 @@
-import { SubTask, Task } from '@app/core/models/task.model';
+import { Issue } from '@app/core/models/task.model';
 import { BaseStateModel } from '@app/root-store/models/base-state.model';
 
 export interface State extends BaseStateModel {
-  tasks: { [projectId: string]: Task[] };
-  subtasks: { [projectId: string]: SubTask[] };
+  issues: { [projectId: string]: Issue[] };
   loading: boolean;
   errorMessage: string | null;
 }
 
 export const initialState: State = {
-  tasks: null,
-  subtasks: null,
+  issues: null,
   loading: false,
   errorMessage: null
 };

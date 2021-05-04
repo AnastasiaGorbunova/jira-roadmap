@@ -5,104 +5,76 @@ import { initialState, State } from '@app/root-store/features/tasks/state';
 
 const _tasksReducer = createReducer(
   initialState,
-  on(TasksActions.createTask, (state) => ({
+  on(TasksActions.createIssue, (state) => ({
     ...state,
     loading: true
   })),
-  on(TasksActions.createTaskSuccess, (state) => ({
+  on(TasksActions.createIssueSuccess, (state) => ({
     ...state,
     errorMessage: null
   })),
-  on(TasksActions.createTaskFailure, (state, { message }) => ({
+  on(TasksActions.createIssueFailure, (state, { message }) => ({
     ...state,
     loading: false,
     errorMessage: message
   })),
-  on(TasksActions.createSubTask, (state) => ({
+  on(TasksActions.getIssues, (state) => ({
     ...state,
     loading: true
   })),
-  on(TasksActions.createSubTaskSuccess, (state) => ({
-    ...state,
-    errorMessage: null
-  })),
-  on(TasksActions.createSubTaskFailure, (state, { message }) => ({
-    ...state,
-    loading: false,
-    errorMessage: message
-  })),
-  on(TasksActions.getTasks, (state) => ({
-    ...state,
-    loading: true
-  })),
-  on(TasksActions.getTasksSuccess, (state, { projectId, tasks }) => ({
+  on(TasksActions.getIssuesSuccess, (state, { projectId, issues }) => ({
       ...state,
-      tasks: { ...state.tasks, [projectId]: tasks },
+      issues: { ...state.issues, [projectId]: issues },
       errorMessage: null
     })
   ),
-  on(TasksActions.getTasksFailure, (state, { message }) => ({
+  on(TasksActions.getIssuesFailure, (state, { message }) => ({
     ...state,
     loading: false,
     errorMessage: message
   })),
-  on(TasksActions.getTask, (state) => ({
+  on(TasksActions.getIssue, (state) => ({
     ...state,
     loading: true
   })),
-  on(TasksActions.getTaskSuccess, (state, { projectId, task }) => ({
+  on(TasksActions.getIssueSuccess, (state, { projectId, issue }) => ({
     ...state,
-    tasks: { [projectId]: [task] },
+    issues: { [projectId]: [issue] },
     errorMessage: null
   })),
-  on(TasksActions.getTaskFailure, (state, { message }) => ({
+  on(TasksActions.getIssueFailure, (state, { message }) => ({
     ...state,
     loading: false,
     errorMessage: message
   })),
-  on(TasksActions.deleteTask, (state) => ({
+  on(TasksActions.deleteIssue, (state) => ({
     ...state,
     loading: true
   })),
-  on(TasksActions.deleteTaskSuccess, (state) => ({
-    ...state,
-    loading: false,
-    errorMessage: null
-  })),
-  on(TasksActions.deleteTaskFailure, (state, { message }) => ({
-    ...state,
-    loading: false,
-    errorMessage: message
-  })),
-  on(TasksActions.updateTask, (state) => ({
-    ...state,
-    loading: true
-  })),
-  on(TasksActions.updateTaskSuccess, (state) => ({
+  on(TasksActions.deleteIssueSuccess, (state) => ({
     ...state,
     loading: false,
     errorMessage: null
   })),
-  on(TasksActions.updateTaskFailure, (state, { message }) => ({
+  on(TasksActions.deleteIssueFailure, (state, { message }) => ({
     ...state,
     loading: false,
     errorMessage: message
   })),
-  on(TasksActions.getSubTasks, (state) => ({
+  on(TasksActions.updateIssue, (state) => ({
     ...state,
     loading: true
   })),
-  on(TasksActions.getSubTasksSuccess, (state, { projectId, subtasks }) => ({
-      ...state,
-      subtasks: { ...state.tasks, [projectId]: subtasks },
-      errorMessage: null
-    })
-  ),
-  on(TasksActions.getSubTasksFailure, (state, { message }) => ({
+  on(TasksActions.updateIssueSuccess, (state) => ({
+    ...state,
+    loading: false,
+    errorMessage: null
+  })),
+  on(TasksActions.updateIssueFailure, (state, { message }) => ({
     ...state,
     loading: false,
     errorMessage: message
-  })),
+  }))
 );
 
 export function tasksReducer(state: State | undefined, action: Action) {

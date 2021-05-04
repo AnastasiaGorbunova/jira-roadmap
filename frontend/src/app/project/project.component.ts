@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { Project } from '@app/core/models/project.model';
-import { SubTask, SubTaskStatusMap, Task, tasksStatuses, taskStatusesSet } from '@app/core/models/task.model';
+import { Issue, issueStatuses, issueStatusesSet } from '@app/core/models/task.model';
 import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
@@ -12,33 +12,31 @@ import { preventKeyValueOrder, trackById } from '@app/core/utils';
 })
 export class ProjectComponent {
   @Input() project: Project;
-  @Input() tasksIssueMap: { tasksWithSubtasks: Task[], otherIssues: { [status: string]: Task[] } };
-  // @Input() tasksStatusMap: TaskStatusMap;
-  @Input() subtasksStatusMap: SubTaskStatusMap;
-  @Output() onCreateTask = new EventEmitter<string>();
+  @Input() projectIssuesMap: any;
+  @Output() onCreateIssue = new EventEmitter<string>();
   @Output() onEditProject = new EventEmitter<Project>();
   @Output() onDeleteProject = new EventEmitter<string>();
   @Output() onNavigateToBoard = new EventEmitter<void>();
 
   trackById = trackById;
   preventKeyValueOrder = preventKeyValueOrder;
-  tasksStatuses = tasksStatuses;
-  taskStatusesSet = taskStatusesSet;
+  issueStatuses = issueStatuses;
+  issueStatusesSet = issueStatusesSet;
 
   constructor() { }
 
-  getSubtasks(taskId: string, status: string): SubTask[] {
-    return ((this.subtasksStatusMap || {})[taskId] || {})[status];
+  getSubtasks(issueId: string, status: string): Issue[] {
+    const subtasksStatusMap = this.projectIssuesMap?.subtasksGroupedByStatusMap;
+    return subtasksStatusMap[issueId] && subtasksStatusMap[issueId][status];
   }
 
-  getOtherIssuesTasks(status: string): Task[] {
-    console.log('ITHER', (this.tasksIssueMap?.otherIssues || {})[status]);
-    
-    return (this.tasksIssueMap?.otherIssues || {})[status];
+  getOtherIssues(status: string): Issue[] {
+    const otherIssues = this.projectIssuesMap?.otherIssuesGroupedByStatus;
+    return otherIssues && otherIssues[status];
   }
 
-  createTask(): void {
-    this.onCreateTask.emit(this.project.id);
+  createIssue(): void {
+    this.onCreateIssue.emit(this.project.id);
   }
 
   editProject(): void {

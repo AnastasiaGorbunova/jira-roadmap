@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SubTask, Task } from '@app/core/models/task.model';
+import { Issue } from '@app/core/models/task.model';
 import { FirestoreService } from '@app/core/services/firestore.service';
 
 @Injectable({
@@ -11,51 +11,59 @@ export class TasksService {
 
   constructor(private _firestoreService: FirestoreService) {}
 
-  getTasksByProjectId(projectId: string): Observable<Task[]> {
-    return this._firestoreService.getDocumentsByProperty<Task>(`/tasks`, 'project_id', projectId);
+  getIssuesByProjectId(projectId: string): Observable<Issue[]> {
+    return this._firestoreService.getDocumentsByProperty<Issue>(`/issues`, 'project_id', projectId);
   }
 
-  getSubTasksByProjectId(projectId: string): Observable<SubTask[]> {
-    console.log('getSubTasksByProjectId');
-    
-    return this._firestoreService.getDocumentsByProperty<SubTask>(`/subtasks`, 'project_id', projectId);
+  deleteIssue(issueId: string): Promise<void> {
+    return this._firestoreService.deleteDocument(`/issues`, issueId);
   }
 
-  getTask(projectId: string, taskId: string): Observable<Task> {
-    return this._firestoreService.getDocument(`/tasks/${taskId}`);
-  }
-
-  async createTask(task: Task): Promise<void> {
+  async createIssue(newIssue: Issue): Promise<void> {
     const timestamp = this._firestoreService.timestamp;
-    const newTask = {
-      ...task,
+    const issue = {
+      ...newIssue,
       date_created: timestamp,
     };
 
-    await this._firestoreService.addDocument('/tasks', newTask);
+    await this._firestoreService.addDocument('/issues', issue);
   }
 
-  async createSubTask(newSubtask: SubTask): Promise<void> {
+  async updateIssue(issue: Issue): Promise<void> {
     const timestamp = this._firestoreService.timestamp;
-    const subtask = {
-      ...newSubtask,
-      date_created: timestamp,
-    };
-
-    await this._firestoreService.addDocument('/subtasks', subtask);
-  }
-
-  async updateTask(task: Task): Promise<void> {
-    const timestamp = this._firestoreService.timestamp;
-    const updatedTask = {
-      ...task,
+    const updatedIssue = {
+      ...issue,
       date_updated: timestamp
     };
     
-    await this._firestoreService.update(`/projects/${task.project_id}/tasks/${task.id}`, updatedTask);
+    await this._firestoreService.update(`issues/${issue.id}`, updatedIssue);
   }
 
-  deleteTask(projectId: string, taskId: string): Promise<void> {
-    return this._firestoreService.deleteDocument(`/projects/${projectId}/tasks`, taskId);
+  getIssue(issueId: string): Observable<Issue> {
+    return this._firestoreService.getDocument(`/issues/${issueId}`);
   }
+
+  // getSubTasksByProjectId(projectId: string): Observable<SubTask[]> {
+  //   return this._firestoreService.getDocumentsByProperty<SubTask>(`/subtasks`, 'project_id', projectId);
+  // }
+
+  // async createTask(task: Task): Promise<void> {
+  //   const timestamp = this._firestoreService.timestamp;
+  //   const newTask = {
+  //     ...task,
+  //     date_created: timestamp,
+  //   };
+
+  //   await this._firestoreService.addDocument('/tasks', newTask);
+  // }
+
+  // async createSubTask(newSubtask: SubTask): Promise<void> {
+  //   const timestamp = this._firestoreService.timestamp;
+  //   const subtask = {
+  //     ...newSubtask,
+  //     date_created: timestamp,
+  //   };
+
+  //   await this._firestoreService.addDocument('/subtasks', subtask);
+  // }
 }

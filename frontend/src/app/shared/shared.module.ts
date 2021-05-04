@@ -8,7 +8,7 @@ import { HeaderComponent } from '@app/shared/header/header.component';
 import { HeaderContainerComponent } from '@app/shared/header/header-container.component';
 import { CreateProjectDialogComponent } from '@app/shared/dialogs/create-project-dialog/create-project-dialog.component';
 import { ConfirmActionDialogComponent } from '@app/shared/dialogs/confirm-action-dialog/confirm-action-dialog.component';
-import { CreateTaskDialogComponent } from '@app/shared/dialogs/create-task-dialog/create-task-dialog.component';
+import { CreateIssueDialogComponent } from './dialogs/create-issue-dialog/create-issue-dialog.component';
 
 @NgModule({
   imports: [
@@ -24,14 +24,14 @@ import { CreateTaskDialogComponent } from '@app/shared/dialogs/create-task-dialo
     HeaderComponent,
     CreateProjectDialogComponent,
     ConfirmActionDialogComponent,
-    CreateTaskDialogComponent
+    CreateIssueDialogComponent
   ],
   declarations: [
     HeaderContainerComponent,
     HeaderComponent,
     CreateProjectDialogComponent,
     ConfirmActionDialogComponent,
-    CreateTaskDialogComponent
+    CreateIssueDialogComponent
   ],
   entryComponents: [
     CreateProjectDialogComponent

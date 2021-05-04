@@ -1,0 +1,19 @@
+<ng-container 
+	*ngIf="{ 
+		issue: (issue$ | async), 
+		project: (project$ | async),
+		users: (users$ | async)
+	} as data"
+>
+	<app-issue
+		[issue]="data.issue"
+		[project]="data.project"
+		[users]="data.users"
+		(onNavigateToBoard)="navigateToBoard()"
+		(onNavigateToProject)="navigateToProject($event)"
+		(onCreateSubTask)="openCreateSubTaskModal($event.projectId, $event.issueId)"
+		(onEditIssue)="openEditIssueDialog($event)"
+		(onDeleteIssue)="openDeleteIssueDialog($event.projectId, $event.issueId)"
+		(onUpdateIssueFields)="updateIssue($event)"
+	></app-issue>
+</ng-container>

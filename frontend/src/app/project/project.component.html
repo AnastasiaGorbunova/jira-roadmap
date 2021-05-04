@@ -9,13 +9,14 @@
 		<p class="project-title">{{ project.name }}</p>
 
 		<div class="project-actions">
-			<button mat-stroked-button class="action" type="submit" (click)="createTask()">
-				Create new task
+			<button mat-stroked-button class="action" type="submit" (click)="createIssue()">
+				Create new issue
 			</button>
 
 			<button mat-stroked-button class="action" type="submit" (click)="editProject()">
 				Edit project
 			</button>
+			
 			<button mat-stroked-button class="action" type="submit" (click)="deleteProject()">
 				Delete project
 			</button>
@@ -26,25 +27,27 @@
 
 	<div class="project-tasks-table">
 		<div class="header">
-			<div *ngFor="let status of tasksStatuses; trackBy: trackById" class="status">
-				<p class="status-name">{{ taskStatusesSet[status] }}</p>
+			<div *ngFor="let status of issueStatuses; trackBy: trackById" class="status">
+				<p class="status-name">{{ issueStatusesSet[status] }}</p>
 			</div>
 		</div>
 
-		<div *ngFor="let task of tasksIssueMap.tasksWithSubtasks; trackBy: trackById" class="task">
+		<div *ngFor="let issue of projectIssuesMap.issuesWithSubtasks; trackBy: trackById" class="task">
 			<div class="task-header">
-				Task: {{ task.name }}
+				Task: {{ issue.name }}
 			</div>
 
 			<div class="task-subtasks">
-				<div *ngFor="let status of tasksStatuses; trackBy: trackById" class="column">
+				<div *ngFor="let status of issueStatuses; trackBy: trackById" class="column">
 	
 					<div class="column-items">
-						<div *ngFor="let subtask of getSubtasks(task.id, status); trackBy: trackById" class="item">
-							{{ subtask.name }}
+						<div *ngFor="let subtask of getSubtasks(issue.id, status); trackBy: trackById" class="item">
+							<app-issue-card-container
+								[issue]="subtask"
+								[projectId]="project.id"
+						></app-issue-card-container>
 						</div>
 					</div>
-					
 				</div>
 			</div>
 		</div>
@@ -55,14 +58,14 @@
 			</div>
 
 			<div class="task-subtasks">
-				<div *ngFor="let status of tasksStatuses; trackBy: trackById" class="column">
+				<div *ngFor="let status of issueStatuses; trackBy: trackById" class="column">
 	
 					<div class="column-items">
-						<div *ngFor="let task of getOtherIssuesTasks(status); trackBy: trackById" class="item">
-							<app-task-card-container
-								[task]="task"
+						<div *ngFor="let task of getOtherIssues(status); trackBy: trackById" class="item">
+							<app-issue-card-container
+								[issue]="task"
 								[projectId]="project.id"
-							></app-task-card-container>
+							></app-issue-card-container>
 						</div>
 					</div>
 				</div>

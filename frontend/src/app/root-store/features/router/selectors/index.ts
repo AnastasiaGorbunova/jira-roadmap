@@ -38,10 +38,10 @@ export const selectedProjectId = createSelector(
   }
 );
 
-export const selectedTaskId = createSelector(
+export const selectedIssueId = createSelector(
   selectRouterParams,
   (params: Params) => {
     
-    return !!params ? params.taskId || null : undefined
+    return !!params ? params.issueId || null : undefined
   }
 );

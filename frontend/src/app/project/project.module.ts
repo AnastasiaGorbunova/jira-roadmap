@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ProjectComponent } from '@app/project/project.component';
 import { ProjectContainerComponent } from '@app/project/project-container.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { ProjectRoutingModule } from '@app/project/project-routing.module';
-import { TaskCardComponent } from '@app/project/task-card/task-card.component';
-import { TaskCardContainerComponent } from '@app/project/task-card/task-card-container.component';
-import { TaskComponent } from '@app/project/task/task.component';
-import { TaskContainerComponent } from '@app/project/task/task-container.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IssueCardComponent } from '@app/project/issue-card/issue-card.component';
+import { IssueCardContainerComponent } from '@app/project/issue-card/issue-card-container.component';
+import { IssueComponent } from '@app/project/issue/issue.component';
+import { IssueContainerComponent } from '@app/project/issue/issue-container.component';
 
 @NgModule({
   imports: [
@@ -22,10 +22,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     ProjectComponent, 
     ProjectContainerComponent, 
-    TaskCardComponent, 
-    TaskCardContainerComponent, 
-    TaskComponent, 
-    TaskContainerComponent
+    IssueCardComponent, 
+    IssueCardContainerComponent, 
+    IssueComponent, 
+    IssueContainerComponent
   ]
 })
 export class ProjectModule { }

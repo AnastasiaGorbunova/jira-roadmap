@@ -6,7 +6,7 @@ import { User } from '@app/core/models/user.model';
 
 export const usersState = (state: AppState) => state.users;
 
-export const selectUsers = createSelector(
+export const usersSelector = createSelector(
    usersState,
   (state: UsersState): User[] => (state || {}).users || []
 );

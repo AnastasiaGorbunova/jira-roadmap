@@ -1,17 +1,8 @@
-<ng-container 
-	*ngIf="{ 
-    project: (project$ | async),
-    tasksIssueMap: (tasksIssueMap$ | async),
-    subtasksStatusMap: (subtasksStatusMap$ | async)
-  } as data"
->
-	<app-project 
-		[project]="data.project" 
-		[tasksIssueMap]="data.tasksIssueMap" 
-		[subtasksStatusMap]="data.subtasksStatusMap" 
-		(onCreateTask)="openCreateTaskModal($event)"
-		(onEditProject)="openEditProjectDialog($event)"
-		(onDeleteProject)="deleteProject($event)"
-		(onNavigateToBoard)="navigateToBoard()"
-	></app-project>
-</ng-container>
+<app-project 
+	[project]="project$ | async"
+	[projectIssuesMap]="projectIssuesMap$ | async"
+	(onCreateIssue)="openCreateIssueModal($event)"
+	(onEditProject)="openEditProjectDialog($event)"
+	(onDeleteProject)="deleteProject($event)"
+	(onNavigateToBoard)="navigateToBoard()"
+></app-project>
