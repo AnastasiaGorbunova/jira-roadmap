@@ -53,6 +53,10 @@
         .header {
             display: flex;
             border-bottom: 2px solid $color-border-secondary-light;
+
+            &.not-clickable {
+                cursor: default;
+            }
         }
 
         .status {

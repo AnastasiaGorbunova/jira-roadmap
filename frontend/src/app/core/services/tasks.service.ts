@@ -29,14 +29,14 @@ export class TasksService {
     await this._firestoreService.addDocument('/issues', issue);
   }
 
-  async updateIssue(issue: Issue): Promise<void> {
+  async updateIssue(issueId: string, issue: Issue): Promise<void> {
     const timestamp = this._firestoreService.timestamp;
     const updatedIssue = {
       ...issue,
       date_updated: timestamp
     };
-    
-    await this._firestoreService.update(`issues/${issue.id}`, updatedIssue);
+
+    await this._firestoreService.update(`issues/${issueId}`, updatedIssue);
   }
 
   getIssue(issueId: string): Observable<Issue> {

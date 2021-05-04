@@ -79,7 +79,7 @@ export const deleteIssueFailure = createAction(
 
 export const updateIssue = createAction(
   tasksActionTypes.UPDATE_ISSUE,
-  props<{ issue: Issue }>()
+  props<{ issueId: string, issue: Issue }>()
 );
 
 export const updateIssueSuccess = createAction(
@@ -105,44 +105,3 @@ export const getIssueFailure = createAction(
   props<{ message: string }>()
 );
 
-// export const getTasks = createAction(
-//   tasksActionTypes.GET_TASKS
-// );
-
-// export const getTasksSuccess = createAction(
-//   tasksActionTypes.GET_TASKS_SUCCESS,
-//   props<{ projectId: string, tasks: Task[] }>()
-// );
-
-// export const getTasksFailure = createAction(
-//   tasksActionTypes.GET_TASKS_FAILED,
-//   props<{ message: string }>()
-// );
-
-// export const getSubTasks = createAction(
-//   tasksActionTypes.GET_SUBTASKS
-// );
-
-// export const getSubTasksSuccess = createAction(
-//   tasksActionTypes.GET_SUBTASKS_SUCCESS,
-//   props<{ projectId: string, subtasks: SubTask[] }>()
-// );
-
-// export const getSubTasksFailure = createAction(
-//   tasksActionTypes.GET_SUBTASKS_FAILED,
-//   props<{ message: string }>()
-// );
-
-// export const deleteTask = createAction(
-//   tasksActionTypes.DELETE_TASK,
-//   props<{ projectId: string, taskId: string }>()
-// );
-
-// export const deleteTaskSuccess = createAction(
-//   tasksActionTypes.DELETE_TASK_SUCCESS
-// );
-
-// export const deleteTaskFailure = createAction(
-//   tasksActionTypes.DELETE_TASK_FAILED,
-//   props<{ message: string }>()
-// );

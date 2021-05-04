@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { AppState } from '@app/root-store/state';
@@ -14,7 +14,7 @@ import { createConfirmBtnText, createItemTitle, deleteConfirmBtnText, deleteItem
 import { UsersStoreSelectors } from '@app/root-store/features/users';
 import { User } from '@app/core/models/user.model';
 import { AuthStoreSelectors } from '@app/root-store/features/auth';
-import { Issue, IssueStatus } from '@app/core/models/task.model';
+import { Issue, IssueStatus, IssueType } from '@app/core/models/task.model';
 
 @Component({
   selector: 'app-issue-container',
@@ -26,6 +26,7 @@ export class IssueContainerComponent implements OnInit {
   project$: Observable<Project>;
   users$: Observable<User[]>;
 
+  private users: User[];
   constructor(
     private _store$: Store<AppState>,
     private _dialogService: DialogService
@@ -40,13 +41,20 @@ export class IssueContainerComponent implements OnInit {
   }
 
   openCreateSubTaskModal(projectId: string, issueId: string): void {
-    // this._dialogService.open('CreateTaskDialogComponent', {
-    //   title: createItemTitle('subtask'),
-    //   confirmBtnText: createConfirmBtnText,
-    //   handleConfirm: (subtask: any) => {
-    //     this.createSubTask({ ...subtask, project_id: projectId, task_id: taskId });
-    //   }
-    // });
+    this._dialogService.open('CreateIssueDialogComponent', {
+      title: createItemTitle('subtask'),
+      confirmBtnText: createConfirmBtnText,
+      projectUsers: this.users,
+      creationType: IssueType.SubTask,
+      handleConfirm: (subtask: Issue) => {
+        this.createSubTask({
+          ...subtask,
+          project_id: projectId,
+          issue_id: issueId,
+          type: IssueType.SubTask
+        });
+      }
+    });
   }
 
   openDeleteIssueDialog(projectId: string, issueId: string): void {
@@ -60,22 +68,24 @@ export class IssueContainerComponent implements OnInit {
     });
   }
 
-  updateIssue(updatedTask: any): void {
-    // this._store$.dispatch(TasksActions.updateTask({ updatedTask }));
+  updateIssue(issueId: string, updatedData: Issue): void {
+    console.log(issueId, updatedData);
+    
+    this._store$.dispatch(TasksActions.updateIssue({ issueId, issue: updatedData }));
   }
 
-  openEditIssueDialog(task: any): void {
-    const { name, description, id } = task;
+  openEditIssueDialog(issue: Issue): void {
 
-    // this._dialogService.open('CreateIssueDialogComponent', {
-    //   title: editItemTitle('task'),
-    //   confirmBtnText: saveConfirmBtnText,
-    //   taskName: name,
-    //   description: description,
-    //   handleConfirm: (updatedData: Project) => {
-    //     this.updateTask({ ...task, ...updatedData });
-    //   }
-    // });
+    this._dialogService.open('CreateIssueDialogComponent', {
+      title: editItemTitle('issue'),
+      confirmBtnText: saveConfirmBtnText,
+      issue,
+      isEditIssue: true,
+      projectUsers: this.users,
+      handleConfirm: (updatedIssueData: Issue) => {
+        this.updateIssue(issue.id, { ...updatedIssueData });
+      }
+    });
   }
 
   ngOnInit() {
@@ -84,22 +94,31 @@ export class IssueContainerComponent implements OnInit {
 
     this.issue$ = this._store$.pipe(select(TasksStoreSelectors.issueSelector));
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
-    this.users$ = this._store$.pipe(select(UsersStoreSelectors.usersSelector));
+
+    // TODO: get users for PROJECT
+    this.users$ = this._store$.pipe(
+      select(UsersStoreSelectors.usersSelector),
+      tap((users: User[]) => {
+        console.log('users tap', users);
+
+        this.users = users;
+      })
+    );
   }
 
-  // private async createSubTask(newSubtask: any): Promise<void> {
-  //   const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserId))
-  //     .pipe(take(1))
-  //     .toPromise();
+  private async createSubTask(newSubtask: any): Promise<void> {
+    const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserId))
+      .pipe(take(1))
+      .toPromise();
 
-  //   const subtask = { 
-  //     ...newSubtask, 
-  //     creator_id: currentUserId,
-  //     status: IssueStatus.ToDo
-  //   };
+    const subtask = {
+      ...newSubtask,
+      creator_id: currentUserId,
+      status: IssueStatus.ToDo
+    };
 
-    // this._store$.dispatch(TasksActions.createSubTask({ subtask }));
-  // }
+    this._store$.dispatch(TasksActions.createIssue({ issue: subtask }));
+  }
 
   private deleteIssue(projectId: string, issueId: string): void {
     this._store$.dispatch(TasksActions.deleteIssue({ projectId, issueId }));

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChan
 import { Form, FormControl } from '@angular/forms';
 
 import { Project } from '@app/core/models/project.model';
-import { Issue, issueStatuses, issueStatusesSet } from '@app/core/models/task.model';
+import { Issue, issueStatuses, issueStatusesSet, IssueType, issueTypesSet } from '@app/core/models/task.model';
 import { User } from '@app/core/models/user.model';
 
 @Component({
@@ -18,9 +18,9 @@ export class IssueComponent implements OnChanges {
   @Output() onNavigateToBoard = new EventEmitter<void>();
   @Output() onNavigateToProject = new EventEmitter<string>();
   @Output() onCreateSubTask = new EventEmitter<{ projectId: string, issueId: string }>();
-  @Output() onEditIssue = new EventEmitter<any>();
+  @Output() onEditIssue = new EventEmitter<Issue>();
   @Output() onDeleteIssue = new EventEmitter<{ projectId: string, issueId: string }>();
-  @Output() onUpdateIssueFields = new EventEmitter<any>();
+  @Output() onUpdateIssueFields = new EventEmitter<{ updatedData: {[fieldName: string]: string }, issueId: string }>();
 
   issueStatus: FormControl;
   issueAssignee: FormControl;
@@ -30,6 +30,14 @@ export class IssueComponent implements OnChanges {
   constructor() {
     this.issueStatus = new FormControl('');
     this.issueAssignee = new FormControl();
+  }
+
+  get issueType(): string {
+    return issueTypesSet[this.issue?.type];
+  }
+
+  get canCreateSubtask(): boolean {
+    return this.issue?.type !== IssueType.SubTask;
   }
 
   navigateToBoard(): void {
@@ -63,14 +71,10 @@ export class IssueComponent implements OnChanges {
 
   updateIssueField(fieldName: string, value: string): void {
 
-    const newValue = fieldName === 'assignee_id' && value === 'unassigned' ? null : value;
-
-    const updatedIssue = {
-      ...this.issue,
-      [fieldName]: newValue
-    } as any;
+    const newValue = fieldName === 'assignee_id' && value === 'unassigned' ? '' : value;
+console.log(fieldName, newValue);
     
-    this.onUpdateIssueFields.emit(updatedIssue);
+    this.onUpdateIssueFields.emit({ updatedData: { [fieldName]: newValue }, issueId: this.issue.id });
   }
 
   ngOnChanges(changes: SimpleChanges) {

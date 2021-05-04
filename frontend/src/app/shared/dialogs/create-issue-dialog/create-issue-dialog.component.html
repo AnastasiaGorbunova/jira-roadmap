@@ -34,6 +34,24 @@
 		</mat-form-field>
 		<!--/ Issue type field -->
 
+		<!-- Assignee field -->
+		<mat-form-field appearance="outline">
+			<mat-label>Assignee</mat-label>
+			<mat-select formControlName="assignee_id">
+				<mat-form-field>
+					<input matInput (keyup)="filterUsers($event.target.value)" />
+				</mat-form-field>
+				<mat-option [value]="'unassigned'">
+					unassigned
+				</mat-option>
+				<mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+					{{ user.first_name }} {{ user.last_name }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<!--/ Assignee field -->
+
 	</mat-dialog-content>
 
 	<mat-dialog-actions class="dialog-actions">

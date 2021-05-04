@@ -30,7 +30,6 @@ export const projectIssuesMapSelector = createSelector(
   (issues: Issue[]): { [taskId: string]: any } => {
     const issuesGroupedByIssueId = _groupby(issues, 'issue_id');
 
-
     // other issues is all issues without subtasks
     const { 'undefined': otherIssues, ...subtasksMap } = issuesGroupedByIssueId;
 
@@ -52,12 +51,8 @@ export const projectIssuesMapSelector = createSelector(
         issuesWithSubtasks.push(issue);
       }
     });
-    console.log('otherIssuesWithoutSubtasks', otherIssuesWithoutSubtasks);
     
     const otherIssuesGroupedByStatus =  _groupby(otherIssuesWithoutSubtasks, 'status');
-    console.log({ otherIssuesGroupedByStatus, subtasksGroupedByStatusMap, issuesWithSubtasks });
-
-    console.log('issuesMap',  { otherIssuesGroupedByStatus, subtasksGroupedByStatusMap, issuesWithSubtasks });
     
     return { otherIssuesGroupedByStatus, subtasksGroupedByStatusMap, issuesWithSubtasks };
   }

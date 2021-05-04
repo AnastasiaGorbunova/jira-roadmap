@@ -104,11 +104,11 @@ export class TasksEffects implements OnDestroy {
     )
   );
 
-  public updateTask$ = createEffect(() =>
+  public updateIssue$ = createEffect(() =>
     this._actions$.pipe(
       ofType(TasksActions.updateIssue),
-      switchMap(({ issue }) => {
-        return from(this._tasksService.updateIssue(issue)).pipe(
+      switchMap(({ issue, issueId }) => {
+        return from(this._tasksService.updateIssue(issueId, issue)).pipe(
           untilDestroyed(this),
           map(() => TasksActions.updateIssueSuccess()),
           catchError((error) =>

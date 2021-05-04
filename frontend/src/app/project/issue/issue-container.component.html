@@ -14,6 +14,6 @@
 		(onCreateSubTask)="openCreateSubTaskModal($event.projectId, $event.issueId)"
 		(onEditIssue)="openEditIssueDialog($event)"
 		(onDeleteIssue)="openDeleteIssueDialog($event.projectId, $event.issueId)"
-		(onUpdateIssueFields)="updateIssue($event)"
+		(onUpdateIssueFields)="updateIssue($event.issueId, $event.updatedData)"
 	></app-issue>
 </ng-container>

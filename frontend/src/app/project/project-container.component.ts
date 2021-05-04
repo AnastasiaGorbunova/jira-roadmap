@@ -64,6 +64,10 @@ export class ProjectContainerComponent implements OnInit {
     this._store$.dispatch(RouterStoreActions.navigateProjectsBoard());
   }
 
+  navigateToIssue(issueId: string): void {
+    this._store$.dispatch(RouterStoreActions.navigateIssue({ issueId }));
+  }
+
   ngOnInit() {
     this._store$.dispatch(ProjectsStoreActions.getProject());
     this._store$.dispatch(TasksStoreActions.getIssues());

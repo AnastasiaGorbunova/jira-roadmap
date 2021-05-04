@@ -13,8 +13,8 @@
 		<p class="issue-title">{{ issue.name }}</p>
 
 		<div class="issue-actions">
-			<button mat-stroked-button class="action" type="submit" (click)="createSubTask()">
-				Create new subtask
+			<button *ngIf="canCreateSubtask" mat-stroked-button class="action" type="submit" (click)="createSubTask()">
+				Create subtask
 			</button>
 
 			<button mat-stroked-button class="action" type="submit" (click)="editIssue()">
@@ -27,6 +27,9 @@
 		</div>
 	</div>
 
+	<p class="issue-type">Type: {{ issueType }}</p>
+
+	<!-- TODO: add search -->
 	<mat-form-field appearance="outline">
 		<mat-label>Assignee</mat-label>
 		<mat-select [formControl]="issueAssignee"

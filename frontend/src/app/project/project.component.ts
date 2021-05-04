@@ -17,6 +17,7 @@ export class ProjectComponent {
   @Output() onEditProject = new EventEmitter<Project>();
   @Output() onDeleteProject = new EventEmitter<string>();
   @Output() onNavigateToBoard = new EventEmitter<void>();
+  @Output() onNavigateToIssue = new EventEmitter<string>();
 
   trackById = trackById;
   preventKeyValueOrder = preventKeyValueOrder;
@@ -49,5 +50,11 @@ export class ProjectComponent {
 
   navigateToBoard(): void {
     this.onNavigateToBoard.emit();
+  }
+
+  navigateToIssue(issueId: string): void {
+    console.log('issueId: ', issueId);
+    
+    this.onNavigateToIssue.emit(issueId);
   }
 }
