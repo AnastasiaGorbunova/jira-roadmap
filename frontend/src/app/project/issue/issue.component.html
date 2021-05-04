@@ -43,7 +43,7 @@
 		</mat-select>
 	</mat-form-field>
 
-	<div class="issue-subtasks">
+	<div *ngIf="issueSubtasks?.length" class="issue-subtasks">
 		<p class="issue-subtasks-header">Subtasks</p>
 		<div *ngFor="let subtask of issueSubtasks; trackBy: trackById" class="subtask">
 			<p class="subtask-name">{{ subtask.name }}</p>

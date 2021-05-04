@@ -5,16 +5,16 @@ import { take, tap } from 'rxjs/operators';
 
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { AppState } from '@app/root-store/state';
-import { TasksStoreActions, TasksStoreSelectors } from '@app/root-store/features/tasks';
+import { IssuesStoreActions, IssuesStoreSelectors } from '@app/root-store/features/issues';
 import { Project } from '@app/core/models/project.model';
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { DialogService } from '@app/core/services/dialog.service';
-import * as TasksActions from '@app/root-store/features/tasks/actions';
+import * as TasksActions from '@app/root-store/features/issues/actions';
 import { createConfirmBtnText, createItemTitle, deleteConfirmBtnText, deleteItemText, deleteItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
 import { UsersStoreSelectors } from '@app/root-store/features/users';
 import { User } from '@app/core/models/user.model';
 import { AuthStoreSelectors } from '@app/root-store/features/auth';
-import { Issue, IssueStatus, IssueType } from '@app/core/models/task.model';
+import { Issue, IssueStatus, IssueType } from '@app/core/models/issue.model';
 
 @Component({
   selector: 'app-issue-container',
@@ -72,8 +72,6 @@ export class IssueContainerComponent implements OnInit {
   }
 
   updateIssue(issueId: string, updatedData: Issue): void {
-    console.log(issueId, updatedData);
-
     this._store$.dispatch(TasksActions.updateIssue({ issueId, issue: updatedData }));
   }
 
@@ -93,17 +91,17 @@ export class IssueContainerComponent implements OnInit {
 
   ngOnInit() {
     this._store$.dispatch(ProjectsStoreActions.getProject());
-    this._store$.dispatch(TasksStoreActions.getIssue());
-    this._store$.dispatch(TasksStoreActions.getIssueSubtasks());
+    this._store$.dispatch(IssuesStoreActions.getIssue());
+    this._store$.dispatch(IssuesStoreActions.getIssueSubtasks());
 
     this.issue$ = this._store$.pipe(
-      select(TasksStoreSelectors.issueSelector),
+      select(IssuesStoreSelectors.issueSelector),
       tap(issue => {
-        this.issueAssignee$ = this._store$.pipe(select(TasksStoreSelectors.issueAssigneeSelector, { assigneeId: issue?.assignee_id }));
-        this.issueReporter$ = this._store$.pipe(select(TasksStoreSelectors.issueReporterSelector, { reporterId: issue?.creator_id }));
+        this.issueAssignee$ = this._store$.pipe(select(IssuesStoreSelectors.issueAssigneeSelector, { assigneeId: issue?.assignee_id }));
+        this.issueReporter$ = this._store$.pipe(select(IssuesStoreSelectors.issueReporterSelector, { reporterId: issue?.creator_id }));
       })
     );
-    this.issueSubtasks$ = this._store$.pipe(select(TasksStoreSelectors.issueSubtasksSelector));
+    this.issueSubtasks$ = this._store$.pipe(select(IssuesStoreSelectors.issueSubtasksSelector));
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
 
     // TODO: get users for PROJECT

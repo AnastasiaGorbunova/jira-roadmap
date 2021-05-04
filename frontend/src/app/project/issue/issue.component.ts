@@ -10,7 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 
 import { Project } from '@app/core/models/project.model';
-import { Issue, issueStatuses, issueStatusesSet, IssueType, issueTypesSet } from '@app/core/models/task.model';
+import { Issue, issueStatuses, issueStatusesSet, IssueType, issueTypesSet } from '@app/core/models/issue.model';
 import { unassigned } from '@app/core/models/user.model';
 import { trackById } from '@app/core/utils';
 

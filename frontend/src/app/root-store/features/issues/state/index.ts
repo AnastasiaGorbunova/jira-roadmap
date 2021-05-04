@@ -1,4 +1,4 @@
-import { Issue } from '@app/core/models/task.model';
+import { Issue } from '@app/core/models/issue.model';
 import { BaseStateModel } from '@app/root-store/models/base-state.model';
 
 export interface State extends BaseStateModel {

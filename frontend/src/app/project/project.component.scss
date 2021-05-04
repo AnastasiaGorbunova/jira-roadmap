@@ -86,6 +86,7 @@
                 }
 
                 &.not-clickable {
+                    text-decoration: none;
                     cursor: default;
                 }
             }

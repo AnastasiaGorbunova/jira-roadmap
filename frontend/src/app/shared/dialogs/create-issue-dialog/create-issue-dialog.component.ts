@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Issue, IssueType, issueTypes, issueTypesSet } from '@app/core/models/task.model';
+import { Issue, IssueType, issueTypes, issueTypesSet } from '@app/core/models/issue.model';
 import { unassigned, User } from '@app/core/models/user.model';
 import { validationMessages } from '@app/core/validation/validation.constants';
 import { emptyFieldValidator } from '@app/core/validation/validators';

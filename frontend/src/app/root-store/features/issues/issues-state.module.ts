@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { tasksReducer } from './reducers';
-import { TasksEffects } from './effects';
+import { issuesReducer } from './reducers';
+import { IssuesEffects } from './effects';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule, 
-    StoreModule.forFeature('tasks', tasksReducer),
-    EffectsModule.forFeature([TasksEffects])
+    StoreModule.forFeature('issues', issuesReducer),
+    EffectsModule.forFeature([IssuesEffects])
   ]
 })
-export class TasksStateModule { }
+export class IssuesStateModule { }

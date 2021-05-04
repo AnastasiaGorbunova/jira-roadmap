@@ -1,19 +1,18 @@
 import { createSelector } from '@ngrx/store';
 import _groupby from 'lodash.groupby';
 
-import { Issue } from '@app/core/models/task.model';
+import { Issue } from '@app/core/models/issue.model';
 import { AppState } from '@app/root-store/state';
 import { selectedProjectId, selectedIssueId } from '@app/root-store/features/router/selectors';
-import { State as TasksState } from '@app/root-store/features/tasks/state';
+import { State as IssuesState } from '@app/root-store/features/issues/state';
 import { usersSelector } from '@app/root-store/features/users/selectors';
 import { unassigned, User } from '@app/core/models/user.model';
 
-// TODO: get issues state
-export const getTasksState = (state: AppState) => state.tasks;
+export const getIssuesState = (state: AppState) => state.issues;
 
 export const issuesSelector = createSelector(
-  getTasksState,
-  (state: TasksState): { [projectId: string]: Issue[] } => state.issues || {}
+  getIssuesState,
+  (state: IssuesState): { [projectId: string]: Issue[] } => state.issues || {}
 );
 
 export const projectIssuesSelector = createSelector(

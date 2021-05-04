@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Issue } from '@app/core/models/task.model';
+import { Issue } from '@app/core/models/issue.model';
 import { createConstants } from '@app/root-store/features/utils';
 
 const typesNames = [
@@ -27,98 +27,98 @@ const typesNames = [
   'UPDATE_TASK_STATUS_FAILED'
 ] as const;
 
-export type TaskActionType = {
+export type IssuesActionType = {
   [Key in typeof typesNames[number]]: string;
 };
 
-export const prefix: string = 'TASKS';
+export const prefix: string = 'ISSUES';
 
-export const tasksActionTypes: TaskActionType = createConstants<TaskActionType>(
+export const issuesActionTypes: IssuesActionType = createConstants<IssuesActionType>(
   typesNames,
   prefix,
 );
 
 export const createIssue = createAction(
-  tasksActionTypes.CREATE_ISSUE,
+  issuesActionTypes.CREATE_ISSUE,
   props<{ issue: Issue }>()
 );
 
 export const createIssueSuccess = createAction(
-  tasksActionTypes.CREATE_ISSUE_SUCCESS,
+  issuesActionTypes.CREATE_ISSUE_SUCCESS,
 );
 
 export const createIssueFailure = createAction(
-  tasksActionTypes.CREATE_ISSUE_FAILED,
+  issuesActionTypes.CREATE_ISSUE_FAILED,
   props<{ message: string }>()
 );
 
 export const getIssues = createAction(
-  tasksActionTypes.GET_ISSUES
+  issuesActionTypes.GET_ISSUES
 );
 
 export const getIssuesSuccess = createAction(
-  tasksActionTypes.GET_ISSUES_SUCCESS,
+  issuesActionTypes.GET_ISSUES_SUCCESS,
   props<{ projectId: string, issues: Issue[] }>()
 );
 
 export const getIssuesFailure = createAction(
-  tasksActionTypes.GET_ISSUES_FAILED,
+  issuesActionTypes.GET_ISSUES_FAILED,
   props<{ message: string }>()
 );
 
 export const deleteIssue = createAction(
-  tasksActionTypes.DELETE_ISSUE,
+  issuesActionTypes.DELETE_ISSUE,
   props<{ projectId: string, issueId: string }>()
 );
 
 export const deleteIssueSuccess = createAction(
-  tasksActionTypes.DELETE_ISSUE_SUCCESS
+  issuesActionTypes.DELETE_ISSUE_SUCCESS
 );
 
 export const deleteIssueFailure = createAction(
-  tasksActionTypes.DELETE_ISSUE_FAILED,
+  issuesActionTypes.DELETE_ISSUE_FAILED,
   props<{ message: string }>()
 );
 
 export const updateIssue = createAction(
-  tasksActionTypes.UPDATE_ISSUE,
+  issuesActionTypes.UPDATE_ISSUE,
   props<{ issueId: string, issue: Issue }>()
 );
 
 export const updateIssueSuccess = createAction(
-  tasksActionTypes.UPDATE_ISSUE_SUCCESS
+  issuesActionTypes.UPDATE_ISSUE_SUCCESS
 );
 
 export const updateIssueFailure = createAction(
-  tasksActionTypes.UPDATE_ISSUE_FAILED,
+  issuesActionTypes.UPDATE_ISSUE_FAILED,
   props<{ message: string }>()
 );
 
 export const getIssue = createAction(
-  tasksActionTypes.GET_ISSUE
+  issuesActionTypes.GET_ISSUE
 );
 
 export const getIssueSuccess = createAction(
-  tasksActionTypes.GET_ISSUE_SUCCESS,
+  issuesActionTypes.GET_ISSUE_SUCCESS,
   props<{ projectId: string, issue: Issue }>()
 );
 
 export const getIssueFailure = createAction(
-  tasksActionTypes.GET_ISSUE_FAILED,
+  issuesActionTypes.GET_ISSUE_FAILED,
   props<{ message: string }>()
 );
 
 export const getIssueSubtasks = createAction(
-  tasksActionTypes.GET_ISSUE_SUBTASKS
+  issuesActionTypes.GET_ISSUE_SUBTASKS
 );
 
 export const getIssueSubtasksSuccess = createAction(
-  tasksActionTypes.GET_ISSUE_SUBTASKS_SUCCESS,
+  issuesActionTypes.GET_ISSUE_SUBTASKS_SUCCESS,
   props<{ projectId: string, issues: Issue[] }>()
 );
 
 export const getIssueSubtasksFailure = createAction(
-  tasksActionTypes.GET_ISSUE_SUBTASKS_FAILED,
+  issuesActionTypes.GET_ISSUE_SUBTASKS_FAILED,
   props<{ message: string }>()
 );
 

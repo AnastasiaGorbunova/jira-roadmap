@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { Project } from '@app/core/models/project.model';
-import { Issue, issueStatuses, issueStatusesSet } from '@app/core/models/task.model';
+import { Issue, issueStatuses, issueStatusesSet } from '@app/core/models/issue.model';
 import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
@@ -53,8 +53,6 @@ export class ProjectComponent {
   }
 
   navigateToIssue(issueId: string): void {
-    console.log('issueId: ', issueId);
-    
     this.onNavigateToIssue.emit(issueId);
   }
 }

@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { AppState } from '@app/root-store/state';
-import { Issue } from 'src/app/core/models/task.model';
-import { TasksStoreSelectors } from '@app/root-store/features/tasks';
+import { Issue } from '@app/core/models/issue.model';
+import { IssuesStoreSelectors } from '@app/root-store/features/issues';
 
 @Component({
   selector: 'app-issue-card-container',
@@ -28,7 +28,7 @@ export class IssueCardContainerComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.issue && this.issue && this.issue.assignee_id) {
-      this.issueAssignee$ = this._store$.pipe(select(TasksStoreSelectors.issueAssigneeSelector, { assigneeId: this.issue.assignee_id }));
+      this.issueAssignee$ = this._store$.pipe(select(IssuesStoreSelectors.issueAssigneeSelector, { assigneeId: this.issue.assignee_id }));
     }
   }
 }

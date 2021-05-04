@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { Project } from '@app/core/models/project.model';
-import { Issue, IssueStatus } from '@app/core/models/task.model';
+import { Issue, IssueStatus } from '@app/core/models/issue.model';
 import { DialogService } from '@app/core/services/dialog.service';
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { RouterStoreActions } from '@app/root-store/features/router';
-import { TasksStoreActions, TasksStoreSelectors } from '@app/root-store/features/tasks';
+import { IssuesStoreActions, IssuesStoreSelectors } from '@app/root-store/features/issues';
 import { AppState } from '@app/root-store/state';
 import { createConfirmBtnText, createItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
 import { ProjectsService } from '@app/core/services/projects.service';
@@ -70,10 +70,10 @@ export class ProjectContainerComponent implements OnInit {
 
   ngOnInit() {
     this._store$.dispatch(ProjectsStoreActions.getProject());
-    this._store$.dispatch(TasksStoreActions.getIssues());
+    this._store$.dispatch(IssuesStoreActions.getIssues());
 
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
-    this.projectIssuesMap$ = this._store$.pipe(select(TasksStoreSelectors.projectIssuesMapSelector));
+    this.projectIssuesMap$ = this._store$.pipe(select(IssuesStoreSelectors.projectIssuesMapSelector));
   }
 
   private async createIssue(projectId: string, newIssue: Issue): Promise<void> {
@@ -88,7 +88,7 @@ export class ProjectContainerComponent implements OnInit {
       status: IssueStatus.ToDo
     } as Issue;
 
-    this._store$.dispatch(TasksStoreActions.createIssue({ issue }));
+    this._store$.dispatch(IssuesStoreActions.createIssue({ issue }));
   }
 
   private updateProject(project: Project, updatedData: Project): void {

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Issue } from '@app/core/models/task.model';
+import { Issue } from '@app/core/models/issue.model';
 import { FirestoreService } from '@app/core/services/firestore.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TasksService {
+export class IssuesService {
 
   constructor(private _firestoreService: FirestoreService) { }
 

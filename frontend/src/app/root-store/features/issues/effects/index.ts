@@ -12,27 +12,27 @@ import {
 } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import * as TasksActions from '@app/root-store/features/tasks/actions';
+import * as IssuesActions from '@app/root-store/features/issues/actions';
 import * as RouterActions from '@app/root-store/features/router/actions';
 import { AppState } from '@app/root-store/state';
-import { TasksService } from '@app/core/services/tasks.service';
+import { IssuesService } from '@app/core/services/issues.service';
 import { RouterStoreSelectors } from '@app/root-store/features/router';
-import { Issue } from '@app/core/models/task.model';
+import { Issue } from '@app/core/models/issue.model';
 
 @UntilDestroy()
 @Injectable()
-export class TasksEffects implements OnDestroy {
+export class IssuesEffects implements OnDestroy {
   private hasIssuesProjectIdMap = {};
 
   public createIssue$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.createIssue),
+      ofType(IssuesActions.createIssue),
       switchMap(({ issue }) => {
-        return from(this._tasksService.createIssue(issue)).pipe(
+        return from(this._issuesService.createIssue(issue)).pipe(
           untilDestroyed(this),
-          map(() => TasksActions.createIssueSuccess()),
+          map(() => IssuesActions.createIssueSuccess()),
           catchError((error) =>
-            of(TasksActions.createIssueFailure({ message: error.messages }))
+            of(IssuesActions.createIssueFailure({ message: error.messages }))
           )
         );
       })
@@ -41,7 +41,7 @@ export class TasksEffects implements OnDestroy {
 
   public getIssues$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.getIssues),
+      ofType(IssuesActions.getIssues),
       switchMap(() =>
         this._store$.pipe(
           select(RouterStoreSelectors.selectedProjectId),
@@ -54,14 +54,14 @@ export class TasksEffects implements OnDestroy {
           ...this.hasIssuesProjectIdMap,
           [projectId]: true
         };
-        return this._tasksService.getIssuesByProjectId(projectId).pipe(
+        return this._issuesService.getIssuesByProjectId(projectId).pipe(
           untilDestroyed(this),
           map((issues) => {
-            return TasksActions.getIssuesSuccess({ projectId, issues });
+            return IssuesActions.getIssuesSuccess({ projectId, issues });
           }
           ),
           catchError((error) =>
-            of(TasksActions.getIssuesFailure({ message: error.messages }))
+            of(IssuesActions.getIssuesFailure({ message: error.messages }))
           )
         );
       })
@@ -70,7 +70,7 @@ export class TasksEffects implements OnDestroy {
 
   public getIssue$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.getIssue),
+      ofType(IssuesActions.getIssue),
       switchMap(() =>
         this._store$.pipe(
           select(RouterStoreSelectors.selectRouterParams),
@@ -79,11 +79,11 @@ export class TasksEffects implements OnDestroy {
       ),
       filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
       mergeMap(({ projectId, issueId }) => {
-        return this._tasksService.getIssue(issueId).pipe(
+        return this._issuesService.getIssue(issueId).pipe(
           untilDestroyed(this),
-          map((issue) => TasksActions.getIssueSuccess({ projectId, issue })),
+          map((issue) => IssuesActions.getIssueSuccess({ projectId, issue })),
           catchError((error) =>
-            of(TasksActions.getIssueFailure({ message: error.messages }))
+            of(IssuesActions.getIssueFailure({ message: error.messages }))
           )
         );
       })
@@ -92,7 +92,7 @@ export class TasksEffects implements OnDestroy {
 
   public getIssueSubtasks$ = createEffect(() =>
   this._actions$.pipe(
-    ofType(TasksActions.getIssueSubtasks),
+    ofType(IssuesActions.getIssueSubtasks),
     switchMap(() =>
       this._store$.pipe(
         select(RouterStoreSelectors.selectRouterParams),
@@ -101,15 +101,11 @@ export class TasksEffects implements OnDestroy {
     ),
     filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
     mergeMap(({ projectId, issueId }) => {
-      return this._tasksService.getIssueSubtasks(issueId).pipe(
+      return this._issuesService.getIssueSubtasks(issueId).pipe(
         untilDestroyed(this),
-        map((issues: Issue[]) => {
-          console.log('issues', issues);
-          
-          return TasksActions.getIssueSubtasksSuccess({ projectId, issues });
-        }),
+        map((issues: Issue[]) => IssuesActions.getIssueSubtasksSuccess({ projectId, issues })),
         catchError((error) =>
-          of(TasksActions.getIssueSubtasksFailure({ message: error.messages }))
+          of(IssuesActions.getIssueSubtasksFailure({ message: error.messages }))
         )
       );
     })
@@ -118,13 +114,13 @@ export class TasksEffects implements OnDestroy {
 
   public deleteIssue$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.deleteIssue),
+      ofType(IssuesActions.deleteIssue),
       switchMap(({ projectId, issueId }) => {
-        return from(this._tasksService.deleteIssue(issueId)).pipe(
+        return from(this._issuesService.deleteIssue(issueId)).pipe(
           untilDestroyed(this),
-          mergeMap(() => of(TasksActions.deleteIssueSuccess(), RouterActions.navigateProject({ projectId }))),
+          mergeMap(() => of(IssuesActions.deleteIssueSuccess(), RouterActions.navigateProject({ projectId }))),
           catchError((error) =>
-            of(TasksActions.deleteIssueFailure({ message: error.messages }))
+            of(IssuesActions.deleteIssueFailure({ message: error.messages }))
           )
         );
       })
@@ -133,13 +129,13 @@ export class TasksEffects implements OnDestroy {
 
   public updateIssue$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(TasksActions.updateIssue),
+      ofType(IssuesActions.updateIssue),
       switchMap(({ issue, issueId }) => {
-        return from(this._tasksService.updateIssue(issueId, issue)).pipe(
+        return from(this._issuesService.updateIssue(issueId, issue)).pipe(
           untilDestroyed(this),
-          map(() => TasksActions.updateIssueSuccess()),
+          map(() => IssuesActions.updateIssueSuccess()),
           catchError((error) =>
-            of(TasksActions.updateIssueFailure({ message: error.messages }))
+            of(IssuesActions.updateIssueFailure({ message: error.messages }))
           )
         );
       })
@@ -148,7 +144,7 @@ export class TasksEffects implements OnDestroy {
 
   constructor(
     private _actions$: Actions,
-    private _tasksService: TasksService,
+    private _issuesService: IssuesService,
     private _store$: Store<AppState>
   ) { }
 
