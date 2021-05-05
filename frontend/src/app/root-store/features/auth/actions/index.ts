@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from 'src/app/core/models/user.model';
+import { User, UserAuthData } from 'src/app/core/models/user.model';
 
 import { createConstants } from '@app/root-store/features/utils';
 
@@ -31,7 +31,7 @@ export const authActionTypes: AuthActionType = createConstants<AuthActionType>(
 
 export const signIn = createAction(
   authActionTypes.SIGN_IN,
-  props<{ authData: User }>()
+  props<{ authData: UserAuthData }>()
 );
 
 export const signInSuccess = createAction(
@@ -45,7 +45,7 @@ export const signInFailure = createAction(
 
 export const signUp = createAction(
   authActionTypes.SIGN_UP,
-  props<{ authData: User }>()
+  props<{ authData: UserAuthData }>()
 );
 
 export const signUpSuccess = createAction(

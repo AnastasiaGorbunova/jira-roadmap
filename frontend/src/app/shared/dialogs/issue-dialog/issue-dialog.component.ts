@@ -13,12 +13,12 @@ import { AppState } from '@app/root-store/state';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-create-issue-dialog',
-  templateUrl: './create-issue-dialog.component.html',
-  styleUrls: ['./create-issue-dialog.component.scss'],
+  selector: 'app-issue-dialog',
+  templateUrl: './issue-dialog.component.html',
+  styleUrls: ['./issue-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateIssueDialogComponent implements OnInit {
+export class IssueDialogComponent implements OnInit {
   issueForm: FormGroup;
   users: User[];
   filteredUsers: User[];
@@ -30,7 +30,7 @@ export class CreateIssueDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<CreateIssueDialogComponent>,
+    public dialogRef: MatDialogRef<IssueDialogComponent>,
     private _store$: Store<AppState>
   ) { }
 
@@ -97,7 +97,7 @@ export class CreateIssueDialogComponent implements OnInit {
 
   private getUsers(): void {
     this._store$.pipe(
-      select(UsersStoreSelectors.usersSelector),
+      select(UsersStoreSelectors.projectUsersSelector),
       untilDestroyed(this)
     ).subscribe(users => this.users = users);
   }

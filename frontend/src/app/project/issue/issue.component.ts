@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
 
 import { Project } from '@app/core/models/project.model';
 import { Issue, issueStatuses, issueStatusesSet, IssueType, issueTypesSet } from '@app/core/models/issue.model';
-import { unassigned } from '@app/core/models/user.model';
+import { unassigned, User } from '@app/core/models/user.model';
 import { trackById } from '@app/core/utils';
 
 @Component({
@@ -26,8 +26,10 @@ export class IssueComponent implements OnChanges {
   @Input() project: Project;
   @Input() issueAssignee: string;
   @Input() issueReporter: string;
+  @Input() users: User[];
   @Output() onNavigateToBoard = new EventEmitter<void>();
   @Output() onNavigateToProject = new EventEmitter<string>();
+  @Output() onNavigateToSubtask = new EventEmitter<string>();
   @Output() onCreateSubTask = new EventEmitter<{ projectId: string, issueId: string }>();
   @Output() onEditIssue = new EventEmitter<Issue>();
   @Output() onDeleteIssue = new EventEmitter<{ projectId: string, issueId: string }>();
@@ -51,12 +53,22 @@ export class IssueComponent implements OnChanges {
     return this.issue?.type !== IssueType.SubTask;
   }
 
+  getAssignee(assigneeId: string): string {
+    const assignee = this.users.find(user => user.id === assigneeId);
+
+    return assignee ? `${assignee.first_name} ${assignee.last_name}` : unassigned;
+  }
+
   navigateToBoard(): void {
     this.onNavigateToBoard.emit();
   }
 
   navigateToProject(): void {
     this.onNavigateToProject.emit(this.project.id);
+  }
+
+  navigateToSubtask(subtaskId: string): void {
+    this.onNavigateToSubtask.emit(subtaskId);
   }
 
   createSubTask(): void {

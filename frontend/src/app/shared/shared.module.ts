@@ -6,9 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@app/shared/material.module';
 import { HeaderComponent } from '@app/shared/header/header.component';
 import { HeaderContainerComponent } from '@app/shared/header/header-container.component';
-import { CreateProjectDialogComponent } from '@app/shared/dialogs/create-project-dialog/create-project-dialog.component';
+import { ProjectDialogComponent } from '@app/shared/dialogs/project-dialog/project-dialog.component';
 import { ConfirmActionDialogComponent } from '@app/shared/dialogs/confirm-action-dialog/confirm-action-dialog.component';
-import { CreateIssueDialogComponent } from './dialogs/create-issue-dialog/create-issue-dialog.component';
+import { IssueDialogComponent } from './dialogs/issue-dialog/issue-dialog.component';
 
 @NgModule({
   imports: [
@@ -22,19 +22,16 @@ import { CreateIssueDialogComponent } from './dialogs/create-issue-dialog/create
     MaterialModule,
     HeaderContainerComponent,
     HeaderComponent,
-    CreateProjectDialogComponent,
+    ProjectDialogComponent,
     ConfirmActionDialogComponent,
-    CreateIssueDialogComponent
+    IssueDialogComponent
   ],
   declarations: [
     HeaderContainerComponent,
     HeaderComponent,
-    CreateProjectDialogComponent,
+    ProjectDialogComponent,
     ConfirmActionDialogComponent,
-    CreateIssueDialogComponent
-  ],
-  entryComponents: [
-    CreateProjectDialogComponent
+    IssueDialogComponent
   ]
 })
 export class SharedModule { }

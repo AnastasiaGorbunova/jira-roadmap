@@ -88,6 +88,8 @@ export class IssuesEffects implements OnDestroy {
       ),
       filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
       mergeMap(({ projectId, issueId }) => {
+        console.log('get issye');
+        
         return this._issuesService.getIssue(issueId).pipe(
           untilDestroyed(this),
           map((issue) => IssuesActions.getIssueSuccess({ projectId, issue })),

@@ -38,7 +38,7 @@ export class ProjectsBoardContainerComponent implements OnInit {
   }
 
   openCreateProjectDialog(): void {
-    this._dialogService.open('CreateProjectDialogComponent', {
+    this._dialogService.open('ProjectDialogComponent', {
       title: createItemTitle('project'),
       confirmBtnText: createConfirmBtnText,
       handleConfirm: (newProject: Project) => {

@@ -52,4 +52,49 @@
             padding-right: 8px;
         }
     }
+
+    &-subtasks {
+        &-header {
+            font-size: 24px;
+        }
+
+        &-list {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .subtask {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        padding: 8px;
+        white-space: nowrap;
+        background-color: $color-bg-secondary-light;
+        border-radius: $border-radius;
+        border: 1px solid $color-border-secondary-light;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        &-name {
+            margin: 4px 0;
+            font-size: 16px;
+        }
+
+        &-info {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            font-size: 14px;
+        }
+        
+        &-status,
+        &-assignee {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 150px;
+            margin-left: 20px;
+        }
+    }
 }

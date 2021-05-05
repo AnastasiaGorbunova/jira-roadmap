@@ -1,4 +1,4 @@
-<div class="issue" *ngIf="project && issue">
+<div *ngIf="project && issue" class="issue">
 	<div class="issue-navigation">
 		<div class="issue-navigation-board" (click)="navigateToBoard()">
 			<mat-icon class="back-icon">arrow_back</mat-icon>
@@ -21,17 +21,18 @@
 				Edit issue
 			</button>
 
-			<button mat-stroked-button class="action" type="submit" (click)="deleteIssue()">
+			<button *ngIf="isUserAdmin || isUserLeader" mat-stroked-button class="action" type="submit" (click)="deleteIssue()">
 				Delete issue
 			</button>
 		</div>
 	</div>
 
-	<p class="issue-type">Type: {{ issueType }}</p>
-	<p class="issue-type">Assignee: {{ issueAssignee || unassigned }}</p>
-	<p class="issue-type">Reporter: {{ issueReporter }}</p>
-	<p *ngIf="issue.description" class="issue-description">Description: {{ issue.description }}</p>
-
+	<div class="issue-info">
+		<p class="issue-type">Type: {{ issueType }}</p>
+		<p class="issue-type">Assignee: {{ getAssignee(issue.assignee_id) }}</p>
+		<p class="issue-type">Reporter: {{ getAssignee(issue.creator_id) }}</p>
+		<p *ngIf="issue.description" class="issue-description">Description: {{ issue.description }}</p>	
+	</div>
 
 	<mat-form-field appearance="outline">
 		<mat-label>Status</mat-label>
@@ -45,9 +46,14 @@
 
 	<div *ngIf="issueSubtasks?.length" class="issue-subtasks">
 		<p class="issue-subtasks-header">Subtasks</p>
-		<div *ngFor="let subtask of issueSubtasks; trackBy: trackById" class="subtask">
-			<p class="subtask-name">{{ subtask.name }}</p>
-			<span class="subtask-name">{{ issueStatusesSet[subtask?.status] }}</span>
+		<div class="issue-subtasks-list">
+			<div *ngFor="let subtask of issueSubtasks; trackBy: trackById" class="subtask" (click)="navigateToSubtask(subtask.id)">
+				<p class="subtask-name">{{ subtask.name }}</p>
+				<div class="subtask-info">
+					<span class="subtask-assignee">{{ getAssignee(subtask.assignee_id) }}</span>
+					<span class="subtask-status">{{ issueStatusesSet[subtask?.status] }}</span>
+				</div>
+			</div>
 		</div>
 	</div>
 

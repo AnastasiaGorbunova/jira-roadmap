@@ -38,6 +38,18 @@ export class ProjectComponent {
     return otherIssues && otherIssues[status];
   }
 
+  get hasOtherIssues(): boolean {
+    const otherIssuesMap = this.projectIssuesMap?.otherIssuesGroupedByStatus;
+    
+    return !!Object.keys(otherIssuesMap || {}).length;
+  }
+
+  get isIssuesTableVisible(): boolean {
+    const tasksMap = this.projectIssuesMap?.issuesWithSubtasks;
+    const hasTasks = !!Object.keys(tasksMap || {}).length;
+    return this.hasOtherIssues || hasTasks;
+  }
+
   createIssue(): void {
     this.onCreateIssue.emit(this.project.id);
   }

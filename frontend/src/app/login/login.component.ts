@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { User } from '@app/core/models/user.model';
 import { AuthStoreActions, AuthStoreSelectors } from '@app/root-store/features/auth';
 import { AppState } from '@app/root-store/state';
-import { validationMessages } from '@app/login/login.constants';
+import { EMAIL_VALIDATION_REGEXP, validationMessages } from '@app/login/login.constants';
 
 @Component({
   selector: 'app-login',
@@ -25,39 +25,25 @@ export class LoginComponent implements OnInit {
     private _store$: Store<AppState>
   ) { }
 
+  get isFormInvalid(): boolean {
+    if (this.isLogin) {
+      const { email, password } = this.loginForm.controls || {};
+      return email.invalid || password.invalid;
+    }
+
+    return this.loginForm.invalid;
+  }
+
   get signPostfix(): string {
     return this.isLogin ? 'In' : 'Up';
   }
 
-  get email(): AbstractControl {
-    return this.loginForm.controls.email;
-  }
-
-  get password(): AbstractControl {
-    return this.loginForm.controls.password;
-  }
-
-  get firstName(): AbstractControl {
-    return this.loginForm.controls.firstName;
-  }
-
-  get lastName(): AbstractControl {
-    return this.loginForm.controls.lastName;
-  }
-
   auth(): void {
-    const userCredentials = {
-      email: `${this.email.value?.toLowerCase()}`,
-      password: this.password.value
-    };
+    const { email, password } = this.loginForm.value;
 
     const authData: User = !this.isLogin
-      ? {
-        ...userCredentials,
-        first_name: this.firstName.value,
-        last_name: this.lastName.value
-      }
-      : userCredentials;
+      ? this.loginForm.value
+      : { email: email.toLowerCase(), password };
 
     const signAction = this.isLogin ? 'signIn' : 'signUp';
     this._store$.dispatch(AuthStoreActions[signAction]({ authData }));
@@ -65,6 +51,7 @@ export class LoginComponent implements OnInit {
 
   toggleLoginForm(): void {
     this.isLogin = !this.isLogin;
+    this.loginForm.reset();
     this._store$.dispatch(AuthStoreActions.clearAuthError());
   }
 
@@ -79,25 +66,36 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  // TODO: add more validation rules
   private initializeForm(): void {
+
+    const basicControlOptions = {
+      validators: [Validators.required],
+      updateOn: 'blur',
+    } as ValidatorFn | ValidatorFn[] | AbstractControlOptions;
+
     this.loginForm = new FormGroup({
       email: new FormControl('', {
-        validators: [Validators.required],
-        updateOn: 'blur',
+        validators: [
+          Validators.required,
+          Validators.pattern(EMAIL_VALIDATION_REGEXP)
+        ],
+        updateOn: 'blur'
       }),
-      password: new FormControl('', {
-        validators: [Validators.required],
-        updateOn: 'blur',
-      }),
-      firstName: new FormControl({ value: '', disabled: !this.isLogin }, {
-        validators: [Validators.required],
-        updateOn: 'blur',
-      }),
-      lastName: new FormControl({ value: '', disabled: !this.isLogin }, {
-        validators: [Validators.required],
-        updateOn: 'blur',
-      }),
+      password: new FormControl('', basicControlOptions),
+      firstName: new FormControl(
+        {
+          value: '',
+          disabled: !this.isLogin
+        },
+        basicControlOptions
+      ),
+      lastName: new FormControl(
+        {
+          value: '',
+          disabled: !this.isLogin
+        },
+        basicControlOptions
+      ),
     });
   }
 }

@@ -85,13 +85,3 @@ export const issueAssigneeSelector = createSelector(
     return unassigned;
   }
 );
-
-export const issueReporterSelector = createSelector(
-  usersSelector,
-  (users: User[], props: { reporterId: string }): string => {
-    const reporter = users.find(user => user.id === props.reporterId);
-    const { first_name, last_name } = reporter || {};
-
-    return `${first_name} ${last_name}`;
-  }
-);

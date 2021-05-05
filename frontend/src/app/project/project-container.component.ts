@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 import { Project } from '@app/core/models/project.model';
 import { Issue, IssuesMap, IssueStatus } from '@app/core/models/issue.model';
@@ -36,7 +35,7 @@ export class ProjectContainerComponent implements OnInit {
   }
 
   openCreateIssueModal(projectId: string): void {
-    this._dialogService.open('CreateIssueDialogComponent', {
+    this._dialogService.open('IssueDialogComponent', {
       title: createItemTitle('issue'),
       confirmBtnText: createConfirmBtnText,
       handleConfirm: (issue: Issue) => {
@@ -47,7 +46,7 @@ export class ProjectContainerComponent implements OnInit {
 
   openEditProjectDialog(project: Project): void {
 
-    this._dialogService.open('CreateProjectDialogComponent', {
+    this._dialogService.open('ProjectDialogComponent', {
       title: editItemTitle('project'),
       confirmBtnText: saveConfirmBtnText,
       project,

@@ -13,12 +13,12 @@ import { AppState } from '@app/root-store/state';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-create-project-dialog',
-  templateUrl: './create-project-dialog.component.html',
-  styleUrls: ['./create-project-dialog.component.scss'],
+  selector: 'app-project-dialog',
+  templateUrl: './project-dialog.component.html',
+  styleUrls: ['./project-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateProjectDialogComponent implements OnInit {
+export class ProjectDialogComponent implements OnInit {
   projectForm: FormGroup;
   users: User[];
   filteredUsers: User[];
@@ -27,7 +27,7 @@ export class CreateProjectDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
+    public dialogRef: MatDialogRef<ProjectDialogComponent>,
     private _store$: Store<AppState>
   ) { }
 

@@ -25,9 +25,10 @@ export class IssueContainerComponent implements OnInit {
   issue$: Observable<Issue>;
   issueSubtasks$: Observable<Issue[]>;
   project$: Observable<Project>;
-  issueAssignee$: Observable<string>;
-  issueReporter$: Observable<string>;
-
+  isUserAdmin$: Observable<boolean>;
+  isUserLeader$: Observable<boolean>;
+  users$: Observable<User[]>;
+  
   constructor(
     private _store$: Store<AppState>,
     private _dialogService: DialogService
@@ -41,8 +42,12 @@ export class IssueContainerComponent implements OnInit {
     this._store$.dispatch(RouterStoreActions.navigateProject({ projectId }));
   }
 
+  navigateToSubtask(subtaskId: string): void {
+    this._store$.dispatch(RouterStoreActions.navigateIssue({ issueId: subtaskId }));
+  }
+
   openCreateSubTaskModal(projectId: string, issueId: string): void {
-    this._dialogService.open('CreateIssueDialogComponent', {
+    this._dialogService.open('IssueDialogComponent', {
       title: createItemTitle('subtask'),
       confirmBtnText: createConfirmBtnText,
       creationType: IssueType.SubTask,
@@ -74,7 +79,7 @@ export class IssueContainerComponent implements OnInit {
 
   openEditIssueDialog(issue: Issue): void {
 
-    this._dialogService.open('CreateIssueDialogComponent', {
+    this._dialogService.open('IssueDialogComponent', {
       title: editItemTitle('issue'),
       confirmBtnText: saveConfirmBtnText,
       issue,
@@ -90,15 +95,12 @@ export class IssueContainerComponent implements OnInit {
     this._store$.dispatch(IssuesStoreActions.getIssue());
     this._store$.dispatch(IssuesStoreActions.getIssueSubtasks());
 
-    this.issue$ = this._store$.pipe(
-      select(IssuesStoreSelectors.issueSelector),
-      tap(issue => {
-        this.issueAssignee$ = this._store$.pipe(select(IssuesStoreSelectors.issueAssigneeSelector, { assigneeId: issue?.assignee_id }));
-        this.issueReporter$ = this._store$.pipe(select(IssuesStoreSelectors.issueReporterSelector, { reporterId: issue?.creator_id }));
-      })
-    );
+    this.issue$ = this._store$.pipe(select(IssuesStoreSelectors.issueSelector));
     this.issueSubtasks$ = this._store$.pipe(select(IssuesStoreSelectors.issueSubtasksSelector));
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
+    this.isUserAdmin$ = this._store$.pipe(select(AuthStoreSelectors.isCurrentUserAdminSelector));
+    this.isUserLeader$ = this._store$.pipe(select(AuthStoreSelectors.isCurrentUserLeaderSelector));
+    this.users$ = this._store$.pipe(select(UsersStoreSelectors.projectUsersSelector));
   }
 
   private async createSubTask(newSubtask: any): Promise<void> {

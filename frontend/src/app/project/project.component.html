@@ -17,7 +17,7 @@
 				Edit project
 			</button>
 			
-			<button *ngIf="isUserAdmin || isUserLeader" mat-stroked-button class="action" type="submit" (click)="deleteProject()">
+			<button *ngIf="isUserAdmin" mat-stroked-button class="action" type="submit" (click)="deleteProject()">
 				Delete project
 			</button>
 		</div>
@@ -25,7 +25,7 @@
 
 	<p *ngIf="project.description" class="project-description">{{ project.description }}</p>
 
-	<div class="project-tasks-table">
+	<div *ngIf="isIssuesTableVisible; else elseBlock" class="project-tasks-table">
 		<div class="header">
 			<div *ngFor="let status of issueStatuses; trackBy: trackById" class="status">
 				<p class="status-name">{{ issueStatusesSet[status] }}</p>
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 
-		<div class="task">
+		<div *ngIf="hasOtherIssues" class="task">
 			<div class="task-header">
 				<p class="task-name not-clickable">Other issues</p>
 			</div>
@@ -73,4 +73,10 @@
 
 		</div>
 	</div>
+
+	<ng-template #elseBlock>
+		<p class="empty-screen-caption">
+			You currently do not have created issues.
+		</p>
+	</ng-template>
 </div>
