@@ -25,7 +25,7 @@ export class ProjectCardContainerComponent {
     this._store$.dispatch(RouterStoreActions.navigateProject({ projectId }));
   }  
 
-  openDeleteProjectDialog(projectId: string): void {
-    this._projectsService.openDeleteProjectDialog(projectId);
+  openDeleteProjectDialog(project: Project): void {
+    this._projectsService.openDeleteProjectDialog(project);
   }
 }

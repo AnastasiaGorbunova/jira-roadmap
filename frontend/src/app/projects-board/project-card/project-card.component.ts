@@ -10,7 +10,7 @@ import { Project } from '@app/core/models/project.model';
 })
 export class ProjectCardComponent {
   @Input() project: Project;
-  @Output() onDeleteProject = new EventEmitter<string>();
+  @Output() onDeleteProject = new EventEmitter<Project>();
   @Output() onNavigateToProject = new EventEmitter<string>();
 
   constructor() { }
@@ -18,7 +18,7 @@ export class ProjectCardComponent {
   deleteProject(event: Event): void {
     event.stopPropagation();
 
-    this.onDeleteProject.emit(this.project.id);
+    this.onDeleteProject.emit(this.project);
   }
 
   navigateToProject(): void {

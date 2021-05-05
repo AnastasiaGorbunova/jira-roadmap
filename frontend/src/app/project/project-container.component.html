@@ -1,6 +1,8 @@
 <app-project 
 	[project]="project$ | async"
 	[projectIssuesMap]="projectIssuesMap$ | async"
+	[isUserAdmin]="isUserAdmin$ | async"
+	[isUserLeader]="isUserLeader$ | async"
 	(onCreateIssue)="openCreateIssueModal($event)"
 	(onEditProject)="openEditProjectDialog($event)"
 	(onDeleteProject)="deleteProject($event)"

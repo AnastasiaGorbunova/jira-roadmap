@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 
-import { User } from '@app/core/models/user.model';
+import { User, UserAccess } from '@app/core/models/user.model';
 import { FirestoreService } from '@app/core/services/firestore.service';
 
 @Injectable({
@@ -23,7 +23,12 @@ constructor(
       const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
       
       const userId = userCredential.user.uid;
-      const newUser = { email, first_name, last_name, id: userId };
+      const newUser = { 
+        email, 
+        first_name, 
+        last_name, 
+        role: UserAccess.Basic
+      };
 
       await this.createUser(userId, newUser);
     } catch (error) {

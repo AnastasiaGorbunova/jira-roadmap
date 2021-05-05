@@ -11,6 +11,7 @@ import { preventKeyValueOrder, trackById } from '@app/core/utils';
 })
 export class ProjectsBoardComponent {
   @Input() projects: Project[];
+  @Input() isCurrentUserAdmin: boolean;
   @Output() onCreateProject = new EventEmitter<void>();
 
   preventKeyValueOrder = preventKeyValueOrder;

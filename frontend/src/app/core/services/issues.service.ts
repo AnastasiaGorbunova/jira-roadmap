@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { Issue } from '@app/core/models/issue.model';
 import { FirestoreService } from '@app/core/services/firestore.service';
+import { stringify } from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +20,11 @@ export class IssuesService {
     return this._firestoreService.deleteDocument(`/issues`, issueId);
   }
 
-  async createIssue(newIssue: Issue): Promise<void> {
+  async createIssue(currentUserId: string, newIssue: Issue): Promise<void> {
     const timestamp = this._firestoreService.timestamp;
     const issue = {
       ...newIssue,
+      creator_id: currentUserId,
       date_created: timestamp,
     };
 

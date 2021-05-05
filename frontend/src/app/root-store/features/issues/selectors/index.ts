@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import _groupby from 'lodash.groupby';
 
-import { Issue } from '@app/core/models/issue.model';
+import { Issue, IssuesMap } from '@app/core/models/issue.model';
 import { AppState } from '@app/root-store/state';
 import { selectedProjectId, selectedIssueId } from '@app/root-store/features/router/selectors';
 import { State as IssuesState } from '@app/root-store/features/issues/state';
@@ -23,10 +23,9 @@ export const projectIssuesSelector = createSelector(
   }
 );
 
-// TODO: add type
-export const projectIssuesMapSelector = createSelector(
+export const issuesMapSelector = createSelector(
   projectIssuesSelector,
-  (issues: Issue[]): { [taskId: string]: any } => {
+  (issues: Issue[]): IssuesMap => {
     const issuesGroupedByIssueId = _groupby(issues, 'issue_id');
 
     // other issues is all issues without subtasks
@@ -35,16 +34,17 @@ export const projectIssuesMapSelector = createSelector(
     const issuesIds = Object.keys(subtasksMap || {});
     const subtasksGroupedByStatusMap = {};
 
-    issuesIds.forEach(issueId => {
-      subtasksGroupedByStatusMap[issueId] = _groupby(subtasksMap[issueId], 'status');
-    });
+    if (subtasksMap) {
+      issuesIds.forEach(issueId => {
+        subtasksGroupedByStatusMap[issueId] = _groupby(subtasksMap[issueId], 'status');
+      });
+    }
 
     const otherIssuesWithoutSubtasks = [];
     const issuesWithSubtasks = [];
 
-    // todo: check if has no subtasks
     otherIssues?.forEach(issue => {
-      if (!subtasksMap[issue.id]) {
+      if (subtasksMap && !subtasksMap[issue.id]) {
         otherIssuesWithoutSubtasks.push(issue);
       } else {
         issuesWithSubtasks.push(issue);
@@ -52,7 +52,7 @@ export const projectIssuesMapSelector = createSelector(
     });
 
     const otherIssuesGroupedByStatus = _groupby(otherIssuesWithoutSubtasks, 'status');
-
+    
     return { otherIssuesGroupedByStatus, subtasksGroupedByStatusMap, issuesWithSubtasks };
   }
 );

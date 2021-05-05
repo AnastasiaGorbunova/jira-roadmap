@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
     return this.isLogin ? 'In' : 'Up';
   }
 
-  // TODO: think about making separate components for auth and registration
   get email(): AbstractControl {
     return this.loginForm.controls.email;
   }
@@ -46,10 +45,7 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls.lastName;
   }
 
-  // TODO: change name to auth
   auth(): void {
-    // TODO: event stopPr
-
     const userCredentials = {
       email: `${this.email.value?.toLowerCase()}`,
       password: this.password.value

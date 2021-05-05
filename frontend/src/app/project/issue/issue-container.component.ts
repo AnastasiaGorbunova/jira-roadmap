@@ -25,11 +25,9 @@ export class IssueContainerComponent implements OnInit {
   issue$: Observable<Issue>;
   issueSubtasks$: Observable<Issue[]>;
   project$: Observable<Project>;
-  users$: Observable<User[]>;
   issueAssignee$: Observable<string>;
   issueReporter$: Observable<string>;
 
-  private users: User[];
   constructor(
     private _store$: Store<AppState>,
     private _dialogService: DialogService
@@ -47,7 +45,6 @@ export class IssueContainerComponent implements OnInit {
     this._dialogService.open('CreateIssueDialogComponent', {
       title: createItemTitle('subtask'),
       confirmBtnText: createConfirmBtnText,
-      projectUsers: this.users,
       creationType: IssueType.SubTask,
       handleConfirm: (subtask: Issue) => {
         this.createSubTask({
@@ -82,7 +79,6 @@ export class IssueContainerComponent implements OnInit {
       confirmBtnText: saveConfirmBtnText,
       issue,
       isEditIssue: true,
-      projectUsers: this.users,
       handleConfirm: (updatedIssueData: Issue) => {
         this.updateIssue(issue.id, { ...updatedIssueData });
       }
@@ -103,18 +99,10 @@ export class IssueContainerComponent implements OnInit {
     );
     this.issueSubtasks$ = this._store$.pipe(select(IssuesStoreSelectors.issueSubtasksSelector));
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
-
-    // TODO: get users for PROJECT
-    this.users$ = this._store$.pipe(
-      select(UsersStoreSelectors.usersSelector),
-      tap((users: User[]) => {
-        this.users = users;
-      })
-    );
   }
 
   private async createSubTask(newSubtask: any): Promise<void> {
-    const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserId))
+    const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserIdSelector))
       .pipe(take(1))
       .toPromise();
 

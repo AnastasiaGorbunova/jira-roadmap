@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { from, of } from 'rxjs';
+import { combineLatest, from, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -18,6 +18,7 @@ import { AppState } from '@app/root-store/state';
 import { IssuesService } from '@app/core/services/issues.service';
 import { RouterStoreSelectors } from '@app/root-store/features/router';
 import { Issue } from '@app/core/models/issue.model';
+import { AuthStoreSelectors } from '../../auth';
 
 @UntilDestroy()
 @Injectable()
@@ -27,8 +28,16 @@ export class IssuesEffects implements OnDestroy {
   public createIssue$ = createEffect(() =>
     this._actions$.pipe(
       ofType(IssuesActions.createIssue),
-      switchMap(({ issue }) => {
-        return from(this._issuesService.createIssue(issue)).pipe(
+      switchMap(({ issue }) =>
+        combineLatest([
+          of(issue),
+          this._store$.select(AuthStoreSelectors.currentUserIdSelector).pipe(
+            filter((id) => !!id)
+          )
+        ]).pipe(take(1))
+      ),
+      switchMap(([issue, currentUserId]) => {
+        return from(this._issuesService.createIssue(currentUserId, issue)).pipe(
           untilDestroyed(this),
           map(() => IssuesActions.createIssueSuccess()),
           catchError((error) =>
@@ -91,26 +100,26 @@ export class IssuesEffects implements OnDestroy {
   );
 
   public getIssueSubtasks$ = createEffect(() =>
-  this._actions$.pipe(
-    ofType(IssuesActions.getIssueSubtasks),
-    switchMap(() =>
-      this._store$.pipe(
-        select(RouterStoreSelectors.selectRouterParams),
-        take(1)
-      )
-    ),
-    filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
-    mergeMap(({ projectId, issueId }) => {
-      return this._issuesService.getIssueSubtasks(issueId).pipe(
-        untilDestroyed(this),
-        map((issues: Issue[]) => IssuesActions.getIssueSubtasksSuccess({ projectId, issues })),
-        catchError((error) =>
-          of(IssuesActions.getIssueSubtasksFailure({ message: error.messages }))
+    this._actions$.pipe(
+      ofType(IssuesActions.getIssueSubtasks),
+      switchMap(() =>
+        this._store$.pipe(
+          select(RouterStoreSelectors.selectRouterParams),
+          take(1)
         )
-      );
-    })
-  )
-);
+      ),
+      filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
+      mergeMap(({ projectId, issueId }) => {
+        return this._issuesService.getIssueSubtasks(issueId).pipe(
+          untilDestroyed(this),
+          map((issues: Issue[]) => IssuesActions.getIssueSubtasksSuccess({ projectId, issues })),
+          catchError((error) =>
+            of(IssuesActions.getIssueSubtasksFailure({ message: error.messages }))
+          )
+        );
+      })
+    )
+  );
 
   public deleteIssue$ = createEffect(() =>
     this._actions$.pipe(

@@ -15,6 +15,31 @@
     </mat-form-field>
     <!--/ Project name field -->
 
+    <mat-form-field appearance="outline">
+			<mat-label>Leader</mat-label>
+			<mat-select formControlName="leader_id" (openedChange)="userFilter.value = ''; resetFilteredUsers()">
+				<mat-form-field>
+					<input #userFilter matInput placeholder="Search" (keyup)="filterUsers($event.target.value)" />
+				</mat-form-field>
+				<mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+					{{ user.first_name }} {{ user.last_name }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+    <mat-form-field appearance="outline">
+			<mat-label>Participants</mat-label>
+			<mat-select multiple formControlName="participants_ids" (openedChange)="userFilter.value = ''; resetFilteredUsers()">
+				<mat-form-field>
+					<input #userFilter matInput placeholder="Search" (keyup)="filterUsers($event.target.value)" />
+				</mat-form-field>
+
+				<mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+					{{ user.first_name }} {{ user.last_name }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
     <!-- Project description field -->
     <mat-form-field class="textarea" appearance="outline" floatLabel="always">
       <mat-label>Description</mat-label>

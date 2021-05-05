@@ -16,4 +16,9 @@ export class UsersService {
   getUsers(): Observable<User[]> {
     return this._firestoreService.getCollection<User>('/users');
   }
+
+  // setUsersProjectRoles(): Promise<void> {
+
+    // this._firestoreService.update()
+  // }
 }

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { Project } from '@app/core/models/project.model';
-import { Issue, issueStatuses, issueStatusesSet } from '@app/core/models/issue.model';
+import { Issue, IssuesMap, issueStatuses, issueStatusesSet } from '@app/core/models/issue.model';
 import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
@@ -12,10 +12,12 @@ import { preventKeyValueOrder, trackById } from '@app/core/utils';
 })
 export class ProjectComponent {
   @Input() project: Project;
-  @Input() projectIssuesMap: any;
+  @Input() projectIssuesMap: IssuesMap;
+  @Input() isUserAdmin: boolean;
+  @Input() isUserLeader: boolean;
   @Output() onCreateIssue = new EventEmitter<string>();
   @Output() onEditProject = new EventEmitter<Project>();
-  @Output() onDeleteProject = new EventEmitter<string>();
+  @Output() onDeleteProject = new EventEmitter<Project>();
   @Output() onNavigateToBoard = new EventEmitter<void>();
   @Output() onNavigateToIssue = new EventEmitter<string>();
 
@@ -45,7 +47,7 @@ export class ProjectComponent {
   }
 
   deleteProject(): void {
-    this.onDeleteProject.emit(this.project.id);
+    this.onDeleteProject.emit(this.project);
   }
 
   navigateToBoard(): void {

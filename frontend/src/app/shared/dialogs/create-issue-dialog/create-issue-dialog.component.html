@@ -37,9 +37,9 @@
 		<!-- Assignee field -->
 		<mat-form-field appearance="outline">
 			<mat-label>Assignee</mat-label>
-			<mat-select formControlName="assignee_id">
+			<mat-select formControlName="assignee_id" (openedChange)="userFilter.value = ''; resetFilteredUsers()">
 				<mat-form-field>
-					<input matInput (keyup)="filterUsers($event.target.value)" />
+			  		<input #userFilter matInput placeholder="Search" (keyup)="filterUsers($event.target.value)" />
 				</mat-form-field>
 				<mat-option [value]="unassigned">
 					unassigned

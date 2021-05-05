@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { Project } from '@app/core/models/project.model';
-import { Issue, IssueStatus } from '@app/core/models/issue.model';
+import { Issue, IssuesMap, IssueStatus } from '@app/core/models/issue.model';
 import { DialogService } from '@app/core/services/dialog.service';
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { RouterStoreActions } from '@app/root-store/features/router';
@@ -21,9 +21,9 @@ import { AuthStoreSelectors } from '@app/root-store/features/auth';
 })
 export class ProjectContainerComponent implements OnInit {
   project$: Observable<Project>;
-
-  // TODO: add type and for child components too
-  projectIssuesMap$: Observable<any>;
+  isUserAdmin$: Observable<boolean>;
+  isUserLeader$: Observable<boolean>;
+  projectIssuesMap$: Observable<IssuesMap>;
 
   constructor(
     private _store$: Store<AppState>,
@@ -31,15 +31,14 @@ export class ProjectContainerComponent implements OnInit {
     private _projectsService: ProjectsService
   ) { }
 
-  deleteProject(projectId: string): void {
-    this._projectsService.openDeleteProjectDialog(projectId);
+  deleteProject(project: Project): void {
+    this._projectsService.openDeleteProjectDialog(project);
   }
 
   openCreateIssueModal(projectId: string): void {
     this._dialogService.open('CreateIssueDialogComponent', {
       title: createItemTitle('issue'),
       confirmBtnText: createConfirmBtnText,
-      isProjectLevel: true,
       handleConfirm: (issue: Issue) => {
         this.createIssue(projectId, issue);
       }
@@ -47,13 +46,11 @@ export class ProjectContainerComponent implements OnInit {
   }
 
   openEditProjectDialog(project: Project): void {
-    const { name, description } = project;
 
     this._dialogService.open('CreateProjectDialogComponent', {
       title: editItemTitle('project'),
       confirmBtnText: saveConfirmBtnText,
-      projectName: name,
-      description: description,
+      project,
       handleConfirm: (updatedData: Project) => {
         this.updateProject(project, updatedData);
       }
@@ -73,27 +70,22 @@ export class ProjectContainerComponent implements OnInit {
     this._store$.dispatch(IssuesStoreActions.getIssues());
 
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
-    this.projectIssuesMap$ = this._store$.pipe(select(IssuesStoreSelectors.projectIssuesMapSelector));
+    this.projectIssuesMap$ = this._store$.pipe(select(IssuesStoreSelectors.issuesMapSelector));
+    this.isUserAdmin$ = this._store$.pipe(select(AuthStoreSelectors.isCurrentUserAdminSelector));
+    this.isUserLeader$ = this._store$.pipe(select(AuthStoreSelectors.isCurrentUserLeaderSelector));
   }
 
   private async createIssue(projectId: string, newIssue: Issue): Promise<void> {
-    const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserId))
-      .pipe(take(1))
-      .toPromise();
-
     const issue = {
       ...newIssue,
       project_id: projectId,
-      creator_id: currentUserId,
       status: IssueStatus.ToDo
     } as Issue;
 
     this._store$.dispatch(IssuesStoreActions.createIssue({ issue }));
   }
 
-  private updateProject(project: Project, updatedData: Project): void {
-    const updatedProject = { ...project, ...updatedData };
-
+  private updateProject(project: Project, updatedProject: Project): void {
     this._store$.dispatch(ProjectsStoreActions.updateProject({ projectId: project.id, updatedProject }));
   }
 }

@@ -17,6 +17,8 @@ import * as RouterActions from '@app/root-store/features/router/actions';
 import { ProjectsService } from '@app/core/services/projects.service';
 import { AppState } from '@app/root-store/state';
 import { RouterStoreSelectors } from '@app/root-store/features/router';
+import { AuthStoreSelectors } from '../../auth';
+import { User } from '@app/core/models/user.model';
 
 @UntilDestroy()
 @Injectable()
@@ -27,13 +29,21 @@ export class ProjectsEffects implements OnDestroy {
   public getProjects$ = createEffect(() =>
     this._actions$.pipe(
       ofType(ProjectsActions.getProjects),
-      mergeMap(() => {
-        return this._projectsService.getProjects().pipe(
+      switchMap(() =>
+        this._store$.pipe(
+          select(AuthStoreSelectors.currentUser),
+          filter(user => !!user),
+          take(1)
+        ),
+      ),
+      filter(() => !this.hasProjectsLoaded),
+      mergeMap((currentUser: User) => {
+        return this._projectsService.getProjects(currentUser).pipe(
           untilDestroyed(this),
           map((projects) => {
             this.hasProjectsLoaded = true;
             return ProjectsActions.getProjectsSuccess({ projects });
-        }),
+          }),
           catchError((error) =>
             of(ProjectsActions.getProjectsFailed({ message: error.messages }))
           )
@@ -67,12 +77,11 @@ export class ProjectsEffects implements OnDestroy {
     )
   );
 
-  // TODO: check diff between switchMap and mergeMap
   public deleteProject$ = createEffect(() =>
     this._actions$.pipe(
       ofType(ProjectsActions.deleteProject),
-      switchMap(({ projectId }) => {
-        return from(this._projectsService.deleteProject(projectId)).pipe(
+      switchMap(({ project }) => {
+        return from(this._projectsService.deleteProject(project)).pipe(
           untilDestroyed(this),
           mergeMap(() => of(ProjectsActions.deleteProjectSuccess(), RouterActions.navigateProjectsBoard())),
           catchError((error) =>

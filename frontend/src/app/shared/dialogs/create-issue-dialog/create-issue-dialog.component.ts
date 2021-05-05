@@ -1,11 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { select, Store } from '@ngrx/store';
+
 import { Issue, IssueType, issueTypes, issueTypesSet } from '@app/core/models/issue.model';
 import { unassigned, User } from '@app/core/models/user.model';
 import { validationMessages } from '@app/core/validation/validation.constants';
 import { emptyFieldValidator } from '@app/core/validation/validators';
+import { UsersStoreSelectors } from '@app/root-store/features/users';
+import { AppState } from '@app/root-store/state';
 
+@UntilDestroy()
 @Component({
   selector: 'app-create-issue-dialog',
   templateUrl: './create-issue-dialog.component.html',
@@ -14,6 +20,7 @@ import { emptyFieldValidator } from '@app/core/validation/validators';
 })
 export class CreateIssueDialogComponent implements OnInit {
   issueForm: FormGroup;
+  users: User[];
   filteredUsers: User[];
 
   validationMessages = validationMessages;
@@ -24,6 +31,7 @@ export class CreateIssueDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CreateIssueDialogComponent>,
+    private _store$: Store<AppState>
   ) { }
 
   get isSubmitDisabled(): boolean {
@@ -38,27 +46,32 @@ export class CreateIssueDialogComponent implements OnInit {
     const { handleConfirm } = this.data;
     const assigneeIdFormValue = this.issueForm.get('assignee_id').value;
     const assigneeId = assigneeIdFormValue === unassigned ? '' : assigneeIdFormValue;
-    // TODO: add issueModalData model
+
     handleConfirm({ ...this.issueForm.value, assignee_id: assigneeId } as Issue);
     this.dialogRef.close();
   }
 
   filterUsers(value: string): void {
     const filterValue = value?.trim().toLowerCase();
-    this.filteredUsers = this.data.projectUsers.filter(({ first_name, last_name }) =>
+    this.filteredUsers = this.users.filter(({ first_name, last_name }) =>
       `${first_name}${last_name}`.toLowerCase().includes(filterValue))
   }
 
+  resetFilteredUsers(): void {
+    this.filteredUsers = this.users;
+  }
+
   ngOnInit() {
+    this.getUsers();
     this.initializeIssueForm();
   }
 
   private initializeIssueForm(): void {
-    const { issue, isProjectLevel, projectUsers, creationType } = this.data;
+    const { issue, creationType } = this.data;
 
     const { name, description, type, assignee_id } = issue || {} as Issue;
 
-    this.filteredUsers = projectUsers;
+    this.filteredUsers = this.users;
     
     if (type === IssueType.SubTask || creationType === IssueType.SubTask) {
       this.issueTypes = issueTypes;
@@ -80,5 +93,12 @@ export class CreateIssueDialogComponent implements OnInit {
       type: new FormControl({ value: issueType, disabled: isIssueTypeDisabled }, Validators.required),
       assignee_id: new FormControl(assignee_id || unassigned),
     });
+  }
+
+  private getUsers(): void {
+    this._store$.pipe(
+      select(UsersStoreSelectors.usersSelector),
+      untilDestroyed(this)
+    ).subscribe(users => this.users = users);
   }
 }

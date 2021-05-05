@@ -3,7 +3,6 @@
 		issue: (issue$ | async), 
 		issueSubtasks: (issueSubtasks$ | async), 
 		project: (project$ | async),
-		users: (users$ | async),
 		issueAssignee: (issueAssignee$ | async),
 		issueReporter: (issueReporter$ | async)
 	} as data"
@@ -12,7 +11,6 @@
 		[issue]="data.issue"
 		[issueSubtasks]="data.issueSubtasks"
 		[project]="data.project"
-		[users]="data.users"
 		[issueAssignee]="data.issueAssignee"
 		[issueReporter]="data.issueReporter"
 		(onNavigateToBoard)="navigateToBoard()"
