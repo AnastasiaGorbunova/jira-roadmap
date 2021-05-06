@@ -61,9 +61,7 @@ export class ProjectsEffects implements OnDestroy {
           take(1)
         ),
       ),
-      filter((projectId: string) => {
-        return !this.hasProjectsLoaded && !this.hasProjectLoadedMap[projectId];
-      }),
+      filter((projectId: string) => !this.hasProjectsLoaded && !this.hasProjectLoadedMap[projectId]),
       mergeMap((projectId: string) => {
         this.hasProjectLoadedMap[projectId] = true;
         return this._projectsService.getProject(projectId).pipe(

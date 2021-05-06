@@ -9,7 +9,7 @@ import { IssuesEffects } from './effects';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule, 
+    CommonModule,
     StoreModule.forFeature('issues', issuesReducer),
     EffectsModule.forFeature([IssuesEffects])
   ]

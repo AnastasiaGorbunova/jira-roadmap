@@ -1,4 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { 
+  Component, 
+  ChangeDetectionStrategy, 
+  Input, 
+  Output, 
+  EventEmitter 
+} from '@angular/core';
 
 import { User } from '@app/core/models/user.model';
 
@@ -8,7 +14,7 @@ import { User } from '@app/core/models/user.model';
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   @Input() currentUser: User;
   @Output() onUserSighOut = new EventEmitter<void>();
   @Output() onNavigateToBoard = new EventEmitter<void>();
@@ -27,8 +33,4 @@ export class HeaderComponent implements OnInit {
   navigateToBoard(): void {
     this.onNavigateToBoard.emit();
   }
-
-  ngOnInit() {
-  }
-
 }

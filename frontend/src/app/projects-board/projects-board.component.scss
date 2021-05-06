@@ -1,29 +1,29 @@
 @import "scss/theme/variables";
 
 .projects-board {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin: 32px;
-    padding: 24px;
-    background-color: $color-bg-primary-2;
-    border-radius: $border-radius;
-    border: 1px solid $color-border-secondary-light;
-    box-sizing: border-box;
-    
-    &-header {
-        margin-bottom: 12px;
-    }
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 32px;
+  padding: 24px;
+  background-color: $color-bg-primary-2;
+  border-radius: $border-radius;
+  border: 1px solid $color-border-secondary-light;
+  box-sizing: border-box;
+  
+  &-header {
+    margin-bottom: 12px;
+  }
 }
 
 .projects-list {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .empty-screen-caption {
-    text-align: center;
+  text-align: center;
 }

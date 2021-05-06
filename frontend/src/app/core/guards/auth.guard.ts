@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Router } from '@angular/router';
+import { CanLoad } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, skipWhile } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { map, skipWhile } from 'rxjs/operators';
 
 import { AppState } from '@app/root-store/state';
 import { RouterStoreActions } from '@app/root-store/features/router';
@@ -13,8 +13,8 @@ import { RouterStoreActions } from '@app/root-store/features/router';
 export class AuthGuard implements CanLoad {
 
   constructor(
-    private _store$: Store<AppState>, 
-    ) {}
+    private _store$: Store<AppState>,
+  ) { }
 
   public canLoad() {
     return this.getIsAuthenticated().pipe(
@@ -33,4 +33,3 @@ export class AuthGuard implements CanLoad {
     return this._store$.select((state) => state.auth.isAuthenticated);
   }
 }
-  

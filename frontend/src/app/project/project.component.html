@@ -1,4 +1,3 @@
-<!-- TODO: add loader while loading project -->
 <div *ngIf="project" class="project">
 	<div class="project-navigation" (click)="navigateToBoard()">
 		<mat-icon class="back-icon">arrow_back</mat-icon>
@@ -9,15 +8,32 @@
 		<p class="project-title">{{ project.name }}</p>
 
 		<div class="project-actions">
-			<button mat-stroked-button class="action" type="submit" (click)="createIssue()">
+			<button 
+				mat-stroked-button 
+				class="action" 
+				type="submit" 
+				(click)="createIssue()"
+			>
 				Create new issue
 			</button>
 
-			<button *ngIf="isUserAdmin || isUserLeader" mat-stroked-button class="action" type="submit" (click)="editProject()">
+			<button 
+				*ngIf="isUserAdmin || isUserLeader" 
+				mat-stroked-button 
+				class="action" 
+				type="submit" 
+				(click)="editProject()"
+			>
 				Edit project
 			</button>
 			
-			<button *ngIf="isUserAdmin" mat-stroked-button class="action" type="submit" (click)="deleteProject()">
+			<button 
+				*ngIf="isUserAdmin" 
+				mat-stroked-button 
+				class="action" 
+				type="submit" 
+				(click)="deleteProject()"
+			>
 				Delete project
 			</button>
 		</div>

@@ -9,8 +9,7 @@ import { AppState } from '@app/root-store/state';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   isAuthenticated$!: Observable<boolean>;

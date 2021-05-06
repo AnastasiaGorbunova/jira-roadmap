@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { AppState } from '@app/root-store/state';
@@ -10,7 +10,15 @@ import { Project } from '@app/core/models/project.model';
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { DialogService } from '@app/core/services/dialog.service';
 import * as TasksActions from '@app/root-store/features/issues/actions';
-import { createConfirmBtnText, createItemTitle, deleteConfirmBtnText, deleteItemText, deleteItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
+import { 
+  createConfirmBtnText, 
+  createItemTitle, 
+  deleteConfirmBtnText, 
+  deleteItemText, 
+  deleteItemTitle, 
+  editItemTitle, 
+  saveConfirmBtnText 
+} from '@app/shared/dialogs/dialogs.constants';
 import { UsersStoreSelectors } from '@app/root-store/features/users';
 import { User } from '@app/core/models/user.model';
 import { AuthStoreSelectors } from '@app/root-store/features/auth';

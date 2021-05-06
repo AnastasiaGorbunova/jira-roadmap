@@ -2,6 +2,12 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { 
+  createConfirmBtnText, 
+  createItemTitle, 
+  editItemTitle, 
+  saveConfirmBtnText 
+} from '@app/shared/dialogs/dialogs.constants';
 import { Project } from '@app/core/models/project.model';
 import { Issue, IssuesMap, IssueStatus } from '@app/core/models/issue.model';
 import { DialogService } from '@app/core/services/dialog.service';
@@ -9,7 +15,6 @@ import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/fe
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { IssuesStoreActions, IssuesStoreSelectors } from '@app/root-store/features/issues';
 import { AppState } from '@app/root-store/state';
-import { createConfirmBtnText, createItemTitle, editItemTitle, saveConfirmBtnText } from '@app/shared/dialogs/dialogs.constants';
 import { ProjectsService } from '@app/core/services/projects.service';
 import { AuthStoreSelectors } from '@app/root-store/features/auth';
 

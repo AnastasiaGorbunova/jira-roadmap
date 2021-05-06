@@ -1,7 +1,9 @@
-<ng-container *ngIf="{ 
-  projects: (projects$ | async),
-  isCurrentUserAdmin: (isCurrentUserAdmin$ | async)
-} as data">
+<ng-container 
+  *ngIf="{ 
+    projects: (projects$ | async),
+    isCurrentUserAdmin: (isCurrentUserAdmin$ | async)
+  } as data"
+>
   <app-projects-board
     [projects]="data.projects"
     [isCurrentUserAdmin]="data.isCurrentUserAdmin"

@@ -31,7 +31,7 @@ export class ProjectsService {
     return combineLatest([
       this._firestoreService.getDocumentsByProperty<Project>('/projects', `participants.${currentUser.id}`, true),
       this._firestoreService.getDocumentsByProperty<Project>('/projects', 'leader_id', currentUser.id)
-    ]).pipe(map(([projects1, projects2]) =>  [...projects1, ...projects2]));
+    ]).pipe(map(([projects1, projects2]) => [...projects1, ...projects2]));
   }
 
   getProject(projectId: string): Observable<Project> {
@@ -39,28 +39,18 @@ export class ProjectsService {
   }
 
   async deleteProject(project: Project): Promise<void> {
-    await this._firestoreService.deleteDocument('/projects', project.id);
+    const { leader_id, participants, id } = project || {};
+
+    await this._firestoreService.deleteDocument('/projects', id);
 
     // it's necessary to remove all project nodes for user 
-    const { leader_id, participants } = project || {};
-
     if (leader_id) {
-      await this._firestoreService.update(`/users/${leader_id}`, {
-        projects: {
-          [project.id]: this._firestoreService.deleteField
-        }
-      });
+      await this.deleteLeaderProject(leader_id, project.id);
     }
 
     const participantsIds = Object.keys(participants || []);
     if (participantsIds.length) {
-      for (const participantId of participantsIds) {
-        await this._firestoreService.update(`users/${participantId}`, {
-          projects: {
-            [project.id]: this._firestoreService.deleteField
-          }
-        });
-      }
+      await this.deleteParticipantsProjects(participantsIds, id);
     }
   }
 
@@ -85,7 +75,6 @@ export class ProjectsService {
     const projectId = await this._firestoreService.addDocument('/projects', newProject);
 
     const { leader_id, participants } = project || {};
-
     const participantsIds = Object.keys(participants || []);
 
     if (participantsIds.length) {
@@ -107,5 +96,26 @@ export class ProjectsService {
     };
 
     await this._firestoreService.updateDocument(`/projects/${projectId}`, updatedProject);
+  }
+
+  private async deleteLeaderProject(leader_id: string, projectId: string): Promise<void> {
+    await this._firestoreService.update(`/users/${leader_id}`, {
+      projects: {
+        [projectId]: this._firestoreService.deleteField
+      }
+    });
+  }
+
+  private async deleteParticipantsProjects(
+    participantsIds: string[],
+    projectId: string
+  ): Promise<void> {
+    for (const participantId of participantsIds) {
+      await this._firestoreService.update(`users/${participantId}`, {
+        projects: {
+          [projectId]: this._firestoreService.deleteField
+        }
+      });
+    }
   }
 }

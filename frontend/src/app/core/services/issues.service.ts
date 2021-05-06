@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 
 import { Issue } from '@app/core/models/issue.model';
 import { FirestoreService } from '@app/core/services/firestore.service';
-import { stringify } from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'

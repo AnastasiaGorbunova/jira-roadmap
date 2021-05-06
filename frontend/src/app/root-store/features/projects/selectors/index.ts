@@ -5,7 +5,6 @@ import { AppState } from '@app/root-store/state';
 import { selectedProjectId } from '@app/root-store/features/router/selectors';
 import { State as ProjectsState } from '@app/root-store/features/projects/state';
 
-
 export const projectsState = (state: AppState) => state.projects;
 
 export const selectProjects = createSelector(
@@ -16,7 +15,5 @@ export const selectProjects = createSelector(
 export const selectedProject = createSelector(
   selectProjects,
   selectedProjectId,
-  (projects: Project[], projectId: string): Project => {
-     return projects.find(project => project.id === projectId);
- }
+  (projects: Project[], projectId: string): Project => projects.find(project => project.id === projectId)
 );

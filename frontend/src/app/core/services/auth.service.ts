@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
 
-import { User, UserAccess, UserAuthData } from '@app/core/models/user.model';
-import { FirestoreService } from '@app/core/services/firestore.service';
+import { UserAccess, UserAuthData } from '@app/core/models/user.model';
 import { UsersService } from './users.service';
 
 @Injectable({

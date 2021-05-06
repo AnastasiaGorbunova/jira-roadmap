@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { of, from } from 'rxjs';
 import {
@@ -67,7 +66,7 @@ export class AuthEffects implements OnDestroy {
     this._actions$.pipe(
       ofType(AuthActions.signOut),
       switchMap(() => {
- 
+
         return from(this._authService.signOut()).pipe(
           untilDestroyed(this),
           mergeMap(() => {
@@ -85,7 +84,7 @@ export class AuthEffects implements OnDestroy {
     this._actions$.pipe(
       ofType(AuthActions.checkIsUserAuthenticated),
       switchMap(() => {
-        
+
         return this._usersService.getFirebaseUser().pipe(
           untilDestroyed(this),
           map((fireUser) => AuthActions.setIsUserAuthenticated({ isAuthenticated: !!fireUser }))
@@ -99,7 +98,7 @@ export class AuthEffects implements OnDestroy {
       ofType(AuthActions.signInSuccess, AuthActions.signUpSuccess, AuthActions.setIsUserAuthenticated),
       filter((action: any) => !!action['isAuthenticated']),
       switchMap(() => {
-        
+
         return this._usersService.getCurrentUser().pipe(
           untilDestroyed(this),
           map((currentUser) => AuthActions.getCurrentUserSuccess({ currentUser })),

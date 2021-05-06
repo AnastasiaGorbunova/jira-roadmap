@@ -15,7 +15,6 @@ import { AppState } from '@app/root-store/state';
 @Component({
   selector: 'app-issue-dialog',
   templateUrl: './issue-dialog.component.html',
-  styleUrls: ['./issue-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IssueDialogComponent implements OnInit {

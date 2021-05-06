@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { 
+  Component, 
+  ChangeDetectionStrategy, 
+  Input, 
+  Output, 
+  EventEmitter 
+} from '@angular/core';
 
 import { Project } from '@app/core/models/project.model';
 import { Issue, IssuesMap, issueStatuses, issueStatusesSet } from '@app/core/models/issue.model';

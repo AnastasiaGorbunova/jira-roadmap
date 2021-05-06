@@ -5,7 +5,9 @@
     <!-- Project name field -->
     <mat-form-field appearance="outline" floatLabel="always">
       <mat-label>Project name</mat-label>
+
       <input matInput required type="text" formControlName="name" />
+
       <mat-error *ngIf="hasFieldValidationError('name', 'emptyValue')">
         {{ validationMessages.required }}
       </mat-error>
@@ -15,21 +17,36 @@
     </mat-form-field>
     <!--/ Project name field -->
 
+    <!-- Project leader field -->
     <mat-form-field appearance="outline">
 			<mat-label>Leader</mat-label>
+
 			<mat-select formControlName="leader_id" (openedChange)="userFilter.value = ''; resetFilteredUsers()">
+
 				<mat-form-field floatLabel="never">
-					<input #userFilter matInput placeholder="Search" (keyup)="filterUsers($event.target.value)" />
+					<input 
+            #userFilter 
+            matInput 
+            placeholder="Search" 
+            (keyup)="filterUsers($event.target.value)" 
+          />
 				</mat-form-field>
+
 				<mat-option *ngFor="let user of filteredUsers" [value]="user.id">
 					{{ user.first_name }} {{ user.last_name }}
 				</mat-option>
 			</mat-select>
 		</mat-form-field>
+    <!--/ Project leader field -->
 
+    <!-- Project participants field -->
     <mat-form-field appearance="outline">
 			<mat-label>Participants</mat-label>
-			<mat-select multiple formControlName="participants_ids" (openedChange)="userFilter.value = ''; resetFilteredUsers()">
+			<mat-select 
+        multiple 
+        formControlName="participants_ids" 
+        (openedChange)="userFilter.value = ''; resetFilteredUsers()"
+      >
 				<mat-form-field floatLabel="never">
 					<input #userFilter matInput placeholder="Search" (keyup)="filterUsers($event.target.value)" />
 				</mat-form-field>
@@ -39,12 +56,19 @@
 				</mat-option>
 			</mat-select>
 		</mat-form-field>
+    <!--/ Project participants field -->
 
     <!-- Project description field -->
     <mat-form-field class="textarea" appearance="outline" floatLabel="always">
       <mat-label>Description</mat-label>
-      <textarea matInput autocomplete="false" cdkTextareaAutosize cdkAutosizeMaxRows="6"
-        formControlName="description"></textarea>
+      
+      <textarea 
+        matInput 
+        autocomplete="false" 
+        cdkTextareaAutosize 
+        cdkAutosizeMaxRows="6"
+        formControlName="description"
+      ></textarea>
     </mat-form-field>
     <!--/ Project description field -->
 
@@ -54,6 +78,7 @@
     <button mat-stroked-button [disabled]="isSubmitDisabled" (click)="saveProject()">
       {{ data.confirmBtnText }}
     </button>
+
     <button mat-stroked-button mat-dialog-close>
       {{ data.cancelBtnText }}
     </button>

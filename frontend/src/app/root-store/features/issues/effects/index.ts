@@ -18,7 +18,7 @@ import { AppState } from '@app/root-store/state';
 import { IssuesService } from '@app/core/services/issues.service';
 import { RouterStoreSelectors } from '@app/root-store/features/router';
 import { Issue } from '@app/core/models/issue.model';
-import { AuthStoreSelectors } from '../../auth';
+import { AuthStoreSelectors } from '@app/root-store/features/auth';
 
 @UntilDestroy()
 @Injectable()
@@ -65,10 +65,7 @@ export class IssuesEffects implements OnDestroy {
         };
         return this._issuesService.getIssuesByProjectId(projectId).pipe(
           untilDestroyed(this),
-          map((issues) => {
-            return IssuesActions.getIssuesSuccess({ projectId, issues });
-          }
-          ),
+          map((issues) => IssuesActions.getIssuesSuccess({ projectId, issues })),
           catchError((error) =>
             of(IssuesActions.getIssuesFailure({ message: error.messages }))
           )
@@ -88,7 +85,6 @@ export class IssuesEffects implements OnDestroy {
       ),
       filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
       mergeMap(({ projectId, issueId }) => {
-        console.log('get issye');
         
         return this._issuesService.getIssue(issueId).pipe(
           untilDestroyed(this),
@@ -112,6 +108,7 @@ export class IssuesEffects implements OnDestroy {
       ),
       filter(({ projectId }) => !this.hasIssuesProjectIdMap[projectId]),
       mergeMap(({ projectId, issueId }) => {
+        
         return this._issuesService.getIssueSubtasks(issueId).pipe(
           untilDestroyed(this),
           map((issues: Issue[]) => IssuesActions.getIssueSubtasksSuccess({ projectId, issues })),

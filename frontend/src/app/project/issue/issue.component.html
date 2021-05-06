@@ -13,15 +13,32 @@
 		<p class="issue-title">{{ issue.name }}</p>
 
 		<div class="issue-actions">
-			<button *ngIf="canCreateSubtask" mat-stroked-button class="action" type="submit" (click)="createSubTask()">
+			<button 
+				*ngIf="canCreateSubtask" 
+				mat-stroked-button 
+				class="action" 
+				type="submit" 
+				(click)="createSubTask()"
+			>
 				Create subtask
 			</button>
 
-			<button mat-stroked-button class="action" type="submit" (click)="editIssue()">
+			<button 
+				mat-stroked-button 
+				class="action" 
+				type="submit" 
+				(click)="editIssue()"
+			>
 				Edit issue
 			</button>
 
-			<button *ngIf="isUserAdmin || isUserLeader" mat-stroked-button class="action" type="submit" (click)="deleteIssue()">
+			<button 
+				*ngIf="isUserAdmin || isUserLeader" 
+				mat-stroked-button 
+				class="action" 
+				type="submit" 
+				(click)="deleteIssue()"
+			>
 				Delete issue
 			</button>
 		</div>
@@ -36,8 +53,10 @@
 
 	<mat-form-field appearance="outline">
 		<mat-label>Status</mat-label>
-		<mat-select [formControl]="issueStatus"
-			(selectionChange)="updateIssueField('status', $event.value)">
+		<mat-select 
+			[formControl]="issueStatus"
+			(selectionChange)="updateIssueField('status', $event.value)"
+		>
 			<mat-option *ngFor="let status of issueStatuses" [value]="status">
 				{{ issueStatusesSet[status] }}
 			</mat-option>
@@ -47,12 +66,18 @@
 	<div *ngIf="issueSubtasks?.length" class="issue-subtasks">
 		<p class="issue-subtasks-header">Subtasks</p>
 		<div class="issue-subtasks-list">
-			<div *ngFor="let subtask of issueSubtasks; trackBy: trackById" class="subtask" (click)="navigateToSubtask(subtask.id)">
+			<div 
+				*ngFor="let subtask of issueSubtasks; trackBy: trackById" 
+				class="subtask" 
+				(click)="navigateToSubtask(subtask.id)"
+			>
 				<p class="subtask-name">{{ subtask.name }}</p>
+
 				<div class="subtask-info">
 					<span class="subtask-assignee">{{ getAssignee(subtask.assignee_id) }}</span>
 					<span class="subtask-status">{{ issueStatusesSet[subtask?.status] }}</span>
 				</div>
+				
 			</div>
 		</div>
 	</div>

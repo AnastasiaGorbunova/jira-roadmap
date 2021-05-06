@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { 
+  Component, 
+  ChangeDetectionStrategy, 
+  Input, 
+  Output, 
+  EventEmitter 
+} from '@angular/core';
 
 import { Issue, issueTypesSet } from '@app/core/models/issue.model';
 import { unassigned } from '@app/core/models/user.model';

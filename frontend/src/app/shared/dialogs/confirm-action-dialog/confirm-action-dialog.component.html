@@ -1,24 +1,17 @@
 <div class="confirm-dialog">
-    <h3 class="confirm-dialog-title mat-headline">{{ data.title }}</h3>
-    <mat-dialog-content class="confirm-dialog-content">
-      <p class="confirm-dialog-text mat-subheading-1 text-medium">{{ data.text }}</p>
-    </mat-dialog-content>
+  <h3 class="confirm-dialog-title mat-headline">{{ data.title }}</h3>
 
-    <mat-dialog-actions class="confirm-dialog-actions">
-  
-      <button
-        mat-stroked-button
-        (click)="handleConfirm()"
-      >
-        {{ data.confirmBtnText}}
-      </button>
-  
-      <button
-        mat-stroked-button
-        mat-dialog-close
-      >
-        {{ data.cancelBtnText }}
-      </button>
-    </mat-dialog-actions>
-  </div>
-  
+  <mat-dialog-content class="confirm-dialog-content">
+    <p class="confirm-dialog-text mat-subheading-1 text-medium">{{ data.text }}</p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="confirm-dialog-actions">
+    <button mat-stroked-button (click)="handleConfirm()">
+      {{ data.confirmBtnText}}
+    </button>
+
+    <button mat-stroked-button mat-dialog-close>
+      {{ data.cancelBtnText }}
+    </button>
+  </mat-dialog-actions>
+</div>

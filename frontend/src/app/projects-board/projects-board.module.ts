@@ -18,7 +18,7 @@ import { SharedModule } from '@app/shared/shared.module';
     ProjectsBoardComponent, 
     ProjectsBoardContainerComponent,
     ProjectCardComponent, 
-    ProjectCardContainerComponent,
+    ProjectCardContainerComponent
   ]
 })
 export class ProjectsBoardModule { }

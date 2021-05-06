@@ -28,7 +28,7 @@ export class UsersService {
     return this.getFirebaseUser().pipe(
       mergeMap((user) => {
         const userId = user?.uid;
-        return this._firestoreService.getDocumentById('/users', user?.uid) as Observable<User>;
+        return this._firestoreService.getDocumentById('/users', userId) as Observable<User>;
       })
     )
   }

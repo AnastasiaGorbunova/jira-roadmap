@@ -1,8 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, pipe } from 'rxjs';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Project } from '@app/core/models/project.model';
 import { DialogService } from '@app/core/services/dialog.service';
@@ -10,10 +9,7 @@ import { AuthStoreSelectors } from '@app/root-store/features/auth';
 import { ProjectsStoreActions, ProjectsStoreSelectors } from '@app/root-store/features/projects';
 import { AppState } from '@app/root-store/state';
 import { createConfirmBtnText, createItemTitle } from '@app/shared/dialogs/dialogs.constants';
-import { UsersStoreActions, UsersStoreSelectors } from '@app/root-store/features/users';
-import { User } from '@app/core/models/user.model';
 
-@UntilDestroy()
 @Component({
   selector: 'app-projects-board-container',
   templateUrl: './projects-board-container.component.html',
