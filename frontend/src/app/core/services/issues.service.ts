@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Issue } from '@app/core/models/issue.model';
 import { FirestoreService } from '@app/core/services/firestore.service';
@@ -46,5 +47,10 @@ export class IssuesService {
 
   getIssueSubtasks(issueId: string): Observable<Issue[]> {
     return this._firestoreService.getDocumentsByProperty<Issue>('/issues', 'issue_id', issueId);
+  }
+
+  verifyIssueExists(issueId: string): Observable<boolean> {
+    return this._firestoreService.getDocumentById('/issues', issueId)
+      .pipe(map(issue => !!issue));
   }
 }

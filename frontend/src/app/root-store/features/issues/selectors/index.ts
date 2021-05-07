@@ -63,6 +63,12 @@ export const issueSelector = createSelector(
   (issues: Issue[], issueId: string): Issue => issues.find((issue) => issue.id === issueId)
 );
 
+export const hasIssueExist = createSelector(
+  projectIssuesSelector,
+  selectedIssueId,
+  (issues: Issue[], issueId: string): Issue => issues.find((issue) => issue.id === issueId)
+);
+
 export const issueSubtasksSelector = createSelector(
   projectIssuesSelector,
   selectedIssueId,

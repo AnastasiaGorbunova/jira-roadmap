@@ -98,6 +98,11 @@ export class ProjectsService {
     await this._firestoreService.updateDocument(`/projects/${projectId}`, updatedProject);
   }
 
+  verifyProjectExists(projectId: string): Observable<boolean> {
+    return this._firestoreService.getDocumentById('/projects', projectId)
+      .pipe(map(project => !!project));
+  }
+
   private async deleteLeaderProject(leader_id: string, projectId: string): Promise<void> {
     await this._firestoreService.update(`/users/${leader_id}`, {
       projects: {
