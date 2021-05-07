@@ -44,7 +44,7 @@ export const issuesMapSelector = createSelector(
     const issuesWithSubtasks = [];
 
     otherIssues?.forEach(issue => {
-      if (subtasksMap && !subtasksMap[issue.id]) {
+      if (subtasksMap && !subtasksMap[issue?.id]) {
         otherIssuesWithoutSubtasks.push(issue);
       } else {
         issuesWithSubtasks.push(issue);

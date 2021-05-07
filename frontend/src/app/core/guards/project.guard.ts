@@ -22,8 +22,6 @@ export class ProjectGuard implements CanActivate {
 		return this.verifyProjectExists()
 			.pipe(
 				map((hasProjectExists) => {
-					console.log('hasProjectExists', hasProjectExists);
-
 					if (!hasProjectExists) {
 						this._store$.dispatch(RouterStoreActions.navigateProjectsBoard());
 						return false;

@@ -27,6 +27,8 @@ export class IssueComponent implements OnChanges {
   @Input() issueAssignee: string;
   @Input() issueReporter: string;
   @Input() users: User[];
+  @Input() isUserAdmin: boolean;
+  @Input() isUserLeader: boolean;
   @Output() onNavigateToBoard = new EventEmitter<void>();
   @Output() onNavigateToProject = new EventEmitter<string>();
   @Output() onNavigateToSubtask = new EventEmitter<string>();
