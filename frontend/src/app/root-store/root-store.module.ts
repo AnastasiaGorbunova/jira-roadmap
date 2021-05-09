@@ -10,7 +10,7 @@ import { RouterStateModule } from './features/router/router-state.module';
 import { AuthStateModule } from './features/auth/auth-state.module';
 import { RouterStoreState } from './features/router';
 import { ProjectsStateModule } from './features/projects';
-import { TasksStateModule } from './features/tasks';
+import { IssuesStateModule } from './features/issues';
 import { UsersStateModule } from './features/users';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { UsersStateModule } from './features/users';
     AuthStateModule,
     RouterStateModule,
     ProjectsStateModule,
-    TasksStateModule,
+    IssuesStateModule,
     UsersStateModule,
     StoreModule.forRoot(
       {},

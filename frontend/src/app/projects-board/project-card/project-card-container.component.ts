@@ -2,10 +2,8 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Project } from '@app/core/models/project.model';
-import { ProjectsStoreActions } from '@app/root-store/features/projects';
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { AppState } from '@app/root-store/state';
-import { deleteConfirmBtnText, deleteItemText, deleteItemTitle } from '@app/shared/dialogs/dialogs.constants';
 import { ProjectsService } from '@app/core/services/projects.service';
 
 @Component({
@@ -25,7 +23,7 @@ export class ProjectCardContainerComponent {
     this._store$.dispatch(RouterStoreActions.navigateProject({ projectId }));
   }  
 
-  openDeleteProjectDialog(projectId: string): void {
-    this._projectsService.openDeleteProjectDialog(projectId);
+  openDeleteProjectDialog(project: Project): void {
+    this._projectsService.openDeleteProjectDialog(project);
   }
 }

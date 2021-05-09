@@ -46,18 +46,18 @@ export class RouterEffects implements OnDestroy {
     { dispatch: false }
   );
 
-  public navigateTask$ = createEffect(
+  public navigateIssue$ = createEffect(
     () =>
       this._actions$.pipe(
-        ofType(RouterActions.navigateTask),
-        switchMap(({ taskId }) =>
+        ofType(RouterActions.navigateIssue),
+        switchMap(({ issueId }) =>
         combineLatest([
-          of(taskId),
+          of(issueId),
           this._store$.select(RouterSelectors.selectedProjectId),
         ]).pipe(take(1))
       ),
-        tap(([ taskId, projectId ]) => {
-          this._router.navigateByUrl(`project/${projectId}/task/${taskId}`);
+        tap(([ issueId, projectId ]) => {
+          this._router.navigateByUrl(`project/${projectId}/issue/${issueId}`);
         })
       ),
     { dispatch: false }

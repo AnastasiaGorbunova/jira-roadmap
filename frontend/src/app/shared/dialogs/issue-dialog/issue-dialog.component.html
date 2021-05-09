@@ -1,0 +1,80 @@
+<div class="dialog" [formGroup]="issueForm">
+	<h3 class="h3 dialog-title">{{ data.title }}</h3>
+	<mat-dialog-content class="dialog-content">
+
+		<!-- Issue name field -->
+		<mat-form-field appearance="outline" floatLabel="always">
+			<mat-label>Issue name</mat-label>
+
+			<input matInput required type="text" formControlName="name" />
+
+			<mat-error *ngIf="hasFieldValidationError('name', 'emptyValue')">
+				{{ validationMessages.required }}
+			</mat-error>
+			<mat-error *ngIf="hasFieldValidationError('name', 'maxlength')">
+				{{ validationMessages.maxCharactersLength }}
+			</mat-error>
+		</mat-form-field>
+		<!--/ Issue name field -->
+
+		<!-- Issue description field -->
+		<mat-form-field class="textarea" appearance="outline" floatLabel="always">
+			<mat-label>Description</mat-label>
+			<textarea 
+				matInput 
+				autocomplete="false" 
+				cdkTextareaAutosize 
+				cdkAutosizeMaxRows="6"
+				formControlName="description"
+			></textarea>
+		</mat-form-field>
+		<!--/ Issue description field -->
+
+		<!-- Issue type field -->
+		<mat-form-field appearance="outline">
+			<mat-label>Type</mat-label>
+
+			<mat-select formControlName="type">
+				<mat-option *ngFor="let type of issueTypes" [value]="type">
+					{{ issueTypesSet[type] }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+		<!--/ Issue type field -->
+
+		<!-- Assignee field -->
+		<mat-form-field appearance="outline">
+			<mat-label>Assignee</mat-label>
+
+			<mat-select
+				formControlName="assignee_id" 
+				(openedChange)="userFilter.value = ''; resetFilteredUsers()"
+			>
+
+				<mat-form-field floatLabel="never"> 
+			  		<input #userFilter matInput placeholder="Search" (keyup)="filterUsers($event.target.value)" />
+				</mat-form-field>
+
+				<mat-option [value]="unassigned">
+					unassigned
+				</mat-option>
+				<mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+					{{ user.first_name }} {{ user.last_name }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<!--/ Assignee field -->
+
+	</mat-dialog-content>
+
+	<mat-dialog-actions class="dialog-actions">
+		<button mat-stroked-button [disabled]="isSubmitDisabled" (click)="saveIssue()">
+			{{ data.confirmBtnText }}
+		</button>
+
+		<button mat-stroked-button mat-dialog-close>
+			{{ data.cancelBtnText }}
+		</button>
+	</mat-dialog-actions>
+</div>

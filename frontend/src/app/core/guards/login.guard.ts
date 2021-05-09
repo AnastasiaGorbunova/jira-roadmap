@@ -7,7 +7,6 @@ import { map, skipWhile } from 'rxjs/operators';
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { AppState } from '@app/root-store/state';
 
-
 @Injectable({
   providedIn: 'root',
 })

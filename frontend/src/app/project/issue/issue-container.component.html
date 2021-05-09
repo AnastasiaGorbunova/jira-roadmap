@@ -1,0 +1,26 @@
+<ng-container 
+	*ngIf="{ 
+		issue: (issue$ | async), 
+		issueSubtasks: (issueSubtasks$ | async), 
+		project: (project$ | async),
+		isUserAdmin: (isUserAdmin$ | async),
+		isUserLeader: (isUserLeader$ | async),
+		users: (users$ | async)
+	} as data"
+>
+	<app-issue
+		[issue]="data.issue"
+		[issueSubtasks]="data.issueSubtasks"
+		[project]="data.project"
+		[isUserAdmin]="data.isUserAdmin"
+		[isUserLeader]="data.isUserLeader"
+		[users]="data.users"
+		(onNavigateToBoard)="navigateToBoard()"
+		(onNavigateToProject)="navigateToProject($event)"
+		(onNavigateToSubtask)="navigateToSubtask($event)"
+		(onCreateSubTask)="openCreateSubTaskModal($event.projectId, $event.issueId)"
+		(onEditIssue)="openEditIssueDialog($event)"
+		(onDeleteIssue)="openDeleteIssueDialog($event.projectId, $event.issueId)"
+		(onUpdateIssueFields)="updateIssue($event.issueId, $event.updatedData)"
+	></app-issue>
+</ng-container>

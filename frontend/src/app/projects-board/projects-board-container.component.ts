@@ -17,28 +17,28 @@ import { createConfirmBtnText, createItemTitle } from '@app/shared/dialogs/dialo
 })
 export class ProjectsBoardContainerComponent implements OnInit {
   projects$: Observable<Project[]>;
+  isCurrentUserAdmin$: Observable<boolean>;
 
   constructor(
     private _store$: Store<AppState>,
     private _dialogService: DialogService
-  ) {}
+  ) { }
 
   async createProject(newProject: Project): Promise<void> {
-    const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserId))
+    const currentUserId = await this._store$.pipe(select(AuthStoreSelectors.currentUserIdSelector))
       .pipe(take(1))
       .toPromise();
-
     newProject.creator_id = currentUserId;
-     
+    
     this._store$.dispatch(ProjectsStoreActions.createProject({ newProject }));
   }
 
   openCreateProjectDialog(): void {
-    this._dialogService.open('CreateProjectDialogComponent', {
+    this._dialogService.open('ProjectDialogComponent', {
       title: createItemTitle('project'),
       confirmBtnText: createConfirmBtnText,
       handleConfirm: (newProject: Project) => {
-          this.createProject(newProject);
+        this.createProject(newProject);
       }
     });
   }
@@ -47,5 +47,6 @@ export class ProjectsBoardContainerComponent implements OnInit {
     this._store$.dispatch(ProjectsStoreActions.getProjects());
 
     this.projects$ = this._store$.pipe(select(ProjectsStoreSelectors.selectProjects));
+    this.isCurrentUserAdmin$ = this._store$.pipe(select(AuthStoreSelectors.isCurrentUserAdminSelector));
   }
 }

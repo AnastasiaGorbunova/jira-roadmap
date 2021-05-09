@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
 
-import { User } from '@app/core/models/user.model';
-import { FirestoreService } from '@app/core/services/firestore.service';
+import { UserAccess, UserAuthData } from '@app/core/models/user.model';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,30 +10,35 @@ import { FirestoreService } from '@app/core/services/firestore.service';
 export class AuthService {
 
 constructor(
-  private afAuth: AngularFireAuth,
-  private firestoreService: FirestoreService
+  private _afAuth: AngularFireAuth,
+  private _usersService: UsersService
 ) { }
 
-  async singUp(loginData: User): Promise<void> {
+  async singUp(loginData: UserAuthData): Promise<void> {
 
     try {
       const { email, password, first_name, last_name } = loginData;
-      const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
+      const userCredential = await this._afAuth.createUserWithEmailAndPassword(email, password);
       
       const userId = userCredential.user.uid;
-      const newUser = { email, first_name, last_name, id: userId };
+      const newUser = { 
+        email, 
+        first_name, 
+        last_name, 
+        role: UserAccess.Basic
+      };
 
-      await this.createUser(userId, newUser);
+      await this._usersService.createUser(userId, newUser);
     } catch (error) {
       console.error(error);
       throw error;
     }
   } 
 
-  async signIn(loginData: User): Promise<void> {
+  async signIn(loginData: UserAuthData): Promise<void> {
     try {
       const { email, password } = loginData;
-      await this.afAuth.signInWithEmailAndPassword(email, password);
+      await this._afAuth.signInWithEmailAndPassword(email, password);
     } catch (error) {
       console.error(error);
       throw error;
@@ -44,29 +47,10 @@ constructor(
 
   async signOut(): Promise<void> {
     try {
-      await this.afAuth.signOut();
+      await this._afAuth.signOut();
     } catch (error) {
       console.error(error);
       throw error;
     }
-  }
-
-  getFirebaseUser(): Observable<any> {
-    
-    return this.afAuth.user;
-  }
-
-  // TODO: move it to users service
-  async createUser(userId: string, user: User): Promise<void> {
-    await this.firestoreService.addDocumentWithId('/users', userId, user);
-  }
-
-  getCurrentUser(): Observable<User> {
-    return this.getFirebaseUser().pipe(
-      mergeMap((user) => {
-        const userId = user?.uid;
-        return this.firestoreService.getDocumentById('/users', user?.uid) as Observable<User>;
-      })
-    )
   }
 }

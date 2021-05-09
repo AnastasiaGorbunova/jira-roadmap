@@ -1,6 +1,7 @@
 <div class="projects-board">
 	<div class="projects-board-header">
 		<button
+			*ngIf="isCurrentUserAdmin"
 			mat-stroked-button
 			class="login-button"
 			type="submit"
@@ -10,11 +11,20 @@
 		</button>
 	</div>
 	
-	<div class="projects-list"> 
+	<div *ngIf="projects?.length; else elseBlock" class="projects-list"> 
 		<div *ngFor="let project of projects; trackBy: trackById" class="project-card">	
 			<app-project-card-container
 				[project]="project"
 			></app-project-card-container>  
 		</div>
 	</div>
+
+	<ng-template #elseBlock>
+		<p *ngIf="isCurrentUserAdmin" class="empty-screen-caption">
+			You currently do not have created projects.
+		</p>
+		<p *ngIf="!isCurrentUserAdmin" class="empty-screen-caption">
+			You currently do not have access to any project.
+		</p>
+	</ng-template>
 </div>

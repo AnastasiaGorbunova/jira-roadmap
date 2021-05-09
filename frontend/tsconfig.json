@@ -20,12 +20,6 @@
       "@app/*": [
         "src/app/*"
       ]
-    },
-    // TODO: check it
-    // "angularCompilerOptions": {
-    //   "strictInjectionParameters": true,
-    //   "strictInputAccessModifiers": true,
-    //   "strictTemplates": true
-    // }
+    }
   }
 }

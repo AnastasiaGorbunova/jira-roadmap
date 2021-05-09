@@ -9,7 +9,7 @@ import { AuthEffects } from './effects';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule, 
+    CommonModule,
     StoreModule.forFeature('auth', authReducer),
     EffectsModule.forFeature([AuthEffects])
   ]

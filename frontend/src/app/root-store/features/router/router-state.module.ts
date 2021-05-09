@@ -9,11 +9,11 @@ import { RouterEffects } from './effects';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule, 
-    StoreModule.forFeature('router', routerReducer), 
+    CommonModule,
+    StoreModule.forFeature('router', routerReducer),
     EffectsModule.forFeature([RouterEffects])
   ],
   exports: [],
   providers: [],
 })
-export class RouterStateModule {}
+export class RouterStateModule { }

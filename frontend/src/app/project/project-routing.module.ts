@@ -2,21 +2,23 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ProjectContainerComponent } from '@app/project/project-container.component';
-import { TaskContainerComponent } from '@app/project/task/task-container.component';
+import { IssueContainerComponent } from '@app/project/issue/issue-container.component';
+import { ProjectGuard } from '@app/core/guards/project.guard';
+import { IssueGuard } from '@app/core/guards/issue.guard';
 
-// TODO: add guards
 const projectRoutes: Routes = [
   {
-
     path: ':projectId',
     children: [
       {
         path: '',
         component: ProjectContainerComponent,
+        canActivate: [ProjectGuard]
       },
       {
-        path: 'task/:taskId',
-        component: TaskContainerComponent
+        path: 'issue/:issueId',
+        component: IssueContainerComponent,
+        canActivate: [IssueGuard]
       }]
   }
 ];

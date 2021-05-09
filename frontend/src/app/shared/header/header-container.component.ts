@@ -1,9 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { User } from '@app/core/models/user.model';
-import { AuthService } from '@app/core/services/auth.service';
 import { AuthStoreActions, AuthStoreSelectors } from '@app/root-store/features/auth';
 import { RouterStoreActions } from '@app/root-store/features/router';
 import { AppState } from '@app/root-store/state';

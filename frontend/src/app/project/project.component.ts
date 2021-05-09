@@ -1,7 +1,13 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { 
+  Component, 
+  ChangeDetectionStrategy, 
+  Input, 
+  Output, 
+  EventEmitter 
+} from '@angular/core';
 
 import { Project } from '@app/core/models/project.model';
-import { tasksStatuses, taskStatusesSet, TaskStatusMap } from '@app/core/models/task.model';
+import { Issue, IssuesMap, issueStatuses, issueStatusesSet } from '@app/core/models/issue.model';
 import { preventKeyValueOrder, trackById } from '@app/core/utils';
 
 @Component({
@@ -12,21 +18,46 @@ import { preventKeyValueOrder, trackById } from '@app/core/utils';
 })
 export class ProjectComponent {
   @Input() project: Project;
-  @Input() tasksStatusMap: TaskStatusMap;
-  @Output() onCreateTask = new EventEmitter<string>();
+  @Input() projectIssuesMap: IssuesMap;
+  @Input() isUserAdmin: boolean;
+  @Input() isUserLeader: boolean;
+  @Output() onCreateIssue = new EventEmitter<string>();
   @Output() onEditProject = new EventEmitter<Project>();
-  @Output() onDeleteProject = new EventEmitter<string>();
+  @Output() onDeleteProject = new EventEmitter<Project>();
   @Output() onNavigateToBoard = new EventEmitter<void>();
+  @Output() onNavigateToIssue = new EventEmitter<string>();
 
   trackById = trackById;
   preventKeyValueOrder = preventKeyValueOrder;
-  tasksStatuses = tasksStatuses;
-  taskStatusesSet = taskStatusesSet;
+  issueStatuses = issueStatuses;
+  issueStatusesSet = issueStatusesSet;
 
   constructor() { }
 
-  createTask():void {
-    this.onCreateTask.emit(this.project.id);
+  getSubtasks(issueId: string, status: string): Issue[] {
+    const subtasksStatusMap = this.projectIssuesMap?.subtasksGroupedByStatusMap;
+    return subtasksStatusMap[issueId] && subtasksStatusMap[issueId][status];
+  }
+
+  getOtherIssues(status: string): Issue[] {
+    const otherIssues = this.projectIssuesMap?.otherIssuesGroupedByStatus;
+    return otherIssues && otherIssues[status];
+  }
+
+  get hasOtherIssues(): boolean {
+    const otherIssuesMap = this.projectIssuesMap?.otherIssuesGroupedByStatus;
+    
+    return !!Object.keys(otherIssuesMap || {}).length;
+  }
+
+  get isIssuesTableVisible(): boolean {
+    const tasksMap = this.projectIssuesMap?.issuesWithSubtasks;
+    const hasTasks = !!Object.keys(tasksMap || {}).length;
+    return this.hasOtherIssues || hasTasks;
+  }
+
+  createIssue(): void {
+    this.onCreateIssue.emit(this.project.id);
   }
 
   editProject(): void {
@@ -34,10 +65,14 @@ export class ProjectComponent {
   }
 
   deleteProject(): void {
-    this.onDeleteProject.emit(this.project.id);
+    this.onDeleteProject.emit(this.project);
   }
 
   navigateToBoard(): void {
     this.onNavigateToBoard.emit();
+  }
+
+  navigateToIssue(issueId: string): void {
+    this.onNavigateToIssue.emit(issueId);
   }
 }

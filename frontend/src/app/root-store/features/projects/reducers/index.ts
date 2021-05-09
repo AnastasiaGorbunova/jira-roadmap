@@ -53,7 +53,6 @@ const _projectsReducer = createReducer(
   })),
   on(ProjectsActions.createProjectSuccess, (state, { newProject }) => ({
     ...state,
-    // projects: [ ...state.projects, newProject ],
     errorMessage: null
   })),
   on(ProjectsActions.createProjectFailed, (state, { message }) => ({

@@ -1,76 +1,122 @@
 @import "scss/theme/variables";
 
 .project {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 32px;
+  padding: 24px;
+  background-color: $color-bg-primary-2;
+  border-radius: $border-radius;
+  border: 1px solid $color-border-secondary-light;
+  box-sizing: border-box;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-title {
+    font-size: 28px;
+  }
+
+  &-actions {
+    display: flex;
+    margin-top: 16px;
+
+    .action:not(:last-child) {
+      margin-right: 16px;
+    }
+  }
+
+  &-navigation {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+
+    .back-icon {
+      padding-right: 8px;
+    }
+  }
+
+  &-tasks-table {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin: 32px;
-    padding: 24px;
-    background-color: $color-bg-primary-2;
-    border-radius: $border-radius;
+    width: 100%;
+    border-radius: 8px;
     border: 1px solid $color-border-secondary-light;
-    box-sizing: border-box;
 
-    &-header {
+    .header {
+      display: flex;
+      border-bottom: 2px solid $color-border-secondary-light;
+    }
+
+    .status {
+      display: flex;
+      flex-direction: column;
+      width: 33.33%;
+      background: $color-bg-secondary-lighter;
+
+      &-name {
+        text-align: center;
+      }
+    }
+
+    .task {
+      display: flex;
+      flex-direction: column;
+
+      &-header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-    }
+        padding: 8px 16px;
+      }
 
-    &-title {
-        font-size: 28px;
-    }
-
-    &-actions {
-        display: flex;
-        margin-top: 16px;
-
-        .action:not(:last-child) {
-            margin-right: 16px;
-        }
-    }
-
-    &-navigation {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        white-space: nowrap;
+      &-name {
+        margin: 8px 0;
+        text-decoration: underline;
         cursor: pointer;
 
-        .back-icon {
-            padding-right: 8px;
+        &:hover {
+          color: $color-text-dark-primary;
         }
-    }
 
-    &-tasks-table {
+        &.not-clickable {
+          text-decoration: none;
+          cursor: default;
+        }
+      }
+        
+      &-subtasks {
         display: flex;
-        width: 100%;
-        justify-content: space-between;
-        border-radius: 8px;
-        border: 1px solid $color-border-secondary-light;
-
-        .column {
-            display: flex;
-            flex-direction: column;
-            width: 33.33%;
-            background: $color-bg-secondary-lighter;
-            
-            &:not(:last-child) {
-                border-right: 2px solid $color-border-secondary-light;
-            }
-
-            &-name {
-                padding: 8px 0;
-                text-align: center;
-                border-bottom: 1px solid $color-border-secondary-light;
-            }
-
-            &-tasks {
-                display: flex;
-                flex-direction: column;
-                padding: 16px;
-            }
-        }
+      }
     }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      width: 33.33%;
+      background: $color-bg-secondary-lighter;
+      
+      &:not(:last-child) {
+        border-right: 2px solid $color-border-secondary-light;
+      }
+
+      &-name {
+        padding: 8px 0;
+        text-align: center;
+        border-bottom: 1px solid $color-border-secondary-light;
+      }
+
+      &-items {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+      }
+    }
+  }
 }
