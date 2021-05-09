@@ -67,7 +67,7 @@ export class ProjectDialogComponent implements OnInit {
 
   private initializeProjectForm(): void {
     this.filteredUsers = this.users;
-
+    
     const { name, description, leader_id, participants } = (this.data || {}).project || {} as Project;
     const participantsIds = Object.keys(participants || {});
 
@@ -75,7 +75,10 @@ export class ProjectDialogComponent implements OnInit {
       name: new FormControl(name || '', {
         validators: [emptyFieldValidator, Validators.maxLength(50)]
       }),
-      leader_id: new FormControl(leader_id || '', Validators.required),
+      leader_id: new FormControl({ 
+        value: leader_id || '', 
+        disabled: !this.data.isCurrentUserAdmin 
+      }, Validators.required),
       participants_ids: new FormControl(participantsIds || '', Validators.required),
       description: new FormControl(description || ''),
     });

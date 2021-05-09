@@ -91,7 +91,7 @@ export const createProjectFailed = createAction(
 
 export const updateProject = createAction(
 	projectsActionTypes.UPDATE_PROJECT,
-	props<{ projectId: string, updatedProject: Project }>()
+	props<{ project: Project, updatedProject: Project }>()
 );
 
 export const updateProjectSuccess = createAction(

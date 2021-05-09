@@ -88,12 +88,33 @@ export class ProjectsService {
     }
   }
 
-  async updateProject(projectId: string, project: Project): Promise<void> {
+  async updateProject(previousProject: Project, project: Project): Promise<void> {
+    const projectId = previousProject.id;
     const timestamp = this._firestoreService.timestamp;
     const updatedProject = {
       ...project,
       date_updated: timestamp
     };
+
+    // it's necessary to remove all project nodes for user 
+    if (previousProject.leader_id) {
+      await this.deleteLeaderProject(previousProject.leader_id, projectId);
+    }
+
+    const participantsIds = Object.keys(previousProject.participants || []);
+    if (participantsIds.length) {
+      await this.deleteParticipantsProjects(participantsIds, projectId);
+    }
+
+    if (participantsIds.length) {
+      for (const participantId of participantsIds) {
+        await this._firestoreService.update(`users/${participantId}`, { projects: { [projectId]: 'participant' } });
+      }
+    }
+
+    if (project.leader_id) {
+      this._firestoreService.update(`users/${project.leader_id}`, { projects: { [projectId]: 'leader' } })
+    }
 
     await this._firestoreService.updateDocument(`/projects/${projectId}`, updatedProject);
   }

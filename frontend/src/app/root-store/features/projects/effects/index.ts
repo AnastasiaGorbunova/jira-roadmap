@@ -108,8 +108,8 @@ export class ProjectsEffects implements OnDestroy {
   public updateProject$ = createEffect(() =>
     this._actions$.pipe(
       ofType(ProjectsActions.updateProject),
-      switchMap(({ projectId, updatedProject }) => {
-        return from(this._projectsService.updateProject(projectId, updatedProject)).pipe(
+      switchMap(({ project, updatedProject }) => {
+        return from(this._projectsService.updateProject(project, updatedProject)).pipe(
           untilDestroyed(this),
           map(() => ProjectsActions.updateProjectSuccess()),
           catchError((error) =>

@@ -21,7 +21,10 @@
     <mat-form-field appearance="outline">
 			<mat-label>Leader</mat-label>
 
-			<mat-select formControlName="leader_id" (openedChange)="userFilter.value = ''; resetFilteredUsers()">
+			<mat-select 
+        formControlName="leader_id" 
+        (openedChange)="userFilter.value = ''; resetFilteredUsers()"
+      >
 
 				<mat-form-field floatLabel="never">
 					<input 

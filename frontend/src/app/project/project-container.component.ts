@@ -17,6 +17,7 @@ import { IssuesStoreActions, IssuesStoreSelectors } from '@app/root-store/featur
 import { AppState } from '@app/root-store/state';
 import { ProjectsService } from '@app/core/services/projects.service';
 import { AuthStoreSelectors } from '@app/root-store/features/auth';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-project-container',
@@ -28,6 +29,8 @@ export class ProjectContainerComponent implements OnInit {
   isUserAdmin$: Observable<boolean>;
   isUserLeader$: Observable<boolean>;
   projectIssuesMap$: Observable<IssuesMap>;
+
+  private _isCurrentUserAdmin: boolean;
 
   constructor(
     private _store$: Store<AppState>,
@@ -55,6 +58,7 @@ export class ProjectContainerComponent implements OnInit {
       title: editItemTitle('project'),
       confirmBtnText: saveConfirmBtnText,
       project,
+      isCurrentUserAdmin: this._isCurrentUserAdmin,
       handleConfirm: (updatedData: Project) => {
         this.updateProject(project, updatedData);
       }
@@ -75,7 +79,10 @@ export class ProjectContainerComponent implements OnInit {
 
     this.project$ = this._store$.pipe(select(ProjectsStoreSelectors.selectedProject));
     this.projectIssuesMap$ = this._store$.pipe(select(IssuesStoreSelectors.issuesMapSelector));
-    this.isUserAdmin$ = this._store$.pipe(select(AuthStoreSelectors.isCurrentUserAdminSelector));
+    this.isUserAdmin$ = this._store$.pipe(
+      select(AuthStoreSelectors.isCurrentUserAdminSelector),
+      tap((isUserAdmin) => this._isCurrentUserAdmin = isUserAdmin)
+    );
     this.isUserLeader$ = this._store$.pipe(select(AuthStoreSelectors.isCurrentUserLeaderSelector));
   }
 
@@ -90,6 +97,6 @@ export class ProjectContainerComponent implements OnInit {
   }
 
   private updateProject(project: Project, updatedProject: Project): void {
-    this._store$.dispatch(ProjectsStoreActions.updateProject({ projectId: project.id, updatedProject }));
+    this._store$.dispatch(ProjectsStoreActions.updateProject({ project, updatedProject }));
   }
 }
